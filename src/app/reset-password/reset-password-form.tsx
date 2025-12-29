@@ -1,6 +1,7 @@
 'use client'
 
-import { useFormState, useFormStatus } from 'react-dom'
+import { useActionState } from 'react'
+import { useFormStatus } from 'react-dom'
 import { resetPassword } from '@/app/auth/actions'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -24,7 +25,7 @@ function SubmitButton() {
 }
 
 export function ResetPasswordForm() {
-  const [state, formAction] = useFormState(resetPassword, initialState)
+  const [state, formAction] = useActionState(resetPassword, initialState)
   const { toast } = useToast()
 
   useEffect(() => {

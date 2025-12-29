@@ -1,6 +1,7 @@
 'use client'
 
-import { useFormState, useFormStatus } from 'react-dom'
+import { useActionState } from 'react'
+import { useFormStatus } from 'react-dom'
 import { forgotPassword } from '@/app/auth/actions'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -26,7 +27,7 @@ function SubmitButton() {
 }
 
 export function ForgotPasswordForm() {
-  const [state, formAction] = useFormState(forgotPassword, initialState)
+  const [state, formAction] = useActionState(forgotPassword, initialState)
   const { toast } = useToast()
   const [showSuccess, setShowSuccess] = useState(false)
 
