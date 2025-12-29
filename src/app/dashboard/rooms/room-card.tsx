@@ -27,17 +27,19 @@ export function RoomCard({ room }: RoomCardProps) {
   const image = PlaceHolderImages.find((p) => p.id === room.image) || PlaceHolderImages.find(p => p.id === 'dark-alley');
 
   return (
-    <div className="bg-stone-200 text-black p-4 rounded-md border border-primary/50 flex flex-col md:flex-row gap-4 items-center">
-      {image && (
-        <Image
-          src={image.imageUrl}
-          alt={image.description}
-          width={100}
-          height={100}
-          className="rounded w-full md:w-[100px] h-auto md:h-[100px] object-cover"
-          data-ai-hint={image.imageHint}
-        />
-      )}
+    <div className="bg-stone-200 text-black p-4 rounded-md border border-primary/50 flex flex-col md:flex-row gap-4 items-start md:items-center">
+      <div className="flex-shrink-0 w-full md:w-24">
+        {image && (
+            <Image
+            src={image.imageUrl}
+            alt={image.description}
+            width={100}
+            height={100}
+            className="rounded w-full h-auto object-cover"
+            data-ai-hint={image.imageHint}
+            />
+        )}
+      </div>
       <div className="flex-1 w-full">
         <div className="flex justify-between items-start">
           <div>
