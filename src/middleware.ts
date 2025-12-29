@@ -10,8 +10,8 @@ export async function middleware(request: NextRequest) {
   })
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    'https://mxhbylhwbtanrlvakrur.supabase.co',
+    'sb_publishable_01a7j7R3NY5j_HgWiYVIUg_vPuXUMiZ',
     {
       cookies: {
         get(name: string) {
