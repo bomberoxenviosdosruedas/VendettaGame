@@ -1,12 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Changelog } from './changelog'
+import { Notices } from './notices'
+import { TopPlayers } from './top-players'
 import { SignOutButton } from './sign-out-button'
 
 export default async function DashboardPage() {
@@ -21,21 +17,18 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="text-2xl font-headline">Bienvenido a Vendetta</CardTitle>
-          <CardDescription>
-            Estás conectado como {user.email}.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex w-full flex-col space-y-4">
-            <p>Este es tu panel de control. ¡Más funciones próximamente!</p>
-            <SignOutButton />
-          </div>
-        </CardContent>
-      </Card>
+    <div className="bg-stone-200 text-black min-h-screen">
+       <header className="bg-primary text-primary-foreground flex justify-between items-center px-4 py-2 text-sm">
+          <p>Conectado como: {user.email}</p>
+          <SignOutButton />
+        </header>
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 gap-8">
+          <Changelog />
+          <Notices />
+          <TopPlayers />
+        </div>
+      </div>
     </div>
   )
 }

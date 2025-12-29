@@ -47,6 +47,12 @@
       "description": "Game battle screen.",
       "imageUrl": "https://images.unsplash.com/photo-1736349294306-b966cd053399?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnYW1lJTIwYmF0dGxlfGVufDB8fHx8MTc2Njk3OTAyMXww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "game battle"
+    },
+    {
+      "id": "changelog",
+      "description": "A scroll with blood splatters on a poker table, with gangsters in the background.",
+      "imageUrl": "https://images.unsplash.com/photo-1718788939529-693a2538f5da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnYW5nc3RlcnMlMjBwb2tlciUyMHRhYmxlfGVufDB8fHx8MTc2NzAzNTk4Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "gangsters poker"
     }
   ]
 }
