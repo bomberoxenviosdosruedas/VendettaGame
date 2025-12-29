@@ -58,6 +58,7 @@ export function LoginForm() {
               type="email"
               placeholder="nombre@ejemplo.com"
               required
+              defaultValue="profematiasprestes@gmail.com"
             />
             {state?.errors?.email && (
               <p className="text-sm text-destructive">{state.errors.email[0]}</p>
@@ -73,7 +74,7 @@ export function LoginForm() {
                 ¿Olvidaste tu contraseña?
               </Link>
             </div>
-            <Input id="password" name="password" type="password" required />
+            <Input id="password" name="password" type="password" required defaultValue="password123" />
             {state?.errors?.password && (
               <p className="text-sm text-destructive">{state.errors.password[0]}</p>
             )}
