@@ -3,31 +3,31 @@
     {
       "id": "vendetta-logo",
       "description": "Vendetta game logo, a stylized V in crimson.",
-      "imageUrl": "https://images.unsplash.com/photo-1677098258706-fefdbc23bd58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxsb2dvJTIwY3JpbXNvbnxlbnwwfHx8fDE3NjY5Nzc3ODZ8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1677098258706-fefdbc23bd58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxsb2dvJTIwY3JpbXNvbnxlbnwwfHx8fDE3NjY5Nzc3ODZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "logo crimson"
     },
     {
       "id": "vendetta-header",
       "description": "Gangster with a vintage car in a dark alley, representing the Vendetta game theme.",
-      "imageUrl": "https://images.unsplash.com/photo-1764165067534-4a2d987b3c98?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxnYW5nc3RlciUyMHZpbnRhZ2V8ZW58MHx8fHwxNzY2OTc5MDIxfDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1764165067534-4a2d987b3c98?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxnYW5nc3RlciUyMHZpbnRhZ2V8ZW58MHx8fHwxNzY2OTc5MDIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "gangster vintage"
     },
     {
       "id": "gangster-silhouette",
       "description": "Silhouette of a gangster holding a submachine gun.",
-      "imageUrl": "https://images.unsplash.com/photo-1669264736964-7beeb59ef28c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxnYW5nc3RlciUyMHNpbGhvdWV0dGV8ZW58MHx8fHwxNzY2OTc5MDIxfDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1669264736964-7beeb59ef28c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxnYW5nc3RlciUyMHNpbGhvdWV0dGV8ZW58MHx8fHwxNzY2OTc5MDIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "gangster silhouette"
     },
     {
       "id": "game-preview-1",
       "description": "Game interface screenshot.",
-      "imageUrl": "https://images.unsplash.com/photo-1697256936504-7c9177a74fc5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnYW1lJTIwaW50ZXJmYWNlfGVufDB8fHx8MTc2Njk0NDU1NXww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1697256936504-7c9177a74fc5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnYW1lJTIwaW50ZXJmYWNlfGVufDB8fHx8MTc2Njk0NDU1NXww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "game interface"
     },
     {
       "id": "game-preview-2",
       "description": "Game map screenshot.",
-      "imageUrl": "https://images.unsplash.com/photo-1761716475708-ef98183ccb62?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnYW1lJTIwbWFwfGVufDB8fHx8MTc2NjkyNzgwNHww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1761716475708-ef98183ccb62?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnYW1lJTIwbWFwfGVufDB8fHx8MTc2NjkyNzgwNHww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "game map"
     },
     {
@@ -39,19 +39,19 @@
     {
       "id": "game-preview-4",
       "description": "City view in game.",
-      "imageUrl": "https://images.unsplash.com/photo-1761716475708-ef98183ccb62?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnYW1lJTIwY2l0eXxlbnwwfHx8fDE3NjY5NzkwMjF8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1761716475708-ef98183ccb62?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnYW1lJTIwY2l0eXxlbnwwfHx8fDE3NjY5NzkwMjF8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "game city"
     },
     {
       "id": "game-preview-5",
       "description": "Game battle screen.",
-      "imageUrl": "https://images.unsplash.com/photo-1736349294306-b966cd053399?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnYW1lJTIwYmF0dGxlfGVufDB8fHx8MTc2Njk3OTAyMXww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1736349294306-b966cd053399?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnYW1lJTIwYmF0dGxlfGVufDB8fHx8MTc2Njk3OTAyMXww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "game battle"
     },
     {
       "id": "changelog",
       "description": "A scroll with blood splatters on a poker table, with gangsters in the background.",
-      "imageUrl": "https://images.unsplash.com/photo-1718788939529-693a2538f5da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnYW5nc3RlcnMlMjBwb2tlciUyMHRhYmxlfGVufDB8fHx8MTc2NzAzNTk4Nnww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1718788939529-693a2538f5da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnYW5nc3RlcnMlMjBwb2tlciUyMHRhYmxlfGVufDB8fHx8MTc2NzAzNTk4Nnww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "gangsters poker"
     },
     {
@@ -87,7 +87,7 @@
     {
       "id": "room-brewery",
       "description": "A vintage brewery with wooden barrels.",
-      "imageUrl": "https://images.unsplash.com/photo-1719752486404-05a6316fbf15?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx2aW50YWdlJTIwYnJld2VyeXxlbnwwfHx8fDE3NjY5OTA4MDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1719752486404-05a6316fbf15?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx2aW50YWdlJTIwYnJld2VyeXxlbnwwfHx8fDE3NjY5OTA4MDR8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "vintage brewery"
     },
     {
@@ -95,6 +95,30 @@
       "description": "A training camp with targets.",
       "imageUrl": "https://images.unsplash.com/photo-1766502715596-d5fe6d94123b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx0cmFpbmluZyUyMGNhbXB8ZW58MHx8fHwxNzY2OTkwODA0fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "training camp"
+    },
+    {
+      "id": "troop-thug",
+      "description": "A tough looking street thug.",
+      "imageUrl": "https://images.unsplash.com/photo-1544218415-f9a5ca4ce2f7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzdHJlZXQlMjB0aHVnfGVufDB8fHx8MTc2Njk5MTY2MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "street thug"
+    },
+    {
+      "id": "troop-assassin",
+      "description": "A stealthy assassin in the shadows.",
+      "imageUrl": "https://images.unsplash.com/photo-1609558593662-50c873dca4ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxzdGVhbHRoeSUyMGFzc2Fzc2lufGVufDB8fHx8MTc2Njk5MTY2MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "stealthy assassin"
+    },
+    {
+      "id": "troop-enforcer",
+      "description": "A heavily built enforcer.",
+      "imageUrl": "https://images.unsplash.com/photo-1691316749874-e89297ee4cf3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtYWZpYSUyMGVuZm9yY2VyfGVufDB8fHx8MTc2Njk5MTY2MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mafia enforcer"
+    },
+    {
+      "id": "troop-consigliere",
+      "description": "A wise and well-dressed consigliere.",
+      "imageUrl": "https://images.unsplash.com/photo-1542498654-ddaa225d12c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxtYWZpYSUyMGNvbnNpZ2xpZXJlfGVufDB8fHx8MTc2Njk5MTY2MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mafia consigliere"
     }
   ]
 }
