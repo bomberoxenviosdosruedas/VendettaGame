@@ -27,8 +27,8 @@ export function RoomCard({ room }: RoomCardProps) {
   const image = PlaceHolderImages.find((p) => p.id === room.image) || PlaceHolderImages.find(p => p.id === 'dark-alley');
 
   return (
-    <div className="bg-stone-200 text-black p-4 rounded-md border border-primary/50 flex flex-col md:flex-row gap-4 items-start md:items-center">
-      <div className="flex-shrink-0 w-full md:w-24">
+    <div className="bg-stone-200 text-black p-4 rounded-md border border-primary/50 flex flex-col md:flex-row gap-4 items-start md:items-center min-h-[180px]">
+      <div className="flex-shrink-0 w-24 md:w-24">
         {image && (
             <Image
             src={image.imageUrl}
