@@ -1,7 +1,7 @@
 'use client'
 
 import Link from "next/link";
-import { Bell, BookOpen, Building, ChevronDown, Citadel, Crosshair, FileText, Globe, Hand, HelpCircle, Home, LogOut, Map, MessageSquare, Scale, Search, Settings, Shield, Swords, Users, Warehouse } from "lucide-react";
+import { Bell, BookOpen, Building, ChevronDown, Castle, Crosshair, FileText, Globe, Hand, HelpCircle, Home, LogOut, Map, MessageSquare, Scale, Search, Settings, Shield, Swords, Users, Warehouse } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const menuItems = [
@@ -11,7 +11,7 @@ const menuItems = [
     { name: "Reclutamiento", icon: Users, href: "/dashboard/recruitment" },
     { name: "Seguridad", icon: Shield, href: "/dashboard/security" },
     { name: "Entrenamiento", icon: Crosshair, href: "/dashboard/training" },
-    { name: "Edificios", icon: Citadel, href: "/dashboard/buildings" },
+    { name: "Edificios", icon: Castle, href: "/dashboard/buildings" },
     { name: "Buscar", icon: Search, href: "/dashboard/search", isSearch: true },
     { name: "Arbol Tecnologico", icon: FileText, href: "/dashboard/tech-tree" },
     { name: "Famiglia", icon: Users, href: "/dashboard/family" },
