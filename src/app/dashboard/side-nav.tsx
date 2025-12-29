@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Bell, BookOpen, Building, ChevronDown, Castle, Crosshair, FileText, Globe, Hand, HelpCircle, Home, LogOut, Map, MessageSquare, Scale, Search, Settings, Shield, Swords, Users, Warehouse } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { SidebarHeader, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar";
 
 const menuItems = [
     { name: "Nueva alerta", icon: Bell, href: "/dashboard/alerts", highlight: true },
@@ -46,15 +47,15 @@ export function SideNav() {
     }).replace(',', ' -');
 
     return (
-        <aside className="w-64 bg-stone-800 text-white flex flex-col border-r-2 border-black/30">
-            <div className="bg-stone-900/50 p-2 text-center border-b-2 border-black/30">
+        <>
+            <SidebarHeader className="bg-stone-900/50 p-2 text-center border-b-2 border-black/30">
                 <h2 className="font-bold text-lg">Menu</h2>
                 <p className="text-xs text-stone-400">{currentDate.replace(/\//g, '.')}</p>
-            </div>
-            <nav className="flex-1 overflow-y-auto">
-                <ul>
+            </SidebarHeader>
+            <SidebarContent>
+                <SidebarMenu>
                     {menuItems.map((item) => (
-                        <li key={item.name}>
+                        <SidebarMenuItem key={item.name}>
                             {item.isSearch ? (
                                 <div className="p-2 border-b border-stone-700">
                                     <div className="flex items-center gap-2 text-sm p-2 bg-stone-200 text-black rounded-sm">
@@ -71,21 +72,19 @@ export function SideNav() {
                                     </div>
                                 </div>
                             ) : (
-                                <Link
-                                    href={item.href}
-                                    className={`flex items-center gap-3 p-2 text-sm border-b border-stone-700 hover:bg-stone-700 transition-colors ${item.highlight ? 'bg-stone-600 font-bold' : ''}`}
-                                >
+                                <Link href={item.href} passHref>
+                                  <SidebarMenuButton 
+                                    className={`justify-start w-full border-b border-stone-700 rounded-none hover:bg-stone-700 transition-colors ${item.highlight ? 'bg-stone-600 font-bold' : ''}`}
+                                  >
                                     <item.icon className="h-4 w-4" />
                                     <span>{item.name}</span>
+                                  </SidebarMenuButton>
                                 </Link>
                             )}
-                        </li>
+                        </SidebarMenuItem>
                     ))}
-                </ul>
-            </nav>
-            <div className="p-2 border-t-2 border-black/30 bg-stone-900/50">
-                {/* Footer content if any */}
-            </div>
-        </aside>
+                </SidebarMenu>
+            </SidebarContent>
+        </>
     );
 }
