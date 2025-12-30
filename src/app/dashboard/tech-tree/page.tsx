@@ -1,49 +1,87 @@
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { TechTreeTable } from "@/components/dashboard/tech-tree/tech-tree-table";
-import { roomsTechData, trainingTechData } from "@/lib/data/tech-tree-data";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { createClient } from '@/lib/supabase/server'
+import { getDashboardData } from '@/lib/services/game.service'
+import { TechTreeView } from '@/components/dashboard/tech-tree/tech-tree-view'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Construction } from 'lucide-react'
+import { Recursos } from '@/types/game'
+import { ColaInvestigacion } from '@/types/database'
 
-export default function TechTreePage() {
+export default async function TechTreePage() {
+  const supabase = await createClient()
+
+  // 1. Get user property
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return <div>No user found</div>
+
+  const { data: prop } = await supabase
+    .from('propiedad')
+    .select('id')
+    .eq('usuario_id', user.id)
+    .maybeSingle()
+
+  if (!prop) return <div>No property found</div>
+
+  // 2. Fetch Dashboard Data (User Progress, Resources, Queue)
+  const dashboardData = await getDashboardData(prop.id)
+
+  // 3. Fetch Static Configs
+  const { data: configs } = await supabase
+    .from('configuracion_entrenamiento')
+    .select('*')
+    .order('nombre')
+
+  // 4. Fetch Requirements
+  const { data: requirements } = await supabase
+    .from('requisito_entrenamiento')
+    .select('*')
+
+  // 5. Fetch Active Queue specifically for this property if not fully reliable from dashboardData
+  const { data: realQueue } = await supabase
+      .from('cola_investigacion')
+      .select('*')
+      .eq('propiedad_id', prop.id)
+      .maybeSingle()
+
+  if (!dashboardData || !configs) {
+    return (
+        <Alert variant="destructive">
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>No se pudieron cargar los datos.</AlertDescription>
+        </Alert>
+    )
+  }
+
+  // Transform Resources
+  const simpleResources: Recursos = {
+      armas: dashboardData.recursos.armas.val,
+      municion: dashboardData.recursos.municion.val,
+      alcohol: dashboardData.recursos.alcohol.val,
+      dolares: dashboardData.recursos.dolares.val
+  }
+
   return (
     <div className="space-y-4">
         <Card className="border-primary bg-stone-200 text-black">
-            <CardHeader className="bg-primary/80 py-2 px-4">
+            <CardHeader className="bg-primary/80 py-2 px-4 flex flex-row items-center gap-2">
+                <Construction className="w-6 h-6 text-primary-foreground" />
                 <CardTitle className="text-lg text-primary-foreground">
-                    Árbol Tecnológico
+                    Centro de Investigación (Tech Tree)
                 </CardTitle>
             </CardHeader>
-            <CardContent className="p-4">
-                <Tabs defaultValue="rooms">
-                    <div className="flex justify-between items-start">
-                        <TabsList className="bg-stone-300">
-                            <TabsTrigger value="rooms" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Habitaciones</TabsTrigger>
-                            <TabsTrigger value="training" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Entrenamientos</TabsTrigger>
-                            <TabsTrigger value="troops" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Tropas</TabsTrigger>
-                        </TabsList>
-                        <div className="text-sm text-right">
-                            <div className="flex items-center gap-2">
-                                <div className="w-4 h-4 border-2 border-dashed border-green-500"></div>
-                                <span>Disponible</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <div className="w-4 h-4 border-2 border-dashed border-red-500"></div>
-                                <span>No disponible</span>
-                            </div>
-                        </div>
-                    </div>
-                    <TabsContent value="rooms">
-                        <TechTreeTable data={roomsTechData} />
-                    </TabsContent>
-                    <TabsContent value="training">
-                        <TechTreeTable data={trainingTechData} />
-                    </TabsContent>
-                    <TabsContent value="troops">
-                        <p className="p-4 text-center">Contenido de Tropas no disponible.</p>
-                    </TabsContent>
-                </Tabs>
+            <CardContent className="p-0">
+               <TechTreeView 
+                  configs={configs}
+                  requirements={requirements || []}
+                  userResearch={dashboardData.investigaciones || []}
+                  queue={realQueue as ColaInvestigacion | null} 
+                  activeQueueItem={realQueue as ColaInvestigacion}
+                  resources={simpleResources}
+                  propertyId={prop.id}
+               />
             </CardContent>
         </Card>
     </div>
-  );
+  )
 }
