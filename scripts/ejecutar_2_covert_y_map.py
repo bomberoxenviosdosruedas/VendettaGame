@@ -47,7 +47,9 @@ def main():
     
     scripts_a_ejecutar = [
         'convert_sql_to_json.py',
-        'map_source_structure.py'
+        'map_source_structure.py',
+        'analisis/map_page_components.py',
+        'analisis/detectar_duplicados.py'
     ]
     
     for script in scripts_a_ejecutar:
