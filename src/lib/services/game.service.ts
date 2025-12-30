@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { Propiedad } from '@/types/database'
-import { RespuestaConstruccion, ColaConstruccion } from '@/types/game'
+import { RespuestaConstruccion, ColaConstruccion, DashboardData } from '@/types/game'
 
 interface CreateInitialPropertyData {
   nombre: string
@@ -58,6 +58,52 @@ export async function createInitialProperty(data: CreateInitialPropertyData): Pr
   }
 
   return result as CreateInitialPropertyResponse
+}
+
+export async function getUserProperty(userId: string): Promise<string | null> {
+  const supabase = await createClient()
+  const { data, error } = await supabase.from('propiedad').select('id').eq('usuario_id', userId).single()
+
+  if (error) {
+    // It's normal if new user has no property yet
+    return null
+  }
+  return data?.id || null
+}
+
+export async function getDashboardData(propertyId: string): Promise<DashboardData | null> {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.rpc('get_dashboard_data', {
+    p_propiedad_id: propertyId
+  })
+
+  if (error) {
+    console.error('Error fetching dashboard data:', error)
+    return null
+  }
+
+  return data as DashboardData
+}
+
+export async function cancelConstruction(queueId: string): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.rpc('cancelar_construccion', {
+    p_cola_id: queueId
+  })
+
+  if (error) {
+    console.error('Error cancelling construction:', error)
+    return { success: false, error: error.message }
+  }
+
+  const result = data as { success: boolean; error?: string }
+  if (result.error) {
+    return { success: false, error: result.error }
+  }
+
+  return { success: true }
 }
 
 export async function syncResources(propertyId: string): Promise<Propiedad | null> {

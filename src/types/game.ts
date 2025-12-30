@@ -1,6 +1,48 @@
 import { z } from 'zod';
 import { Propiedad, ColaConstruccion as ColaConstruccionDB } from './database';
 
+export interface RecursoDetalle {
+  val: number;
+  max: number;
+  prod: number;
+}
+
+export interface EdificioDetalle {
+  id: string;
+  nivel: number;
+  nombre: string;
+}
+
+export interface ColaDetalle {
+  id: string;
+  habitacion_id?: string;
+  entrenamiento_id?: string;
+  tropa_id?: string;
+  nivel_destino?: number;
+  cantidad?: number;
+  fecha_fin: string;
+  nombre: string;
+}
+
+export interface Colas {
+  construccion: ColaDetalle[];
+  investigacion: ColaDetalle[];
+  reclutamiento: ColaDetalle[];
+}
+
+export interface DashboardData {
+  propiedad: Propiedad;
+  recursos: {
+    armas: RecursoDetalle;
+    municion: RecursoDetalle;
+    alcohol: RecursoDetalle;
+    dolares: RecursoDetalle;
+  };
+  edificios: EdificioDetalle[];
+  colas: Colas;
+  puntos: number;
+}
+
 export interface Recursos {
   armas: number;
   municion: number;
