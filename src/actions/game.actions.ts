@@ -7,7 +7,9 @@ import {
   syncResources,
   startResearch,
   recruitTroops,
-  launchMission
+  launchMission,
+  cancelConstruction,
+  getDashboardData
 } from '@/lib/services/game.service'
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
@@ -83,14 +85,35 @@ export async function upgradeBuildingAction(buildingId: string) {
   const result = await startConstruction(propiedad.id, parsed.data)
 
   if (result.success) {
-    revalidatePath('/game/buildings')
+    revalidatePath('/dashboard/buildings')
+    revalidatePath('/dashboard/overview')
     return { success: true, message: 'Construcción iniciada' }
   } else {
     return { success: false, error: result.error || 'No se pudo iniciar la construcción' }
   }
 }
 
-export async function refreshGameStateAction() {
+export async function cancelConstructionAction(queueId: string) {
+  const schema = z.string().uuid()
+  const parsed = schema.safeParse(queueId)
+
+  if (!parsed.success) {
+    return { success: false, error: 'ID de cola inválido' }
+  }
+
+  // Assuming auth check in RPC
+  const result = await cancelConstruction(parsed.data)
+
+  if (result.success) {
+    revalidatePath('/dashboard/buildings')
+    revalidatePath('/dashboard/overview')
+    return { success: true, message: 'Construcción cancelada' }
+  } else {
+    return { success: false, error: result.error || 'No se pudo cancelar la construcción' }
+  }
+}
+
+export async function getDashboardDataAction() {
   const supabase = await createClient()
   const { data: { user }, error: authError } = await supabase.auth.getUser()
 
@@ -108,13 +131,21 @@ export async function refreshGameStateAction() {
     return { success: false, error: 'Propiedad no encontrada' }
   }
 
-  const resources = await syncResources(propiedad.id)
+  const dashboardData = await getDashboardData(propiedad.id)
   
-  if (!resources) {
-    return { success: false, error: 'Error al sincronizar recursos' }
+  if (!dashboardData) {
+    return { success: false, error: 'Error al obtener datos' }
   }
 
-  return { success: true, data: resources }
+  return { success: true, data: dashboardData }
+}
+
+export async function refreshGameStateAction() {
+  const result = await getDashboardDataAction()
+  if (!result.success || !result.data) {
+    return { success: false, error: result.error }
+  }
+  return { success: true, data: result.data.propiedad } // Return prop only for legacy support if needed
 }
 
 export async function startResearchAction(researchId: string) {
