@@ -1,19 +1,14 @@
 'use server';
 
-import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
-
-const IniciarConstruccionSchema = z.object({
-  propiedad_id: z.string().uuid(),
-  habitacion_id: z.string().min(1),
-});
+import { IniciarConstruccionSchema } from '@/types/game';
 
 export async function iniciarConstruccionHabitacion(
   propiedad_id: string,
   habitacion_id: string
 ) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
 
   // 1. Validar las entradas
@@ -47,7 +42,7 @@ export async function iniciarConstruccionHabitacion(
     }
 
     // El RPC puede devolver un JSON con un campo de error específico
-    if (data && data.error) {
+    if (data && typeof data === 'object' && 'error' in data) {
         return {
             error: data.error,
         };

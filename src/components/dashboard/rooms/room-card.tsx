@@ -5,9 +5,13 @@ import { Button } from "@/components/ui/button";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Coins, Shell, Droplets } from "lucide-react";
 import type { Room } from "@/lib/data/rooms-data";
+import { iniciarConstruccionHabitacion } from "@/lib/actions/construccion";
+import { useTransition } from "react";
+import { toast } from "sonner";
 
 type RoomCardProps = {
   room: Room;
+  propiedadId: string;
 };
 
 const ResourceIcon = ({ type }: { type: string }) => {
@@ -23,8 +27,21 @@ const ResourceIcon = ({ type }: { type: string }) => {
     }
 }
 
-export function RoomCard({ room }: RoomCardProps) {
+export function RoomCard({ room, propiedadId }: RoomCardProps) {
   const image = PlaceHolderImages.find((p) => p.id === room.image) || PlaceHolderImages.find(p => p.id === 'dark-alley');
+  const [isPending, startTransition] = useTransition();
+
+  const handleBuild = () => {
+    startTransition(async () => {
+      const result = await iniciarConstruccionHabitacion(propiedadId, room.id);
+
+      if (result.error) {
+        toast.error(result.error);
+      } else {
+        toast.success(`Construcción de ${room.name} iniciada.`);
+      }
+    });
+  };
 
   return (
     <div className="bg-stone-200 text-black p-4 rounded-md border border-primary/50 flex flex-col md:flex-row gap-4 items-start md:items-center min-h-[180px]">
@@ -54,8 +71,14 @@ export function RoomCard({ room }: RoomCardProps) {
                 <p>Nivel {room.upgradeLevel}</p>
               </div>
             ) : (
-              <Button variant="destructive" size="sm" className="bg-accent hover:bg-accent/90">
-                Inizia espansione
+              <Button
+                variant="destructive"
+                size="sm"
+                className="bg-accent hover:bg-accent/90"
+                onClick={handleBuild}
+                disabled={isPending}
+              >
+                {isPending ? 'Iniciando...' : 'Inizia espansione'}
               </Button>
             )}
           </div>
