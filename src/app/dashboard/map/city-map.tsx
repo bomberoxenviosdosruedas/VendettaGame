@@ -41,13 +41,17 @@ export function CityMap({ tiles }: CityMapProps) {
                                     )}
                                 </div>
                             </TooltipTrigger>
-                            {tile.info && (
-                                <TooltipContent className="bg-yellow-100 text-black border-yellow-300">
-                                    <p className="font-bold">Posición {tile.info.position}</p>
-                                    <p>{tile.info.owner}</p>
-                                    <p>{tile.info.points} Puntos</p>
-                                </TooltipContent>
-                            )}
+                            <TooltipContent className="bg-yellow-100 text-black border-yellow-300">
+                                {tile.info ? (
+                                    <>
+                                        <p className="font-bold">Posición {tile.info.position}</p>
+                                        <p>{tile.info.owner}</p>
+                                        <p>{tile.info.points} Puntos</p>
+                                    </>
+                                ) : (
+                                    <p>Posición vacía</p>
+                                )}
+                            </TooltipContent>
                         </Tooltip>
                     ))}
                 </div>
