@@ -33,6 +33,29 @@ export interface InvestigacionDetalle {
   nombre: string;
 }
 
+export interface ConfiguracionTropa {
+  id: string;
+  nombre: string;
+  descripcion: string | null;
+  url_imagen: string;
+  costo_armas: number;
+  costo_municion: number;
+  costo_dolares: number;
+  duracion_reclutamiento: number;
+  ataque: number;
+  defensa: number;
+  capacidad_carga: number;
+  velocidad: number;
+  salario: number;
+  puntos: number;
+  tipo: string;
+  requisitos: Record<string, number> | null;
+  bonus_ataque: string[] | null;
+  bonus_defensa: string[] | null;
+  fecha_creacion: string | null;
+  fecha_actualizacion: string | null;
+}
+
 export interface ColaDetalle {
   id: string;
   habitacion_id?: string;
