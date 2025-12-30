@@ -57,7 +57,8 @@
     "src/lib/actions",
     "src/lib/data",
     "src/lib/services",
-    "src/lib/supabase"
+    "src/lib/supabase",
+    "src/lib/utils"
   ],
   "types": [
     "src/types"
