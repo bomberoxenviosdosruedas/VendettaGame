@@ -1,12 +1,12 @@
 'use client';
-import { ServerTime } from './server-time';
-import { Troops } from './troops';
-import { ExpandingRooms } from './expanding-rooms';
-import { BuildingInfo } from './building-info';
-import { Training } from './training';
-import { TroopsDefense } from './troops-defense';
-import { TroopsInTraining } from './troops-in-training';
-import { Needles } from './needles';
+import { ServerTime } from '@/components/dashboard/server-time';
+import { Troops } from '@/components/dashboard/troops';
+import { ExpandingRooms } from '@/components/dashboard/expanding-rooms';
+import { BuildingInfo } from '@/components/dashboard/building-info';
+import { Training } from '@/components/dashboard/training';
+import { TroopsDefense } from '@/components/dashboard/troops-defense';
+import { TroopsInTraining } from '@/components/dashboard/troops-in-training';
+import { Needles } from '@/components/dashboard/needles';
 
 export default function DashboardPage() {
   return (
