@@ -64,7 +64,7 @@ export function TroopCard({ troop }: TroopCardProps) {
         <div className="flex items-center flex-wrap gap-x-4 gap-y-1 text-sm border-t border-b border-black/10 py-2 my-2">
           {Object.entries(troop.costs).map(([resource, value]) => (
             <div key={resource} className="flex items-center">
-              <span>{value.toLocaleString()}</span>
+              <span>{value}</span>
               <ResourceIcon type={resource} />
             </div>
 ))}

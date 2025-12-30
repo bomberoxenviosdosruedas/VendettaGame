@@ -64,7 +64,7 @@ export function RoomCard({ room }: RoomCardProps) {
         <div className="flex items-center flex-wrap gap-x-4 gap-y-1 text-sm">
           {Object.entries(room.costs).map(([resource, value]) => (
             <div key={resource} className="flex items-center">
-              <span>{resource.charAt(0)}: {value.toLocaleString()}</span>
+              <span>{resource.charAt(0)}: {value}</span>
               <ResourceIcon type={resource} />
             </div>
           ))}
