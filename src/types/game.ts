@@ -63,6 +63,10 @@ export interface DashboardData {
   tropas: TropaDetalle[];
   investigaciones: InvestigacionDetalle[];
   puntos: number;
+  cola_misiones: ActiveMission[];
+  incoming_attacks: IncomingAttack[];
+  tropa_usuario: TropaDetalle[];
+  cola_reclutamiento: ColaDetalle[];
 }
 
 export interface Recursos {

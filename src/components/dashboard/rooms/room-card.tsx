@@ -7,13 +7,17 @@ import { Coins, Shell, Droplets } from "lucide-react";
 import type { Room } from "@/lib/data/rooms-data";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { iniciarConstruccionHabitacion } from "@/lib/actions/construccion";
+import { upgradeBuildingAction, cancelConstructionAction } from "@/actions/game.actions";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useState, useOptimistic, useTransition } from "react";
+import { ColaDetalle } from "@/types/game";
+import { Progress } from "@/components/ui/progress"; // Assuming shadcn component exists
 
 type RoomCardProps = {
   room: Room;
   propiedadId?: string;
+  dynamicLevel: number;
+  construction?: ColaDetalle;
 };
 
 const ResourceIcon = ({ type }: { type: string }) => {
@@ -30,47 +34,37 @@ const ResourceIcon = ({ type }: { type: string }) => {
     }
 }
 
-export function RoomCard({ room, propiedadId }: RoomCardProps) {
+export function RoomCard({ room, propiedadId, dynamicLevel, construction }: RoomCardProps) {
   const image = PlaceHolderImages.find((p) => p.id === room.image) || PlaceHolderImages.find(p => p.id === 'dark-alley');
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   const handleUpgrade = async () => {
-    if (!propiedadId) {
-        toast({
-            title: "Error",
-            description: "No se encontró la propiedad del usuario.",
-            variant: "destructive",
-        });
-        return;
-    }
+    if (!propiedadId) return;
 
-    setIsLoading(true);
-    try {
-        const result = await iniciarConstruccionHabitacion(propiedadId, room.id);
-
-        if (result.error) {
-            toast({
-                title: "Error al iniciar construcción",
-                description: result.error,
-                variant: "destructive",
-            });
-        } else {
-            toast({
-                title: "Construcción iniciada",
-                description: `Se ha iniciado la construcción de ${room.name}.`,
-            });
-        }
-    } catch (error) {
-        toast({
-            title: "Error",
-            description: "Ocurrió un error inesperado.",
-            variant: "destructive",
-        });
-    } finally {
-        setIsLoading(false);
-    }
+    startTransition(async () => {
+      const result = await upgradeBuildingAction(room.id);
+      if (result.success) {
+        toast({ title: "Construcción iniciada", description: `Mejorando ${room.name}.` });
+      } else {
+        toast({ title: "Error", description: result.error, variant: "destructive" });
+      }
+    });
   };
+
+  const handleCancel = async () => {
+      if (!construction) return;
+      startTransition(async () => {
+          const result = await cancelConstructionAction(construction.id);
+          if (result.success) {
+              toast({ title: "Cancelado", description: "Construcción cancelada." });
+          } else {
+              toast({ title: "Error", description: result.error, variant: "destructive" });
+          }
+      });
+  };
+
+  const isConstructing = !!construction;
 
   return (
     <Card className="flex flex-col sm:flex-row overflow-hidden hover:shadow-lg transition-shadow duration-300 border-primary/20 bg-card">
@@ -87,7 +81,7 @@ export function RoomCard({ room, propiedadId }: RoomCardProps) {
             />
         )}
         <div className="absolute top-2 right-2 sm:hidden">
-             {room.level && <Badge variant="secondary" className="font-bold">Nv. {room.level}</Badge>}
+             <Badge variant="secondary" className="font-bold">Nv. {dynamicLevel}</Badge>
         </div>
       </div>
 
@@ -99,7 +93,7 @@ export function RoomCard({ room, propiedadId }: RoomCardProps) {
                 {room.name}
                 </h3>
                 <Badge variant="outline" className="hidden sm:inline-flex border-primary/50 text-primary font-bold">
-                    Nv. {room.level || 1}
+                    Nv. {dynamicLevel}
                 </Badge>
             </div>
             
@@ -123,19 +117,31 @@ export function RoomCard({ room, propiedadId }: RoomCardProps) {
             </div>
 
             <div className="flex justify-end pt-1">
-                {room.status === 'upgrade' && room.upgradeLevel ? (
-                <div className="w-full bg-secondary/20 p-2 rounded text-center">
-                    <p className="text-xs text-muted-foreground">Mejorando a</p>
-                    <p className="font-bold text-green-600">Nivel {room.upgradeLevel}</p>
+                {isConstructing ? (
+                <div className="w-full space-y-2">
+                    <div className="flex justify-between text-xs">
+                        <span className="font-bold text-amber-600">En construcción...</span>
+                        <span>{new Date(construction.fecha_fin).toLocaleTimeString()}</span>
+                    </div>
+                    {/* Simplified progress bar or countdown could be here */}
+                    <Button
+                        variant="destructive"
+                        size="sm"
+                        className="w-full h-7 text-xs"
+                        onClick={handleCancel}
+                        disabled={isPending}
+                    >
+                        {isPending ? "Cancelando..." : "Cancelar"}
+                    </Button>
                 </div>
                 ) : (
                 <Button
                     className="w-full sm:w-auto"
                     size="sm"
                     onClick={handleUpgrade}
-                    disabled={isLoading || !propiedadId}
+                    disabled={isPending || !propiedadId}
                 >
-                    {isLoading ? "Iniciando..." : "Ampliar"}
+                    {isPending ? "Iniciando..." : "Ampliar"}
                 </Button>
                 )}
             </div>
