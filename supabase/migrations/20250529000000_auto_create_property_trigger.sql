@@ -65,7 +65,7 @@ BEGIN
 
     -- Insertar la nueva propiedad
     INSERT INTO public.propiedad (usuario_id, nombre, coordenada_ciudad, coordenada_barrio, coordenada_edificio, armas, municion, alcohol, dolares, ultima_recogida_recursos)
-    VALUES (v_usuario_id, v_nombre, v_ciudad, v_barrio, v_edificio, 500, 500, 500, 500, NOW())
+    VALUES (v_usuario_id, v_nombre, v_ciudad, v_barrio, v_edificio, 10000, 10000, 10000, 10000, NOW())
     RETURNING id INTO v_propiedad_id;
 
     -- Insertar habitaciones iniciales (7 edificios base)

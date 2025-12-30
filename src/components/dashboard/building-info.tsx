@@ -18,8 +18,8 @@ export function BuildingInfo() {
              <Image
                 src={buildingImage.imageUrl}
                 alt={buildingImage.description}
-                width={800}
-                height={400}
+                width={400}
+                height={200}
                 className="w-full h-auto rounded"
                 data-ai-hint={buildingImage.imageHint}
             />
