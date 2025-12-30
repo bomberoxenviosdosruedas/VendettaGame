@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { Propiedad } from '@/types/database'
-import { RespuestaConstruccion, ColaConstruccion, DashboardData } from '@/types/game'
+import { RespuestaConstruccion, ColaConstruccion, DashboardData, IncomingAttack, ActiveMission, FamilyInfo } from '@/types/game'
 
 interface CreateInitialPropertyData {
   nombre: string
@@ -229,4 +229,66 @@ export async function launchMission(missionData: MissionData): Promise<MissionRe
   }
 
   return data as MissionResponse
+}
+
+export async function getIncomingAttacks(propertyId: string): Promise<IncomingAttack[]> {
+  const supabase = await createClient()
+
+  // First get property name to match propiedad_objetivo
+  const { data: property } = await supabase
+    .from('propiedad')
+    .select('nombre, usuario_id')
+    .eq('id', propertyId)
+    .single()
+
+  if (!property) return []
+
+  // Fetch attacks where target is this property name AND defender is this user (extra safety)
+  const { data, error } = await supabase
+    .from('ataque_entrante')
+    .select('*')
+    .eq('defensor_id', property.usuario_id)
+    .eq('propiedad_objetivo', property.nombre)
+    .order('fecha_llegada', { ascending: true })
+
+  if (error) {
+    console.error('Error fetching incoming attacks:', error)
+    return []
+  }
+
+  return data as IncomingAttack[]
+}
+
+export async function getActiveMissions(propertyId: string): Promise<ActiveMission[]> {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from('cola_misiones')
+    .select('*')
+    .eq('propiedad_origen_id', propertyId)
+    .order('fecha_llegada', { ascending: true })
+
+  if (error) {
+    console.error('Error fetching active missions:', error)
+    return []
+  }
+
+  return data as ActiveMission[]
+}
+
+export async function getFamilyInfo(userId: string): Promise<FamilyInfo | null> {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from('miembro_familia')
+    .select('*, familia(*)')
+    .eq('usuario_id', userId)
+    .maybeSingle()
+
+  if (error) {
+    console.error('Error fetching family info:', error)
+    return null
+  }
+
+  return data as FamilyInfo
 }

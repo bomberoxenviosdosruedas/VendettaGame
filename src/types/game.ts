@@ -1,5 +1,13 @@
 import { z } from 'zod';
-import { Propiedad, ColaConstruccion as ColaConstruccionDB } from './database';
+import { Propiedad, ColaConstruccion as ColaConstruccionDB, AtaqueEntrante, ColaMisiones, Familia, MiembroFamilia } from './database';
+
+export interface IncomingAttack extends AtaqueEntrante {}
+
+export interface ActiveMission extends ColaMisiones {}
+
+export interface FamilyInfo extends MiembroFamilia {
+  familia: Familia | null;
+}
 
 export interface RecursoDetalle {
   val: number;
