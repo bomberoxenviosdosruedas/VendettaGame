@@ -7,9 +7,13 @@ import { Coins, Shell, Droplets } from "lucide-react";
 import type { Room } from "@/lib/data/rooms-data";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { iniciarConstruccionHabitacion } from "@/lib/actions/construccion";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 type RoomCardProps = {
   room: Room;
+  propiedadId?: string;
 };
 
 const ResourceIcon = ({ type }: { type: string }) => {
@@ -26,8 +30,47 @@ const ResourceIcon = ({ type }: { type: string }) => {
     }
 }
 
-export function RoomCard({ room }: RoomCardProps) {
+export function RoomCard({ room, propiedadId }: RoomCardProps) {
   const image = PlaceHolderImages.find((p) => p.id === room.image) || PlaceHolderImages.find(p => p.id === 'dark-alley');
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleUpgrade = async () => {
+    if (!propiedadId) {
+        toast({
+            title: "Error",
+            description: "No se encontró la propiedad del usuario.",
+            variant: "destructive",
+        });
+        return;
+    }
+
+    setIsLoading(true);
+    try {
+        const result = await iniciarConstruccionHabitacion(propiedadId, room.id);
+
+        if (result.error) {
+            toast({
+                title: "Error al iniciar construcción",
+                description: result.error,
+                variant: "destructive",
+            });
+        } else {
+            toast({
+                title: "Construcción iniciada",
+                description: `Se ha iniciado la construcción de ${room.name}.`,
+            });
+        }
+    } catch (error) {
+        toast({
+            title: "Error",
+            description: "Ocurrió un error inesperado.",
+            variant: "destructive",
+        });
+    } finally {
+        setIsLoading(false);
+    }
+  };
 
   return (
     <Card className="flex flex-col sm:flex-row overflow-hidden hover:shadow-lg transition-shadow duration-300 border-primary/20 bg-card">
@@ -86,8 +129,13 @@ export function RoomCard({ room }: RoomCardProps) {
                     <p className="font-bold text-green-600">Nivel {room.upgradeLevel}</p>
                 </div>
                 ) : (
-                <Button className="w-full sm:w-auto" size="sm">
-                    Ampliar
+                <Button
+                    className="w-full sm:w-auto"
+                    size="sm"
+                    onClick={handleUpgrade}
+                    disabled={isLoading || !propiedadId}
+                >
+                    {isLoading ? "Iniciando..." : "Ampliar"}
                 </Button>
                 )}
             </div>
