@@ -5,7 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Coins, Shell, Droplets } from "lucide-react";
-import type { Troop } from "./recruitment-data";
+import { ReactNode } from "react";
+
+type Troop = {
+  image: string;
+  duration: ReactNode;
+  description: ReactNode;
+  costs(costs: any): unknown;
+  name: string;
+}
 
 type TroopCardProps = {
   troop: Troop;
