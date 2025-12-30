@@ -42,6 +42,33 @@ interface MissionResponse {
   mision_id?: string
 }
 
+export interface MapTileData {
+  propiedad_id: string
+  coordenada_edificio: number
+  usuario_id: string
+  nombre_usuario: string
+  nombre_familia: string | null
+  etiqueta_familia: string | null
+  puntos: number
+  es_propia: boolean
+}
+
+export async function getMapTiles(city: number, district: number): Promise<MapTileData[]> {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.rpc('get_map_tiles', {
+    p_ciudad: city,
+    p_barrio: district
+  })
+
+  if (error) {
+    console.error('Error fetching map tiles:', error)
+    return []
+  }
+
+  return data as MapTileData[]
+}
+
 export async function createInitialProperty(data: CreateInitialPropertyData): Promise<CreateInitialPropertyResponse> {
   const supabase = await createClient()
 

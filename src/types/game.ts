@@ -21,6 +21,18 @@ export interface EdificioDetalle {
   nombre: string;
 }
 
+export interface TropaDetalle {
+  id: string;
+  cantidad: number;
+  nombre: string;
+}
+
+export interface InvestigacionDetalle {
+  id: string;
+  nivel: number;
+  nombre: string;
+}
+
 export interface ColaDetalle {
   id: string;
   habitacion_id?: string;
@@ -48,6 +60,8 @@ export interface DashboardData {
   };
   edificios: EdificioDetalle[];
   colas: Colas;
+  tropas: TropaDetalle[];
+  investigaciones: InvestigacionDetalle[];
   puntos: number;
 }
 

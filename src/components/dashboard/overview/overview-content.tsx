@@ -66,10 +66,10 @@ export function OverviewContent({ initialDashboardData, attacks = [], missions =
   // Calculate stats (Mock logic based on available data)
   const totalBuildingsLevel = edificios.reduce((acc, curr) => acc + curr.nivel, 0);
 
-  // Research levels are not in 'edificios'. They are in 'entrenamiento_usuario' table, not fetched in RPC currently except if I added it.
-  // The RPC only fetches 'edificios'. The prompt didn't ask for research levels in DashboardData explicitly but Overview had it.
-  // I'll skip research level summary for now or use a placeholder/0.
-  const researchLevel = 0;
+  // Calculate total research levels from available data
+  const researchLevel = data.investigaciones
+    ? data.investigaciones.reduce((acc, curr) => acc + curr.nivel, 0)
+    : 0;
 
   const levels = [
       { name: "Edificios", level: totalBuildingsLevel },
