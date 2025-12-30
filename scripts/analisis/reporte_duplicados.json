@@ -1,0 +1,577 @@
+{
+  "resumen": {
+    "total_tablas_detectadas": 29,
+    "total_funciones_detectadas": 11,
+    "total_policies_detectadas": 32,
+    "objetos_duplicados_o_modificados": 37
+  },
+  "detalles": {
+    "tables": {
+      "profiles": [
+        {
+          "file": "20240726120000_initial_schema.sql",
+          "line": 3,
+          "type": "CREATE_TABLE",
+          "code": "create table profiles (\n  id uuid not null references auth.users on delete cascade,\n  updated_at timestamp with time zone,\n  username text unique,\n  full_name text,\n  avatar_url text,\n  website text,\n\n  primary key (id),\n  constraint username_length check (char_length(username) >= 3)\n);\n"
+        },
+        {
+          "file": "20240726120000_initial_schema.sql",
+          "line": 17,
+          "type": "ALTER_TABLE",
+          "code": "alter table profiles\n  enable row level security;\n"
+        }
+      ],
+      "usuario": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 9,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.usuario (\n    id uuid PRIMARY KEY DEFAULT gen_random_uuid() REFERENCES auth.users(id) ON DELETE CASCADE,\n    nombre_usuario text NOT NULL UNIQUE,\n    email text NOT NULL UNIQUE,\n    url_avatar text,\n    nombre text DEFAULT '',\n    titulo text,\n    rol text DEFAULT 'USER',\n    primer_login boolean DEFAULT false,\n    ultimo_visto timestamptz DEFAULT now(),\n    fecha_creacion timestamptz DEFAULT now(),\n    fecha_actualizacion timestamptz DEFAULT now()\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 397,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.usuario ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "historial_acceso": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 23,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.historial_acceso (\n    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n    usuario_id uuid REFERENCES public.usuario(id) ON DELETE CASCADE,\n    fecha_acceso timestamptz DEFAULT now(),\n    direccion_ip text,\n    agente_usuario text,\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 448,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.historial_acceso ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "puntuacion_usuario": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 33,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.puntuacion_usuario (\n    usuario_id uuid PRIMARY KEY REFERENCES public.usuario(id) ON DELETE CASCADE,\n    puntos_habitaciones real DEFAULT 0,\n    puntos_tropas real DEFAULT 0,\n    puntos_entrenamientos real DEFAULT 0,\n    puntos_totales real DEFAULT 0,\n    puntos_honor_atacante real DEFAULT 0,\n    puntos_honor_defensor real DEFAULT 0,\n    puntos_honor_totales real DEFAULT 0,\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 449,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.puntuacion_usuario ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "errores_configuracion": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 46,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.errores_configuracion (\n    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n    usuario_id uuid,\n    mensaje_error text,\n    fecha_creacion timestamptz DEFAULT now()\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 450,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.errores_configuracion ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "configuracion_habitacion": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 54,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.configuracion_habitacion (\n    id text PRIMARY KEY,\n    nombre text NOT NULL,\n    descripcion text,\n    url_imagen text NOT NULL,\n    costo_armas bigint DEFAULT 0,\n    costo_municion bigint DEFAULT 0,\n    costo_dolares bigint DEFAULT 0,\n    duracion_construccion integer DEFAULT 0,\n    produccion_base real DEFAULT 0,\n    recurso_producido text,\n    puntos real DEFAULT 0,\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 399,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.configuracion_habitacion ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "configuracion_entrenamiento": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 70,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.configuracion_entrenamiento (\n    id text PRIMARY KEY,\n    nombre text NOT NULL,\n    url_imagen text NOT NULL,\n    costo_armas bigint DEFAULT 0,\n    costo_municion bigint DEFAULT 0,\n    costo_dolares bigint DEFAULT 0,\n    duracion_entrenamiento integer DEFAULT 0,\n    puntos real DEFAULT 0,\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 400,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.configuracion_entrenamiento ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "configuracion_tropa": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 83,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.configuracion_tropa (\n    id text PRIMARY KEY,\n    nombre text NOT NULL,\n    descripcion text,\n    url_imagen text NOT NULL,\n    costo_armas bigint DEFAULT 0,\n    costo_municion bigint DEFAULT 0,\n    costo_dolares bigint DEFAULT 0,\n    duracion_reclutamiento integer DEFAULT 0,\n    ataque integer DEFAULT 0,\n    defensa integer DEFAULT 0,\n    capacidad_carga integer DEFAULT 0,\n    velocidad bigint DEFAULT 0,\n    salario integer DEFAULT 0,\n    puntos real DEFAULT 0,\n    tipo text NOT NULL,\n    requisitos jsonb,\n    bonus_ataque text[],\n    bonus_defensa text[],\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 401,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.configuracion_tropa ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "requisito_habitacion": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 106,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.requisito_habitacion (\n    id uuid PRIMARY KEY,\n    habitacion_id text REFERENCES public.configuracion_habitacion(id),\n    habitacion_requerida_id text REFERENCES public.configuracion_habitacion(id),\n    nivel_requerido integer\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 451,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.requisito_habitacion ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "requisito_entrenamiento": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 113,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.requisito_entrenamiento (\n    id uuid PRIMARY KEY,\n    entrenamiento_id text REFERENCES public.configuracion_entrenamiento(id),\n    entrenamiento_requerido_id text REFERENCES public.configuracion_entrenamiento(id),\n    nivel_requerido integer\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 452,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.requisito_entrenamiento ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "tropa_bonus_contrincante": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 120,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.tropa_bonus_contrincante (\n    id uuid PRIMARY KEY,\n    tropa_atacante_id text REFERENCES public.configuracion_tropa(id),\n    tropa_defensora_id text REFERENCES public.configuracion_tropa(id),\n    factor_prioridad real\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 453,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.tropa_bonus_contrincante ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "propiedad": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 128,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.propiedad (\n    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n    usuario_id uuid REFERENCES public.usuario(id) ON DELETE CASCADE,\n    nombre text NOT NULL,\n    coordenada_ciudad integer NOT NULL,\n    coordenada_barrio integer NOT NULL,\n    coordenada_edificio integer NOT NULL,\n    armas bigint DEFAULT 0 CHECK (armas >= 0),\n    municion bigint DEFAULT 0 CHECK (municion >= 0),\n    alcohol bigint DEFAULT 0 CHECK (alcohol >= 0),\n    dolares bigint DEFAULT 0 CHECK (dolares >= 0),\n    ultima_recogida_recursos timestamptz,\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz,\n    UNIQUE (coordenada_ciudad, coordenada_barrio, coordenada_edificio)\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 398,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.propiedad ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "habitacion_usuario": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 145,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.habitacion_usuario (\n    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n    propiedad_id uuid REFERENCES public.propiedad(id) ON DELETE CASCADE,\n    habitacion_id text REFERENCES public.configuracion_habitacion(id),\n    nivel smallint DEFAULT 0,\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz,\n    UNIQUE (propiedad_id, habitacion_id)\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 454,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.habitacion_usuario ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "tropa_propiedad": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 155,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.tropa_propiedad (\n    propiedad_id uuid REFERENCES public.propiedad(id) ON DELETE CASCADE,\n    tropa_id text REFERENCES public.configuracion_tropa(id),\n    cantidad integer DEFAULT 0 CHECK (cantidad >= 0),\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz,\n    PRIMARY KEY (propiedad_id, tropa_id)\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 455,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.tropa_propiedad ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "tropa_seguridad_propiedad": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 164,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.tropa_seguridad_propiedad (\n    propiedad_id uuid REFERENCES public.propiedad(id) ON DELETE CASCADE,\n    tropa_id text REFERENCES public.configuracion_tropa(id),\n    cantidad integer DEFAULT 0 CHECK (cantidad >= 0),\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz,\n    PRIMARY KEY (propiedad_id, tropa_id)\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 456,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.tropa_seguridad_propiedad ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "entrenamiento_usuario": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 173,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.entrenamiento_usuario (\n    usuario_id uuid REFERENCES public.usuario(id) ON DELETE CASCADE,\n    entrenamiento_id text REFERENCES public.configuracion_entrenamiento(id),\n    nivel integer DEFAULT 0,\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz,\n    PRIMARY KEY (usuario_id, entrenamiento_id)\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 457,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.entrenamiento_usuario ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "cola_construccion": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 183,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.cola_construccion (\n    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n    propiedad_id uuid REFERENCES public.propiedad(id) ON DELETE CASCADE,\n    habitacion_id text REFERENCES public.configuracion_habitacion(id),\n    nivel_destino integer NOT NULL,\n    duracion_segundos integer NOT NULL,\n    fecha_inicio timestamptz NOT NULL,\n    fecha_fin timestamptz,\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 402,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.cola_construccion ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "cola_investigacion": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 195,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.cola_investigacion (\n    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n    usuario_id uuid REFERENCES public.usuario(id) ON DELETE CASCADE,\n    propiedad_id uuid REFERENCES public.propiedad(id),\n    entrenamiento_id text REFERENCES public.configuracion_entrenamiento(id),\n    nivel_destino integer NOT NULL,\n    fecha_inicio timestamptz NOT NULL,\n    fecha_fin timestamptz NOT NULL,\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz,\n    UNIQUE (propiedad_id)\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 403,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.cola_investigacion ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "cola_reclutamiento": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 208,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.cola_reclutamiento (\n    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n    propiedad_id uuid REFERENCES public.propiedad(id) ON DELETE CASCADE,\n    tropa_id text REFERENCES public.configuracion_tropa(id),\n    cantidad integer NOT NULL,\n    fecha_inicio timestamptz NOT NULL,\n    fecha_fin timestamptz NOT NULL,\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz,\n    UNIQUE (propiedad_id)\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 404,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.cola_reclutamiento ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "familia": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 221,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.familia (\n    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n    nombre text NOT NULL UNIQUE,\n    etiqueta text NOT NULL UNIQUE,\n    descripcion text,\n    url_avatar text,\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 409,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.familia ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "miembro_familia": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 231,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.miembro_familia (\n    usuario_id uuid PRIMARY KEY REFERENCES public.usuario(id) ON DELETE CASCADE,\n    familia_id uuid REFERENCES public.familia(id) ON DELETE CASCADE,\n    rol rol_familia DEFAULT 'miembro',\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 410,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.miembro_familia ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "invitacion_familia": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 239,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.invitacion_familia (\n    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n    familia_id uuid REFERENCES public.familia(id) ON DELETE CASCADE,\n    usuario_id uuid REFERENCES public.usuario(id) ON DELETE CASCADE,\n    tipo text NOT NULL,\n    estado estado_invitacion DEFAULT 'pendiente',\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz,\n    UNIQUE (familia_id, usuario_id)\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 459,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.invitacion_familia ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "anuncio_familia": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 250,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.anuncio_familia (\n    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n    familia_id uuid REFERENCES public.familia(id) ON DELETE CASCADE,\n    autor_id uuid REFERENCES public.usuario(id) ON DELETE CASCADE,\n    contenido text NOT NULL,\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 460,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.anuncio_familia ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "cola_misiones": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 260,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.cola_misiones (\n    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n    usuario_id uuid REFERENCES public.usuario(id) ON DELETE CASCADE,\n    propiedad_origen_id uuid REFERENCES public.propiedad(id),\n    tipo_mision tipo_mision NOT NULL,\n    tropas jsonb NOT NULL,\n    recursos jsonb,\n    origen_ciudad integer NOT NULL,\n    origen_barrio integer NOT NULL,\n    origen_edificio integer NOT NULL,\n    destino_ciudad integer NOT NULL,\n    destino_barrio integer NOT NULL,\n    destino_edificio integer NOT NULL,\n    fecha_inicio timestamptz NOT NULL,\n    fecha_llegada timestamptz NOT NULL,\n    fecha_regreso timestamptz,\n    velocidad_flota integer NOT NULL,\n    duracion_viaje integer NOT NULL,\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 405,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.cola_misiones ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "cola_eventos_flota": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 282,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.cola_eventos_flota (\n    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n    datos jsonb NOT NULL,\n    estado text DEFAULT 'en_cola',\n    fecha_ejecucion timestamptz,\n    fecha_creacion timestamptz\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 458,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.cola_eventos_flota ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "informe_batalla": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 290,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.informe_batalla (\n    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n    atacante_id uuid REFERENCES public.usuario(id),\n    defensor_id uuid REFERENCES public.usuario(id),\n    coordenada_ciudad integer NOT NULL,\n    coordenada_barrio integer NOT NULL,\n    coordenada_edificio integer NOT NULL,\n    ganador text NOT NULL,\n    detalles jsonb NOT NULL,\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 407,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.informe_batalla ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "informe_espionaje": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 303,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.informe_espionaje (\n    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n    atacante_id uuid REFERENCES public.usuario(id),\n    defensor_id uuid REFERENCES public.usuario(id),\n    detalles jsonb NOT NULL,\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 408,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.informe_espionaje ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "mensaje": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 312,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.mensaje (\n    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n    remitente_id uuid REFERENCES public.usuario(id) ON DELETE SET NULL,\n    destinatario_id uuid REFERENCES public.usuario(id) ON DELETE CASCADE,\n    asunto text NOT NULL,\n    contenido text NOT NULL,\n    categoria categoria_mensaje DEFAULT 'jugador',\n    informe_batalla_id uuid REFERENCES public.informe_batalla(id) ON DELETE SET NULL,\n    informe_espionaje_id uuid REFERENCES public.informe_espionaje(id) ON DELETE SET NULL,\n    leido boolean DEFAULT false,\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 406,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.mensaje ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ],
+      "ataque_entrante": [
+        {
+          "file": "20250210_000001_consolidated_schema_tables.sql",
+          "line": 326,
+          "type": "CREATE_TABLE",
+          "code": "CREATE TABLE public.ataque_entrante (\n    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n    defensor_id uuid REFERENCES public.usuario(id),\n    atacante_id uuid REFERENCES public.usuario(id),\n    nombre_atacante text NOT NULL,\n    propiedad_objetivo text NOT NULL,\n    total_tropas integer NOT NULL,\n    fecha_llegada timestamptz NOT NULL,\n    mision_id uuid REFERENCES public.cola_misiones(id),\n    fecha_creacion timestamptz,\n    fecha_actualizacion timestamptz\n);\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 461,
+          "type": "ALTER_TABLE",
+          "code": "ALTER TABLE public.ataque_entrante ENABLE ROW LEVEL SECURITY;\n"
+        }
+      ]
+    },
+    "functions": {
+      "handle_new_user": [
+        {
+          "file": "20240726120000_initial_schema.sql",
+          "line": 30,
+          "type": "CREATE_FUNCTION",
+          "code": "create function public.handle_new_user()\nreturns trigger as $$\nbegin\n  insert into public.profiles (id, username)\n  values (new.id, new.raw_user_meta_data->>'username');\n  return new;\nend;\n$$ language plpgsql security definer;\n"
+        },
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 346,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.handle_new_user()\nRETURNS trigger AS $$\nBEGIN\n  INSERT INTO public.usuario (id, email, nombre_usuario)\n  VALUES (new.id, new.email, new.raw_user_meta_data->>'full_name');\n  INSERT INTO public.puntuacion_usuario (usuario_id)\n  VALUES (new.id);\n  RETURN new;\nEND;\n$$ LANGUAGE plpgsql SECURITY DEFINER;\n"
+        },
+        {
+          "file": "20250214_000000_secure_functions_search_path.sql",
+          "line": 346,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.handle_new_user()\nRETURNS trigger AS $$\nBEGIN\n  INSERT INTO public.usuario (id, email, nombre_usuario)\n  VALUES (new.id, new.email, new.raw_user_meta_data->>'full_name');\n  INSERT INTO public.puntuacion_usuario (usuario_id)\n  VALUES (new.id);\n  RETURN new;\nEND;\n$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = '';\n"
+        },
+        {
+          "file": "20250215_000000_fix_handle_new_user_null_username.sql",
+          "line": 1,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.handle_new_user()\nRETURNS trigger AS $$\nBEGIN\n  INSERT INTO public.usuario (id, email, nombre_usuario)\n  VALUES (\n    new.id,\n    new.email,\n    COALESCE(\n      new.raw_user_meta_data->>'full_name',\n      SPLIT_PART(new.email, '@', 1) || '_' || SUBSTRING(MD5(RANDOM()::TEXT), 1, 6)\n    )\n  );\n  INSERT INTO public.puntuacion_usuario (usuario_id)\n  VALUES (new.id);\n  RETURN new;\nEND;\n$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = '';\n"
+        }
+      ],
+      "materializar_recursos": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 2,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.materializar_recursos(p_propiedad_id uuid)\nRETURNS void AS $$\nDECLARE\n    v_propiedad record;\n    v_delta_tiempo real;\n    v_produccion_armas real;\n    v_produccion_municion real;\n    v_produccion_alcohol real;\n    v_produccion_dolares real;\n    v_capacidad_armas bigint;\n    v_capacidad_municion bigint;\n    v_capacidad_alcohol bigint;\n    v_capacidad_dolares bigint;\n    v_nuevo_stock_armas bigint;\n    v_nuevo_stock_municion bigint;\n    v_nuevo_stock_alcohol bigint;\n    v_nuevo_stock_dolares bigint;\n    v_consumo_alcohol real;\n    v_factor_conversion_alcohol_dolares real := 1.0; -- Ajustar este valor seg\u00fan la configuraci\u00f3n del juego\nBEGIN\n    -- Bloquear la fila de propiedad para evitar condiciones de carrera\n    SELECT * INTO v_propiedad FROM public.propiedad WHERE id = p_propiedad_id FOR UPDATE;\n\n    -- Calcular el tiempo transcurrido desde la \u00faltima actualizaci\u00f3n\n    v_delta_tiempo := EXTRACT(EPOCH FROM (NOW() - v_propiedad.ultima_recogida_recursos));\n\n    -- Si no ha pasado tiempo, salir\n    IF v_delta_tiempo <= 0 THEN\n        RETURN;\n    END IF;\n\n    -- Calcular la Tasa de Producci\u00f3n por Recurso\n    SELECT\n        COALESCE(SUM(CASE WHEN ch.recurso_producido = 'armas' THEN ch.produccion_base * hu.nivel ELSE 0 END), 0),\n        COALESCE(SUM(CASE WHEN ch.recurso_producido = 'municion' THEN ch.produccion_base * hu.nivel ELSE 0 END), 0),\n        COALESCE(SUM(CASE WHEN ch.recurso_producido = 'alcohol' THEN ch.produccion_base * hu.nivel ELSE 0 END), 0),\n        COALESCE(SUM(CASE WHEN ch.recurso_producido = 'dolares_por_alcohol' THEN ch.produccion_base * hu.nivel ELSE 0 END), 0)\n    INTO\n        v_produccion_armas,\n        v_produccion_municion,\n        v_produccion_alcohol,\n        v_produccion_dolares\n    FROM public.habitacion_usuario hu\n    JOIN public.configuracion_habitacion ch ON hu.habitacion_id = ch.id\n    WHERE hu.propiedad_id = p_propiedad_id;\n\n    -- Calcular Capacidad de Almacenamiento\n    SELECT\n        10000 + COALESCE(SUM(CASE WHEN hu.habitacion_id = 'almacen_de_armas' THEN hu.nivel * 10000 ELSE 0 END), 0),\n        10000 + COALESCE(SUM(CASE WHEN hu.habitacion_id = 'deposito_de_municion' THEN hu.nivel * 10000 ELSE 0 END), 0),\n        10000 + COALESCE(SUM(CASE WHEN hu.habitacion_id = 'almacen_de_alcohol' THEN hu.nivel * 10000 ELSE 0 END), 0),\n        10000 + COALESCE(SUM(CASE WHEN hu.habitacion_id = 'caja_fuerte' THEN hu.nivel * 10000 ELSE 0 END), 0)\n    INTO\n        v_capacidad_armas,\n        v_capacidad_municion,\n        v_capacidad_alcohol,\n        v_capacidad_dolares\n    FROM public.habitacion_usuario hu\n    WHERE hu.propiedad_id = p_propiedad_id;\n\n    -- Conversi\u00f3n Especial (Alcohol a D\u00f3lares)\n    IF v_produccion_dolares > 0 THEN\n        v_consumo_alcohol := (v_produccion_dolares / v_factor_conversion_alcohol_dolares) * v_delta_tiempo;\n        IF v_propiedad.alcohol < v_consumo_alcohol THEN\n            -- Ajustar producci\u00f3n de d\u00f3lares si no hay suficiente alcohol\n            v_produccion_dolares := (v_propiedad.alcohol / v_delta_tiempo) * v_factor_conversion_alcohol_dolares;\n            v_propiedad.alcohol := 0;\n        ELSE\n            v_propiedad.alcohol := v_propiedad.alcohol - v_consumo_alcohol;\n        END IF;\n    END IF;\n\n    -- Actualizar Stocks\n    v_nuevo_stock_armas := LEAST(v_capacidad_armas, v_propiedad.armas + (v_produccion_armas * v_delta_tiempo));\n    v_nuevo_stock_municion := LEAST(v_capacidad_municion, v_propiedad.municion + (v_produccion_municion * v_delta_tiempo));\n    v_nuevo_stock_alcohol := LEAST(v_capacidad_alcohol, v_propiedad.alcohol + (v_produccion_alcohol * v_delta_tiempo));\n    v_nuevo_stock_dolares := LEAST(v_capacidad_dolares, v_propiedad.dolares + (v_produccion_dolares * v_delta_tiempo));\n\n    -- Actualizar la tabla de propiedad\n    UPDATE public.propiedad\n    SET\n        armas = v_nuevo_stock_armas,\n        municion = v_nuevo_stock_municion,\n        alcohol = v_nuevo_stock_alcohol,\n        dolares = v_nuevo_stock_dolares,\n        ultima_recogida_recursos = NOW()\n    WHERE id = p_propiedad_id;\n\nEND;\n$$ LANGUAGE plpgsql;\n"
+        },
+        {
+          "file": "20250214_000000_secure_functions_search_path.sql",
+          "line": 2,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.materializar_recursos(p_propiedad_id uuid)\nRETURNS void AS $$\nDECLARE\n    v_propiedad record;\n    v_delta_tiempo real;\n    v_produccion_armas real;\n    v_produccion_municion real;\n    v_produccion_alcohol real;\n    v_produccion_dolares real;\n    v_capacidad_armas bigint;\n    v_capacidad_municion bigint;\n    v_capacidad_alcohol bigint;\n    v_capacidad_dolares bigint;\n    v_nuevo_stock_armas bigint;\n    v_nuevo_stock_municion bigint;\n    v_nuevo_stock_alcohol bigint;\n    v_nuevo_stock_dolares bigint;\n    v_consumo_alcohol real;\n    v_factor_conversion_alcohol_dolares real := 1.0; -- Ajustar este valor seg\u00fan la configuraci\u00f3n del juego\nBEGIN\n    -- Bloquear la fila de propiedad para evitar condiciones de carrera\n    SELECT * INTO v_propiedad FROM public.propiedad WHERE id = p_propiedad_id FOR UPDATE;\n\n    -- Calcular el tiempo transcurrido desde la \u00faltima actualizaci\u00f3n\n    v_delta_tiempo := EXTRACT(EPOCH FROM (NOW() - v_propiedad.ultima_recogida_recursos));\n\n    -- Si no ha pasado tiempo, salir\n    IF v_delta_tiempo <= 0 THEN\n        RETURN;\n    END IF;\n\n    -- Calcular la Tasa de Producci\u00f3n por Recurso\n    SELECT\n        COALESCE(SUM(CASE WHEN ch.recurso_producido = 'armas' THEN ch.produccion_base * hu.nivel ELSE 0 END), 0),\n        COALESCE(SUM(CASE WHEN ch.recurso_producido = 'municion' THEN ch.produccion_base * hu.nivel ELSE 0 END), 0),\n        COALESCE(SUM(CASE WHEN ch.recurso_producido = 'alcohol' THEN ch.produccion_base * hu.nivel ELSE 0 END), 0),\n        COALESCE(SUM(CASE WHEN ch.recurso_producido = 'dolares_por_alcohol' THEN ch.produccion_base * hu.nivel ELSE 0 END), 0)\n    INTO\n        v_produccion_armas,\n        v_produccion_municion,\n        v_produccion_alcohol,\n        v_produccion_dolares\n    FROM public.habitacion_usuario hu\n    JOIN public.configuracion_habitacion ch ON hu.habitacion_id = ch.id\n    WHERE hu.propiedad_id = p_propiedad_id;\n\n    -- Calcular Capacidad de Almacenamiento\n    SELECT\n        10000 + COALESCE(SUM(CASE WHEN hu.habitacion_id = 'almacen_de_armas' THEN hu.nivel * 10000 ELSE 0 END), 0),\n        10000 + COALESCE(SUM(CASE WHEN hu.habitacion_id = 'deposito_de_municion' THEN hu.nivel * 10000 ELSE 0 END), 0),\n        10000 + COALESCE(SUM(CASE WHEN hu.habitacion_id = 'almacen_de_alcohol' THEN hu.nivel * 10000 ELSE 0 END), 0),\n        10000 + COALESCE(SUM(CASE WHEN hu.habitacion_id = 'caja_fuerte' THEN hu.nivel * 10000 ELSE 0 END), 0)\n    INTO\n        v_capacidad_armas,\n        v_capacidad_municion,\n        v_capacidad_alcohol,\n        v_capacidad_dolares\n    FROM public.habitacion_usuario hu\n    WHERE hu.propiedad_id = p_propiedad_id;\n\n    -- Conversi\u00f3n Especial (Alcohol a D\u00f3lares)\n    IF v_produccion_dolares > 0 THEN\n        v_consumo_alcohol := (v_produccion_dolares / v_factor_conversion_alcohol_dolares) * v_delta_tiempo;\n        IF v_propiedad.alcohol < v_consumo_alcohol THEN\n            -- Ajustar producci\u00f3n de d\u00f3lares si no hay suficiente alcohol\n            v_produccion_dolares := (v_propiedad.alcohol / v_delta_tiempo) * v_factor_conversion_alcohol_dolares;\n            v_propiedad.alcohol := 0;\n        ELSE\n            v_propiedad.alcohol := v_propiedad.alcohol - v_consumo_alcohol;\n        END IF;\n    END IF;\n\n    -- Actualizar Stocks\n    v_nuevo_stock_armas := LEAST(v_capacidad_armas, v_propiedad.armas + (v_produccion_armas * v_delta_tiempo));\n    v_nuevo_stock_municion := LEAST(v_capacidad_municion, v_propiedad.municion + (v_produccion_municion * v_delta_tiempo));\n    v_nuevo_stock_alcohol := LEAST(v_capacidad_alcohol, v_propiedad.alcohol + (v_produccion_alcohol * v_delta_tiempo));\n    v_nuevo_stock_dolares := LEAST(v_capacidad_dolares, v_propiedad.dolares + (v_produccion_dolares * v_delta_tiempo));\n\n    -- Actualizar la tabla de propiedad\n    UPDATE public.propiedad\n    SET\n        armas = v_nuevo_stock_armas,\n        municion = v_nuevo_stock_municion,\n        alcohol = v_nuevo_stock_alcohol,\n        dolares = v_nuevo_stock_dolares,\n        ultima_recogida_recursos = NOW()\n    WHERE id = p_propiedad_id;\n\nEND;\n$$ LANGUAGE plpgsql SET search_path = '';\n"
+        }
+      ],
+      "iniciar_construccion_habitacion": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 94,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.iniciar_construccion_habitacion(p_propiedad_id uuid, p_habitacion_id text)\nRETURNS json AS $$\nDECLARE\n    v_configuracion_habitacion record;\n    v_propiedad record;\n    v_costo_total_armas bigint;\n    v_costo_total_municion bigint;\n    v_costo_total_dolares bigint;\n    v_fecha_inicio timestamptz;\n    v_fecha_fin timestamptz;\n    v_duracion_final integer;\n    v_nivel_oficina smallint;\n    v_factor_velocidad real := 1.0;\n    v_cola_count integer;\n    v_nivel_destino integer;\nBEGIN\n    -- Materializar recursos\n    PERFORM public.materializar_recursos(p_propiedad_id);\n\n    -- Obtener configuraci\u00f3n de la habitaci\u00f3n y datos de la propiedad\n    SELECT * INTO v_configuracion_habitacion FROM public.configuracion_habitacion WHERE id = p_habitacion_id;\n    SELECT * INTO v_propiedad FROM public.propiedad WHERE id = p_propiedad_id;\n\n    -- Verificar requisitos previos\n    IF EXISTS (\n        SELECT 1\n        FROM public.requisito_habitacion rh\n        WHERE rh.habitacion_id = p_habitacion_id\n        AND NOT EXISTS (\n            SELECT 1\n            FROM public.habitacion_usuario hu\n            WHERE hu.propiedad_id = p_propiedad_id\n            AND hu.habitacion_id = rh.habitacion_requerida_id\n            AND hu.nivel >= rh.nivel_requerido\n        )\n    ) THEN\n        RETURN json_build_object('error', 'Requisitos de construcci\u00f3n no cumplidos.');\n    END IF;\n\n    -- Verificar cola llena\n    SELECT COUNT(*) INTO v_cola_count FROM public.cola_construccion WHERE propiedad_id = p_propiedad_id;\n    IF v_cola_count >= 5 THEN\n        RETURN json_build_object('error', 'La cola de construcci\u00f3n est\u00e1 llena.');\n    END IF;\n\n    -- Calcular costos\n    v_costo_total_armas := v_configuracion_habitacion.costo_armas;\n    v_costo_total_municion := v_configuracion_habitacion.costo_municion;\n    v_costo_total_dolares := v_configuracion_habitacion.costo_dolares;\n\n    -- Verificar recursos suficientes\n    IF v_propiedad.armas < v_costo_total_armas OR v_propiedad.municion < v_costo_total_municion OR v_propiedad.dolares < v_costo_total_dolares THEN\n        RETURN json_build_object('error', 'Recursos insuficientes.');\n    END IF;\n\n    -- Deducir recursos\n    UPDATE public.propiedad\n    SET\n        armas = armas - v_costo_total_armas,\n        municion = municion - v_costo_total_municion,\n        dolares = dolares - v_costo_total_dolares\n    WHERE id = p_propiedad_id;\n\n    -- Calcular fecha de inicio y fin\n    SELECT COALESCE(MAX(fecha_fin), NOW()) INTO v_fecha_inicio FROM public.cola_construccion WHERE propiedad_id = p_propiedad_id;\n\n    -- Aplicar factor de velocidad de la oficina\n    SELECT nivel INTO v_nivel_oficina FROM public.habitacion_usuario WHERE propiedad_id = p_propiedad_id AND habitacion_id = 'oficina_del_jefe';\n    IF v_nivel_oficina > 0 THEN\n        v_factor_velocidad := 1.0 - (v_nivel_oficina * 0.05); -- 5% de reducci\u00f3n por nivel\n    END IF;\n    v_duracion_final := v_configuracion_habitacion.duracion_construccion * v_factor_velocidad;\n    v_fecha_fin := v_fecha_inicio + make_interval(secs => v_duracion_final);\n\n    -- Calcular el nivel de destino correcto\n    SELECT\n        GREATEST(\n            (SELECT COALESCE(MAX(nivel), 0) FROM public.habitacion_usuario WHERE propiedad_id = p_propiedad_id AND habitacion_id = p_habitacion_id),\n            (SELECT COALESCE(MAX(nivel_destino), 0) FROM public.cola_construccion WHERE propiedad_id = p_propiedad_id AND habitacion_id = p_habitacion_id)\n        ) + 1\n    INTO v_nivel_destino;\n\n    -- Insertar en la cola de construcci\u00f3n\n    INSERT INTO public.cola_construccion (propiedad_id, habitacion_id, nivel_destino, duracion_segundos, fecha_inicio, fecha_fin)\n    VALUES (p_propiedad_id, p_habitacion_id, v_nivel_destino, v_duracion_final, v_fecha_inicio, v_fecha_fin);\n\n    RETURN json_build_object('success', true, 'fecha_inicio', v_fecha_inicio, 'fecha_fin', v_fecha_fin);\nEND;\n$$ LANGUAGE plpgsql;\n"
+        },
+        {
+          "file": "20250214_000000_secure_functions_search_path.sql",
+          "line": 94,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.iniciar_construccion_habitacion(p_propiedad_id uuid, p_habitacion_id text)\nRETURNS json AS $$\nDECLARE\n    v_configuracion_habitacion record;\n    v_propiedad record;\n    v_costo_total_armas bigint;\n    v_costo_total_municion bigint;\n    v_costo_total_dolares bigint;\n    v_fecha_inicio timestamptz;\n    v_fecha_fin timestamptz;\n    v_duracion_final integer;\n    v_nivel_oficina smallint;\n    v_factor_velocidad real := 1.0;\n    v_cola_count integer;\n    v_nivel_destino integer;\nBEGIN\n    -- Materializar recursos\n    PERFORM public.materializar_recursos(p_propiedad_id);\n\n    -- Obtener configuraci\u00f3n de la habitaci\u00f3n y datos de la propiedad\n    SELECT * INTO v_configuracion_habitacion FROM public.configuracion_habitacion WHERE id = p_habitacion_id;\n    SELECT * INTO v_propiedad FROM public.propiedad WHERE id = p_propiedad_id;\n\n    -- Verificar requisitos previos\n    IF EXISTS (\n        SELECT 1\n        FROM public.requisito_habitacion rh\n        WHERE rh.habitacion_id = p_habitacion_id\n        AND NOT EXISTS (\n            SELECT 1\n            FROM public.habitacion_usuario hu\n            WHERE hu.propiedad_id = p_propiedad_id\n            AND hu.habitacion_id = rh.habitacion_requerida_id\n            AND hu.nivel >= rh.nivel_requerido\n        )\n    ) THEN\n        RETURN json_build_object('error', 'Requisitos de construcci\u00f3n no cumplidos.');\n    END IF;\n\n    -- Verificar cola llena\n    SELECT COUNT(*) INTO v_cola_count FROM public.cola_construccion WHERE propiedad_id = p_propiedad_id;\n    IF v_cola_count >= 5 THEN\n        RETURN json_build_object('error', 'La cola de construcci\u00f3n est\u00e1 llena.');\n    END IF;\n\n    -- Calcular costos\n    v_costo_total_armas := v_configuracion_habitacion.costo_armas;\n    v_costo_total_municion := v_configuracion_habitacion.costo_municion;\n    v_costo_total_dolares := v_configuracion_habitacion.costo_dolares;\n\n    -- Verificar recursos suficientes\n    IF v_propiedad.armas < v_costo_total_armas OR v_propiedad.municion < v_costo_total_municion OR v_propiedad.dolares < v_costo_total_dolares THEN\n        RETURN json_build_object('error', 'Recursos insuficientes.');\n    END IF;\n\n    -- Deducir recursos\n    UPDATE public.propiedad\n    SET\n        armas = armas - v_costo_total_armas,\n        municion = municion - v_costo_total_municion,\n        dolares = dolares - v_costo_total_dolares\n    WHERE id = p_propiedad_id;\n\n    -- Calcular fecha de inicio y fin\n    SELECT COALESCE(MAX(fecha_fin), NOW()) INTO v_fecha_inicio FROM public.cola_construccion WHERE propiedad_id = p_propiedad_id;\n\n    -- Aplicar factor de velocidad de la oficina\n    SELECT nivel INTO v_nivel_oficina FROM public.habitacion_usuario WHERE propiedad_id = p_propiedad_id AND habitacion_id = 'oficina_del_jefe';\n    IF v_nivel_oficina > 0 THEN\n        v_factor_velocidad := 1.0 - (v_nivel_oficina * 0.05); -- 5% de reducci\u00f3n por nivel\n    END IF;\n    v_duracion_final := v_configuracion_habitacion.duracion_construccion * v_factor_velocidad;\n    v_fecha_fin := v_fecha_inicio + make_interval(secs => v_duracion_final);\n\n    -- Calcular el nivel de destino correcto\n    SELECT\n        GREATEST(\n            (SELECT COALESCE(MAX(nivel), 0) FROM public.habitacion_usuario WHERE propiedad_id = p_propiedad_id AND habitacion_id = p_habitacion_id),\n            (SELECT COALESCE(MAX(nivel_destino), 0) FROM public.cola_construccion WHERE propiedad_id = p_propiedad_id AND habitacion_id = p_habitacion_id)\n        ) + 1\n    INTO v_nivel_destino;\n\n    -- Insertar en la cola de construcci\u00f3n\n    INSERT INTO public.cola_construccion (propiedad_id, habitacion_id, nivel_destino, duracion_segundos, fecha_inicio, fecha_fin)\n    VALUES (p_propiedad_id, p_habitacion_id, v_nivel_destino, v_duracion_final, v_fecha_inicio, v_fecha_fin);\n\n    RETURN json_build_object('success', true, 'fecha_inicio', v_fecha_inicio, 'fecha_fin', v_fecha_fin);\nEND;\n$$ LANGUAGE plpgsql SET search_path = '';\n"
+        },
+        {
+          "file": "20250524000001_fix_construction_rpc_security.sql",
+          "line": 6,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.iniciar_construccion_habitacion(p_propiedad_id uuid, p_habitacion_id text)\nRETURNS json AS $$\nDECLARE\n    v_configuracion_habitacion record;\n    v_propiedad record;\n    v_costo_total_armas bigint;\n    v_costo_total_municion bigint;\n    v_costo_total_dolares bigint;\n    v_fecha_inicio timestamptz;\n    v_fecha_fin timestamptz;\n    v_duracion_final integer;\n    v_nivel_oficina smallint;\n    v_factor_velocidad real := 1.0;\n    v_cola_count integer;\n    v_nivel_destino integer;\nBEGIN\n    -- Materializar recursos\n    PERFORM public.materializar_recursos(p_propiedad_id);\n\n    -- Obtener configuraci\u00f3n de la habitaci\u00f3n y datos de la propiedad\n    SELECT * INTO v_configuracion_habitacion FROM public.configuracion_habitacion WHERE id = p_habitacion_id;\n    SELECT * INTO v_propiedad FROM public.propiedad WHERE id = p_propiedad_id;\n\n    -- Verificar requisitos previos\n    IF EXISTS (\n        SELECT 1\n        FROM public.requisito_habitacion rh\n        WHERE rh.habitacion_id = p_habitacion_id\n        AND NOT EXISTS (\n            SELECT 1\n            FROM public.habitacion_usuario hu\n            WHERE hu.propiedad_id = p_propiedad_id\n            AND hu.habitacion_id = rh.habitacion_requerida_id\n            AND hu.nivel >= rh.nivel_requerido\n        )\n    ) THEN\n        RETURN json_build_object('error', 'Requisitos de construcci\u00f3n no cumplidos.');\n    END IF;\n\n    -- Verificar cola llena\n    SELECT COUNT(*) INTO v_cola_count FROM public.cola_construccion WHERE propiedad_id = p_propiedad_id;\n    IF v_cola_count >= 5 THEN\n        RETURN json_build_object('error', 'La cola de construcci\u00f3n est\u00e1 llena.');\n    END IF;\n\n    -- Calcular costos\n    v_costo_total_armas := v_configuracion_habitacion.costo_armas;\n    v_costo_total_municion := v_configuracion_habitacion.costo_municion;\n    v_costo_total_dolares := v_configuracion_habitacion.costo_dolares;\n\n    -- Verificar recursos suficientes\n    IF v_propiedad.armas < v_costo_total_armas OR v_propiedad.municion < v_costo_total_municion OR v_propiedad.dolares < v_costo_total_dolares THEN\n        RETURN json_build_object('error', 'Recursos insuficientes.');\n    END IF;\n\n    -- Deducir recursos\n    UPDATE public.propiedad\n    SET\n        armas = armas - v_costo_total_armas,\n        municion = municion - v_costo_total_municion,\n        dolares = dolares - v_costo_total_dolares\n    WHERE id = p_propiedad_id;\n\n    -- Calcular fecha de inicio y fin\n    SELECT COALESCE(MAX(fecha_fin), NOW()) INTO v_fecha_inicio FROM public.cola_construccion WHERE propiedad_id = p_propiedad_id;\n\n    -- Aplicar factor de velocidad de la oficina\n    SELECT nivel INTO v_nivel_oficina FROM public.habitacion_usuario WHERE propiedad_id = p_propiedad_id AND habitacion_id = 'oficina_del_jefe';\n    IF v_nivel_oficina > 0 THEN\n        v_factor_velocidad := 1.0 - (v_nivel_oficina * 0.05); -- 5% de reducci\u00f3n por nivel\n    END IF;\n    v_duracion_final := v_configuracion_habitacion.duracion_construccion * v_factor_velocidad;\n    v_fecha_fin := v_fecha_inicio + make_interval(secs => v_duracion_final);\n\n    -- Calcular el nivel de destino correcto\n    SELECT\n        GREATEST(\n            (SELECT COALESCE(MAX(nivel), 0) FROM public.habitacion_usuario WHERE propiedad_id = p_propiedad_id AND habitacion_id = p_habitacion_id),\n            (SELECT COALESCE(MAX(nivel_destino), 0) FROM public.cola_construccion WHERE propiedad_id = p_propiedad_id AND habitacion_id = p_habitacion_id)\n        ) + 1\n    INTO v_nivel_destino;\n\n    -- Insertar en la cola de construcci\u00f3n\n    INSERT INTO public.cola_construccion (propiedad_id, habitacion_id, nivel_destino, duracion_segundos, fecha_inicio, fecha_fin)\n    VALUES (p_propiedad_id, p_habitacion_id, v_nivel_destino, v_duracion_final, v_fecha_inicio, v_fecha_fin);\n\n    RETURN json_build_object('success', true, 'fecha_inicio', v_fecha_inicio, 'fecha_fin', v_fecha_fin);\nEND;\n$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;\n"
+        }
+      ],
+      "procesar_colas": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 184,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.procesar_colas()\nRETURNS void AS $$\nDECLARE\n    v_item_construccion record;\n    v_item_investigacion record;\n    v_item_reclutamiento record;\nBEGIN\n    -- Procesar cola de construcci\u00f3n\n    FOR v_item_construccion IN SELECT * FROM public.cola_construccion WHERE fecha_fin <= NOW() LOOP\n        -- Actualizar o insertar habitaci\u00f3n\n        IF EXISTS (SELECT 1 FROM public.habitacion_usuario WHERE propiedad_id = v_item_construccion.propiedad_id AND habitacion_id = v_item_construccion.habitacion_id) THEN\n            UPDATE public.habitacion_usuario SET nivel = nivel + 1 WHERE propiedad_id = v_item_construccion.propiedad_id AND habitacion_id = v_item_construccion.habitacion_id;\n        ELSE\n            INSERT INTO public.habitacion_usuario (propiedad_id, habitacion_id, nivel) VALUES (v_item_construccion.propiedad_id, v_item_construccion.habitacion_id, 1);\n        END IF;\n        -- Eliminar de la cola\n        DELETE FROM public.cola_construccion WHERE id = v_item_construccion.id;\n    END LOOP;\n\n    -- Procesar cola de investigaci\u00f3n\n    FOR v_item_investigacion IN SELECT * FROM public.cola_investigacion WHERE fecha_fin <= NOW() LOOP\n        INSERT INTO public.entrenamiento_usuario (usuario_id, entrenamiento_id, nivel)\n        VALUES (v_item_investigacion.usuario_id, v_item_investigacion.entrenamiento_id, 1)\n        ON CONFLICT (usuario_id, entrenamiento_id) DO UPDATE SET nivel = public.entrenamiento_usuario.nivel + 1;\n        DELETE FROM public.cola_investigacion WHERE id = v_item_investigacion.id;\n    END LOOP;\n\n    -- Procesar cola de reclutamiento\n    FOR v_item_reclutamiento IN SELECT * FROM public.cola_reclutamiento WHERE fecha_fin <= NOW() LOOP\n        INSERT INTO public.tropa_propiedad (propiedad_id, tropa_id, cantidad)\n        VALUES (v_item_reclutamiento.propiedad_id, v_item_reclutamiento.tropa_id, v_item_reclutamiento.cantidad)\n        ON CONFLICT (propiedad_id, tropa_id) DO UPDATE SET cantidad = public.tropa_propiedad.cantidad + v_item_reclutamiento.cantidad;\n        DELETE FROM public.cola_reclutamiento WHERE id = v_item_reclutamiento.id;\n    END LOOP;\nEND;\n$$ LANGUAGE plpgsql;\n"
+        },
+        {
+          "file": "20250214_000000_secure_functions_search_path.sql",
+          "line": 184,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.procesar_colas()\nRETURNS void AS $$\nDECLARE\n    v_item_construccion record;\n    v_item_investigacion record;\n    v_item_reclutamiento record;\nBEGIN\n    -- Procesar cola de construcci\u00f3n\n    FOR v_item_construccion IN SELECT * FROM public.cola_construccion WHERE fecha_fin <= NOW() LOOP\n        -- Actualizar o insertar habitaci\u00f3n\n        IF EXISTS (SELECT 1 FROM public.habitacion_usuario WHERE propiedad_id = v_item_construccion.propiedad_id AND habitacion_id = v_item_construccion.habitacion_id) THEN\n            UPDATE public.habitacion_usuario SET nivel = nivel + 1 WHERE propiedad_id = v_item_construccion.propiedad_id AND habitacion_id = v_item_construccion.habitacion_id;\n        ELSE\n            INSERT INTO public.habitacion_usuario (propiedad_id, habitacion_id, nivel) VALUES (v_item_construccion.propiedad_id, v_item_construccion.habitacion_id, 1);\n        END IF;\n        -- Eliminar de la cola\n        DELETE FROM public.cola_construccion WHERE id = v_item_construccion.id;\n    END LOOP;\n\n    -- Procesar cola de investigaci\u00f3n\n    FOR v_item_investigacion IN SELECT * FROM public.cola_investigacion WHERE fecha_fin <= NOW() LOOP\n        INSERT INTO public.entrenamiento_usuario (usuario_id, entrenamiento_id, nivel)\n        VALUES (v_item_investigacion.usuario_id, v_item_investigacion.entrenamiento_id, 1)\n        ON CONFLICT (usuario_id, entrenamiento_id) DO UPDATE SET nivel = public.entrenamiento_usuario.nivel + 1;\n        DELETE FROM public.cola_investigacion WHERE id = v_item_investigacion.id;\n    END LOOP;\n\n    -- Procesar cola de reclutamiento\n    FOR v_item_reclutamiento IN SELECT * FROM public.cola_reclutamiento WHERE fecha_fin <= NOW() LOOP\n        INSERT INTO public.tropa_propiedad (propiedad_id, tropa_id, cantidad)\n        VALUES (v_item_reclutamiento.propiedad_id, v_item_reclutamiento.tropa_id, v_item_reclutamiento.cantidad)\n        ON CONFLICT (propiedad_id, tropa_id) DO UPDATE SET cantidad = public.tropa_propiedad.cantidad + v_item_reclutamiento.cantidad;\n        DELETE FROM public.cola_reclutamiento WHERE id = v_item_reclutamiento.id;\n    END LOOP;\nEND;\n$$ LANGUAGE plpgsql SET search_path = '';\n"
+        }
+      ],
+      "iniciar_entrenamiento": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 222,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.iniciar_entrenamiento(p_propiedad_id uuid, p_entrenamiento_id text)\nRETURNS json AS $$\nDECLARE\n    v_configuracion_entrenamiento record;\n    v_propiedad record;\n    v_usuario_id uuid;\nBEGIN\n    -- Materializar recursos\n    PERFORM public.materializar_recursos(p_propiedad_id);\n\n    -- Obtener usuario_id de la propiedad\n    SELECT usuario_id INTO v_usuario_id FROM public.propiedad WHERE id = p_propiedad_id;\n\n    -- Validar que no haya otra investigaci\u00f3n en curso\n    IF EXISTS (SELECT 1 FROM public.cola_investigacion WHERE propiedad_id = p_propiedad_id) THEN\n        RETURN json_build_object('error', 'Ya hay una investigaci\u00f3n en curso.');\n    END IF;\n\n    -- Obtener configuraci\u00f3n y datos\n    SELECT * INTO v_configuracion_entrenamiento FROM public.configuracion_entrenamiento WHERE id = p_entrenamiento_id;\n    SELECT * INTO v_propiedad FROM public.propiedad WHERE id = p_propiedad_id;\n\n    -- Verificar requisitos\n    IF EXISTS (\n        SELECT 1\n        FROM public.requisito_entrenamiento re\n        WHERE re.entrenamiento_id = p_entrenamiento_id\n        AND NOT EXISTS (\n            SELECT 1\n            FROM public.entrenamiento_usuario eu\n            WHERE eu.usuario_id = v_usuario_id\n            AND eu.entrenamiento_id = re.entrenamiento_requerido_id\n            AND eu.nivel >= re.nivel_requerido\n        )\n    ) THEN\n        RETURN json_build_object('error', 'Requisitos de entrenamiento no cumplidos.');\n    END IF;\n\n    -- Verificar y deducir recursos\n    IF v_propiedad.armas < v_configuracion_entrenamiento.costo_armas OR v_propiedad.municion < v_configuracion_entrenamiento.costo_municion OR v_propiedad.dolares < v_configuracion_entrenamiento.costo_dolares THEN\n        RETURN json_build_object('error', 'Recursos insuficientes.');\n    END IF;\n\n    UPDATE public.propiedad\n    SET\n        armas = armas - v_configuracion_entrenamiento.costo_armas,\n        municion = municion - v_configuracion_entrenamiento.costo_municion,\n        dolares = dolares - v_configuracion_entrenamiento.costo_dolares\n    WHERE id = p_propiedad_id;\n\n    -- Insertar en la cola de investigaci\u00f3n\n    INSERT INTO public.cola_investigacion (usuario_id, propiedad_id, entrenamiento_id, nivel_destino, fecha_inicio, fecha_fin)\n    VALUES (v_usuario_id, p_propiedad_id, p_entrenamiento_id, (SELECT COALESCE(MAX(nivel), 0) + 1 FROM public.entrenamiento_usuario WHERE usuario_id = v_usuario_id AND entrenamiento_id = p_entrenamiento_id), NOW(), NOW() + make_interval(secs => v_configuracion_entrenamiento.duracion_entrenamiento));\n\n    RETURN json_build_object('success', true);\nEND;\n$$ LANGUAGE plpgsql;\n"
+        },
+        {
+          "file": "20250214_000000_secure_functions_search_path.sql",
+          "line": 222,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.iniciar_entrenamiento(p_propiedad_id uuid, p_entrenamiento_id text)\nRETURNS json AS $$\nDECLARE\n    v_configuracion_entrenamiento record;\n    v_propiedad record;\n    v_usuario_id uuid;\nBEGIN\n    -- Materializar recursos\n    PERFORM public.materializar_recursos(p_propiedad_id);\n\n    -- Obtener usuario_id de la propiedad\n    SELECT usuario_id INTO v_usuario_id FROM public.propiedad WHERE id = p_propiedad_id;\n\n    -- Validar que no haya otra investigaci\u00f3n en curso\n    IF EXISTS (SELECT 1 FROM public.cola_investigacion WHERE propiedad_id = p_propiedad_id) THEN\n        RETURN json_build_object('error', 'Ya hay una investigaci\u00f3n en curso.');\n    END IF;\n\n    -- Obtener configuraci\u00f3n y datos\n    SELECT * INTO v_configuracion_entrenamiento FROM public.configuracion_entrenamiento WHERE id = p_entrenamiento_id;\n    SELECT * INTO v_propiedad FROM public.propiedad WHERE id = p_propiedad_id;\n\n    -- Verificar requisitos\n    IF EXISTS (\n        SELECT 1\n        FROM public.requisito_entrenamiento re\n        WHERE re.entrenamiento_id = p_entrenamiento_id\n        AND NOT EXISTS (\n            SELECT 1\n            FROM public.entrenamiento_usuario eu\n            WHERE eu.usuario_id = v_usuario_id\n            AND eu.entrenamiento_id = re.entrenamiento_requerido_id\n            AND eu.nivel >= re.nivel_requerido\n        )\n    ) THEN\n        RETURN json_build_object('error', 'Requisitos de entrenamiento no cumplidos.');\n    END IF;\n\n    -- Verificar y deducir recursos\n    IF v_propiedad.armas < v_configuracion_entrenamiento.costo_armas OR v_propiedad.municion < v_configuracion_entrenamiento.costo_municion OR v_propiedad.dolares < v_configuracion_entrenamiento.costo_dolares THEN\n        RETURN json_build_object('error', 'Recursos insuficientes.');\n    END IF;\n\n    UPDATE public.propiedad\n    SET\n        armas = armas - v_configuracion_entrenamiento.costo_armas,\n        municion = municion - v_configuracion_entrenamiento.costo_municion,\n        dolares = dolares - v_configuracion_entrenamiento.costo_dolares\n    WHERE id = p_propiedad_id;\n\n    -- Insertar en la cola de investigaci\u00f3n\n    INSERT INTO public.cola_investigacion (usuario_id, propiedad_id, entrenamiento_id, nivel_destino, fecha_inicio, fecha_fin)\n    VALUES (v_usuario_id, p_propiedad_id, p_entrenamiento_id, (SELECT COALESCE(MAX(nivel), 0) + 1 FROM public.entrenamiento_usuario WHERE usuario_id = v_usuario_id AND entrenamiento_id = p_entrenamiento_id), NOW(), NOW() + make_interval(secs => v_configuracion_entrenamiento.duracion_entrenamiento));\n\n    RETURN json_build_object('success', true);\nEND;\n$$ LANGUAGE plpgsql SET search_path = '';\n"
+        },
+        {
+          "file": "20250524000001_fix_construction_rpc_security.sql",
+          "line": 97,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.iniciar_entrenamiento(p_propiedad_id uuid, p_entrenamiento_id text)\nRETURNS json AS $$\nDECLARE\n    v_configuracion_entrenamiento record;\n    v_propiedad record;\n    v_usuario_id uuid;\nBEGIN\n    -- Materializar recursos\n    PERFORM public.materializar_recursos(p_propiedad_id);\n\n    -- Obtener usuario_id de la propiedad\n    SELECT usuario_id INTO v_usuario_id FROM public.propiedad WHERE id = p_propiedad_id;\n\n    -- Validar que no haya otra investigaci\u00f3n en curso\n    IF EXISTS (SELECT 1 FROM public.cola_investigacion WHERE propiedad_id = p_propiedad_id) THEN\n        RETURN json_build_object('error', 'Ya hay una investigaci\u00f3n en curso.');\n    END IF;\n\n    -- Obtener configuraci\u00f3n y datos\n    SELECT * INTO v_configuracion_entrenamiento FROM public.configuracion_entrenamiento WHERE id = p_entrenamiento_id;\n    SELECT * INTO v_propiedad FROM public.propiedad WHERE id = p_propiedad_id;\n\n    -- Verificar requisitos\n    IF EXISTS (\n        SELECT 1\n        FROM public.requisito_entrenamiento re\n        WHERE re.entrenamiento_id = p_entrenamiento_id\n        AND NOT EXISTS (\n            SELECT 1\n            FROM public.entrenamiento_usuario eu\n            WHERE eu.usuario_id = v_usuario_id\n            AND eu.entrenamiento_id = re.entrenamiento_requerido_id\n            AND eu.nivel >= re.nivel_requerido\n        )\n    ) THEN\n        RETURN json_build_object('error', 'Requisitos de entrenamiento no cumplidos.');\n    END IF;\n\n    -- Verificar y deducir recursos\n    IF v_propiedad.armas < v_configuracion_entrenamiento.costo_armas OR v_propiedad.municion < v_configuracion_entrenamiento.costo_municion OR v_propiedad.dolares < v_configuracion_entrenamiento.costo_dolares THEN\n        RETURN json_build_object('error', 'Recursos insuficientes.');\n    END IF;\n\n    UPDATE public.propiedad\n    SET\n        armas = armas - v_configuracion_entrenamiento.costo_armas,\n        municion = municion - v_configuracion_entrenamiento.costo_municion,\n        dolares = dolares - v_configuracion_entrenamiento.costo_dolares\n    WHERE id = p_propiedad_id;\n\n    -- Insertar en la cola de investigaci\u00f3n\n    INSERT INTO public.cola_investigacion (usuario_id, propiedad_id, entrenamiento_id, nivel_destino, fecha_inicio, fecha_fin)\n    VALUES (v_usuario_id, p_propiedad_id, p_entrenamiento_id, (SELECT COALESCE(MAX(nivel), 0) + 1 FROM public.entrenamiento_usuario WHERE usuario_id = v_usuario_id AND entrenamiento_id = p_entrenamiento_id), NOW(), NOW() + make_interval(secs => v_configuracion_entrenamiento.duracion_entrenamiento));\n\n    RETURN json_build_object('success', true);\nEND;\n$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;\n"
+        }
+      ],
+      "iniciar_reclutamiento": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 281,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.iniciar_reclutamiento(p_propiedad_id uuid, p_tropa_id text, p_cantidad integer)\nRETURNS json AS $$\nDECLARE\n    v_configuracion_tropa record;\n    v_propiedad record;\n    v_costo_total_armas bigint;\n    v_costo_total_municion bigint;\n    v_costo_total_dolares bigint;\nBEGIN\n    -- Materializar recursos\n    PERFORM public.materializar_recursos(p_propiedad_id);\n\n    -- Validar que no haya otro reclutamiento en curso\n    IF EXISTS (SELECT 1 FROM public.cola_reclutamiento WHERE propiedad_id = p_propiedad_id) THEN\n        RETURN json_build_object('error', 'Ya hay un reclutamiento en curso.');\n    END IF;\n\n    -- Obtener configuraci\u00f3n y datos\n    SELECT * INTO v_configuracion_tropa FROM public.configuracion_tropa WHERE id = p_tropa_id;\n    SELECT * INTO v_propiedad FROM public.propiedad WHERE id = p_propiedad_id;\n\n    -- Calcular costos totales\n    v_costo_total_armas := v_configuracion_tropa.costo_armas * p_cantidad;\n    v_costo_total_municion := v_configuracion_tropa.costo_municion * p_cantidad;\n    v_costo_total_dolares := v_configuracion_tropa.costo_dolares * p_cantidad;\n\n    -- Verificar requisitos\n    IF EXISTS (\n        SELECT 1\n        FROM jsonb_each_text(v_configuracion_tropa.requisitos) AS req\n        WHERE NOT EXISTS (\n            SELECT 1\n            FROM public.habitacion_usuario hu\n            WHERE hu.propiedad_id = p_propiedad_id\n            AND hu.habitacion_id = req.key\n            AND hu.nivel >= (req.value)::integer\n        )\n    ) THEN\n        RETURN json_build_object('error', 'Requisitos de reclutamiento no cumplidos.');\n    END IF;\n\n    -- Verificar y deducir recursos\n    IF v_propiedad.armas < v_costo_total_armas OR v_propiedad.municion < v_costo_total_municion OR v_propiedad.dolares < v_costo_total_dolares THEN\n        RETURN json_build_object('error', 'Recursos insuficientes.');\n    END IF;\n\n    UPDATE public.propiedad\n    SET\n        armas = armas - v_costo_total_armas,\n        municion = municion - v_costo_total_municion,\n        dolares = dolares - v_costo_total_dolares\n    WHERE id = p_propiedad_id;\n\n    -- Insertar en la cola de reclutamiento\n    INSERT INTO public.cola_reclutamiento (propiedad_id, tropa_id, cantidad, fecha_inicio, fecha_fin)\n    VALUES (p_propiedad_id, p_tropa_id, p_cantidad, NOW(), NOW() + make_interval(secs => v_configuracion_tropa.duracion_reclutamiento * p_cantidad));\n\n    RETURN json_build_object('success', true);\nEND;\n$$ LANGUAGE plpgsql;\n"
+        },
+        {
+          "file": "20250214_000000_secure_functions_search_path.sql",
+          "line": 281,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.iniciar_reclutamiento(p_propiedad_id uuid, p_tropa_id text, p_cantidad integer)\nRETURNS json AS $$\nDECLARE\n    v_configuracion_tropa record;\n    v_propiedad record;\n    v_costo_total_armas bigint;\n    v_costo_total_municion bigint;\n    v_costo_total_dolares bigint;\nBEGIN\n    -- Materializar recursos\n    PERFORM public.materializar_recursos(p_propiedad_id);\n\n    -- Validar que no haya otro reclutamiento en curso\n    IF EXISTS (SELECT 1 FROM public.cola_reclutamiento WHERE propiedad_id = p_propiedad_id) THEN\n        RETURN json_build_object('error', 'Ya hay un reclutamiento en curso.');\n    END IF;\n\n    -- Obtener configuraci\u00f3n y datos\n    SELECT * INTO v_configuracion_tropa FROM public.configuracion_tropa WHERE id = p_tropa_id;\n    SELECT * INTO v_propiedad FROM public.propiedad WHERE id = p_propiedad_id;\n\n    -- Calcular costos totales\n    v_costo_total_armas := v_configuracion_tropa.costo_armas * p_cantidad;\n    v_costo_total_municion := v_configuracion_tropa.costo_municion * p_cantidad;\n    v_costo_total_dolares := v_configuracion_tropa.costo_dolares * p_cantidad;\n\n    -- Verificar requisitos\n    IF EXISTS (\n        SELECT 1\n        FROM jsonb_each_text(v_configuracion_tropa.requisitos) AS req\n        WHERE NOT EXISTS (\n            SELECT 1\n            FROM public.habitacion_usuario hu\n            WHERE hu.propiedad_id = p_propiedad_id\n            AND hu.habitacion_id = req.key\n            AND hu.nivel >= (req.value)::integer\n        )\n    ) THEN\n        RETURN json_build_object('error', 'Requisitos de reclutamiento no cumplidos.');\n    END IF;\n\n    -- Verificar y deducir recursos\n    IF v_propiedad.armas < v_costo_total_armas OR v_propiedad.municion < v_costo_total_municion OR v_propiedad.dolares < v_costo_total_dolares THEN\n        RETURN json_build_object('error', 'Recursos insuficientes.');\n    END IF;\n\n    UPDATE public.propiedad\n    SET\n        armas = armas - v_costo_total_armas,\n        municion = municion - v_costo_total_municion,\n        dolares = dolares - v_costo_total_dolares\n    WHERE id = p_propiedad_id;\n\n    -- Insertar en la cola de reclutamiento\n    INSERT INTO public.cola_reclutamiento (propiedad_id, tropa_id, cantidad, fecha_inicio, fecha_fin)\n    VALUES (p_propiedad_id, p_tropa_id, p_cantidad, NOW(), NOW() + make_interval(secs => v_configuracion_tropa.duracion_reclutamiento * p_cantidad));\n\n    RETURN json_build_object('success', true);\nEND;\n$$ LANGUAGE plpgsql SET search_path = '';\n"
+        },
+        {
+          "file": "20250524000001_fix_construction_rpc_security.sql",
+          "line": 156,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.iniciar_reclutamiento(p_propiedad_id uuid, p_tropa_id text, p_cantidad integer)\nRETURNS json AS $$\nDECLARE\n    v_configuracion_tropa record;\n    v_propiedad record;\n    v_costo_total_armas bigint;\n    v_costo_total_municion bigint;\n    v_costo_total_dolares bigint;\nBEGIN\n    -- Materializar recursos\n    PERFORM public.materializar_recursos(p_propiedad_id);\n\n    -- Validar que no haya otro reclutamiento en curso\n    IF EXISTS (SELECT 1 FROM public.cola_reclutamiento WHERE propiedad_id = p_propiedad_id) THEN\n        RETURN json_build_object('error', 'Ya hay un reclutamiento en curso.');\n    END IF;\n\n    -- Obtener configuraci\u00f3n y datos\n    SELECT * INTO v_configuracion_tropa FROM public.configuracion_tropa WHERE id = p_tropa_id;\n    SELECT * INTO v_propiedad FROM public.propiedad WHERE id = p_propiedad_id;\n\n    -- Calcular costos totales\n    v_costo_total_armas := v_configuracion_tropa.costo_armas * p_cantidad;\n    v_costo_total_municion := v_configuracion_tropa.costo_municion * p_cantidad;\n    v_costo_total_dolares := v_configuracion_tropa.costo_dolares * p_cantidad;\n\n    -- Verificar requisitos\n    IF EXISTS (\n        SELECT 1\n        FROM jsonb_each_text(v_configuracion_tropa.requisitos) AS req\n        WHERE NOT EXISTS (\n            SELECT 1\n            FROM public.habitacion_usuario hu\n            WHERE hu.propiedad_id = p_propiedad_id\n            AND hu.habitacion_id = req.key\n            AND hu.nivel >= (req.value)::integer\n        )\n    ) THEN\n        RETURN json_build_object('error', 'Requisitos de reclutamiento no cumplidos.');\n    END IF;\n\n    -- Verificar y deducir recursos\n    IF v_propiedad.armas < v_costo_total_armas OR v_propiedad.municion < v_costo_total_municion OR v_propiedad.dolares < v_costo_total_dolares THEN\n        RETURN json_build_object('error', 'Recursos insuficientes.');\n    END IF;\n\n    UPDATE public.propiedad\n    SET\n        armas = armas - v_costo_total_armas,\n        municion = municion - v_costo_total_municion,\n        dolares = dolares - v_costo_total_dolares\n    WHERE id = p_propiedad_id;\n\n    -- Insertar en la cola de reclutamiento\n    INSERT INTO public.cola_reclutamiento (propiedad_id, tropa_id, cantidad, fecha_inicio, fecha_fin)\n    VALUES (p_propiedad_id, p_tropa_id, p_cantidad, NOW(), NOW() + make_interval(secs => v_configuracion_tropa.duracion_reclutamiento * p_cantidad));\n\n    RETURN json_build_object('success', true);\nEND;\n$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;\n"
+        }
+      ],
+      "crear_propiedad_inicial": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 361,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.crear_propiedad_inicial(p_nombre text, p_ciudad integer, p_barrio integer, p_edificio integer)\nRETURNS json AS $$\nDECLARE\n    v_propiedad_id uuid;\nBEGIN\n    -- Verificar si el usuario ya tiene una propiedad\n    IF EXISTS (SELECT 1 FROM public.propiedad WHERE usuario_id = auth.uid()) THEN\n        RETURN json_build_object('error', 'El usuario ya tiene una propiedad.');\n    END IF;\n\n    -- Verificar unicidad de coordenadas\n    IF EXISTS (SELECT 1 FROM public.propiedad WHERE coordenada_ciudad = p_ciudad AND coordenada_barrio = p_barrio AND coordenada_edificio = p_edificio) THEN\n        RETURN json_build_object('error', 'Las coordenadas ya est\u00e1n ocupadas.');\n    END IF;\n\n    -- Insertar la nueva propiedad\n    INSERT INTO public.propiedad (usuario_id, nombre, coordenada_ciudad, coordenada_barrio, coordenada_edificio, armas, municion, alcohol, dolares)\n    VALUES (auth.uid(), p_nombre, p_ciudad, p_barrio, p_edificio, 500, 500, 500, 500)\n    RETURNING id INTO v_propiedad_id;\n\n    -- Insertar habitaciones iniciales\n    INSERT INTO public.habitacion_usuario (propiedad_id, habitacion_id, nivel)\n    VALUES\n        (v_propiedad_id, 'oficina_del_jefe', 1),\n        (v_propiedad_id, 'armeria', 1),\n        (v_propiedad_id, 'cerveceria', 1);\n\n    -- Actualizar el estado del primer login del usuario\n    UPDATE public.usuario SET primer_login = true WHERE id = auth.uid();\n\n    RETURN json_build_object('success', true, 'propiedad_id', v_propiedad_id);\nEND;\n$$ LANGUAGE plpgsql SECURITY DEFINER;\n"
+        },
+        {
+          "file": "20250212_000000_adjust_initial_buildings.sql",
+          "line": 1,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.crear_propiedad_inicial(p_nombre text, p_ciudad integer, p_barrio integer, p_edificio integer)\nRETURNS json AS $$\nDECLARE\n    v_propiedad_id uuid;\nBEGIN\n    -- Verificar si el usuario ya tiene una propiedad\n    IF EXISTS (SELECT 1 FROM public.propiedad WHERE usuario_id = auth.uid()) THEN\n        RETURN json_build_object('error', 'El usuario ya tiene una propiedad.');\n    END IF;\n\n    -- Verificar unicidad de coordenadas\n    IF EXISTS (SELECT 1 FROM public.propiedad WHERE coordenada_ciudad = p_ciudad AND coordenada_barrio = p_barrio AND coordenada_edificio = p_edificio) THEN\n        RETURN json_build_object('error', 'Las coordenadas ya est\u00e1n ocupadas.');\n    END IF;\n\n    -- Insertar la nueva propiedad\n    INSERT INTO public.propiedad (usuario_id, nombre, coordenada_ciudad, coordenada_barrio, coordenada_edificio, armas, municion, alcohol, dolares, ultima_recogida_recursos)\n    VALUES (auth.uid(), p_nombre, p_ciudad, p_barrio, p_edificio, 500, 500, 500, 500, now())\n    RETURNING id INTO v_propiedad_id;\n\n    -- Insertar habitaciones iniciales\n    INSERT INTO public.habitacion_usuario (propiedad_id, habitacion_id, nivel)\n    VALUES\n        (v_propiedad_id, 'oficina_del_jefe', 1),\n        (v_propiedad_id, 'escuela_especializacion', 1),\n        (v_propiedad_id, 'armeria', 1),\n        (v_propiedad_id, 'deposito_de_municion', 1),\n        (v_propiedad_id, 'cerveceria', 1),\n        (v_propiedad_id, 'taberna', 1),\n        (v_propiedad_id, 'campo_de_entrenamiento', 1);\n\n    -- Actualizar el estado del primer login del usuario\n    UPDATE public.usuario SET primer_login = true WHERE id = auth.uid();\n\n    RETURN json_build_object('success', true, 'propiedad_id', v_propiedad_id);\nEND;\n$$ LANGUAGE plpgsql SECURITY DEFINER;\n"
+        },
+        {
+          "file": "20250214_000000_secure_functions_search_path.sql",
+          "line": 361,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.crear_propiedad_inicial(p_nombre text, p_ciudad integer, p_barrio integer, p_edificio integer)\nRETURNS json AS $$\nDECLARE\n    v_propiedad_id uuid;\nBEGIN\n    -- Verificar si el usuario ya tiene una propiedad\n    IF EXISTS (SELECT 1 FROM public.propiedad WHERE usuario_id = auth.uid()) THEN\n        RETURN json_build_object('error', 'El usuario ya tiene una propiedad.');\n    END IF;\n\n    -- Verificar unicidad de coordenadas\n    IF EXISTS (SELECT 1 FROM public.propiedad WHERE coordenada_ciudad = p_ciudad AND coordenada_barrio = p_barrio AND coordenada_edificio = p_edificio) THEN\n        RETURN json_build_object('error', 'Las coordenadas ya est\u00e1n ocupadas.');\n    END IF;\n\n    -- Insertar la nueva propiedad\n    INSERT INTO public.propiedad (usuario_id, nombre, coordenada_ciudad, coordenada_barrio, coordenada_edificio, armas, municion, alcohol, dolares, ultima_recogida_recursos)\n    VALUES (auth.uid(), p_nombre, p_ciudad, p_barrio, p_edificio, 500, 500, 500, 500, now())\n    RETURNING id INTO v_propiedad_id;\n\n    -- Insertar habitaciones iniciales\n    INSERT INTO public.habitacion_usuario (propiedad_id, habitacion_id, nivel)\n    VALUES\n        (v_propiedad_id, 'oficina_del_jefe', 1),\n        (v_propiedad_id, 'escuela_especializacion', 1),\n        (v_propiedad_id, 'armeria', 1),\n        (v_propiedad_id, 'deposito_de_municion', 1),\n        (v_propiedad_id, 'cerveceria', 1),\n        (v_propiedad_id, 'taberna', 1),\n        (v_propiedad_id, 'campo_de_entrenamiento', 1);\n\n    -- Actualizar el estado del primer login del usuario\n    UPDATE public.usuario SET primer_login = true WHERE id = auth.uid();\n\n    RETURN json_build_object('success', true, 'propiedad_id', v_propiedad_id);\nEND;\n$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = '';\n"
+        },
+        {
+          "file": "20250523000000_sync_logic_improvements.sql",
+          "line": 127,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.crear_propiedad_inicial(p_nombre text, p_ciudad integer, p_barrio integer, p_edificio integer)\nRETURNS json AS $$\nDECLARE\n    v_propiedad_id uuid;\nBEGIN\n    -- Verificar si el usuario ya tiene una propiedad\n    IF EXISTS (SELECT 1 FROM public.propiedad WHERE usuario_id = auth.uid()) THEN\n        RETURN json_build_object('error', 'El usuario ya tiene una propiedad.');\n    END IF;\n\n    -- Verificar unicidad de coordenadas\n    IF EXISTS (SELECT 1 FROM public.propiedad WHERE coordenada_ciudad = p_ciudad AND coordenada_barrio = p_barrio AND coordenada_edificio = p_edificio) THEN\n        RETURN json_build_object('error', 'Las coordenadas ya est\u00e1n ocupadas.');\n    END IF;\n\n    -- Insertar la nueva propiedad con timestamp inicial\n    INSERT INTO public.propiedad (usuario_id, nombre, coordenada_ciudad, coordenada_barrio, coordenada_edificio, armas, municion, alcohol, dolares, ultima_recogida_recursos)\n    VALUES (auth.uid(), p_nombre, p_ciudad, p_barrio, p_edificio, 500, 500, 500, 500, NOW())\n    RETURNING id INTO v_propiedad_id;\n\n    -- Insertar habitaciones iniciales\n    INSERT INTO public.habitacion_usuario (propiedad_id, habitacion_id, nivel)\n    VALUES\n        (v_propiedad_id, 'oficina_del_jefe', 1),\n        (v_propiedad_id, 'armeria', 1),\n        (v_propiedad_id, 'cerveceria', 1);\n\n    -- Actualizar el estado del primer login del usuario\n    UPDATE public.usuario SET primer_login = true WHERE id = auth.uid();\n\n    RETURN json_build_object('success', true, 'propiedad_id', v_propiedad_id);\nEND;\n$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;\n"
+        }
+      ],
+      "get_dashboard_data": [
+        {
+          "file": "20250524000000_dashboard_rpc.sql",
+          "line": 5,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.get_dashboard_data(p_propiedad_id uuid)\nRETURNS json AS $$\nDECLARE\n    v_propiedad record;\n    v_edificios json;\n    v_cola_construccion json;\n    v_cola_investigacion json;\n    v_cola_reclutamiento json;\n    v_produccion_armas real;\n    v_produccion_municion real;\n    v_produccion_alcohol real;\n    v_produccion_dolares real;\n    v_capacidad_armas bigint;\n    v_capacidad_municion bigint;\n    v_capacidad_alcohol bigint;\n    v_capacidad_dolares bigint;\n    v_puntuacion_usuario real;\n    v_usuario_id uuid;\nBEGIN\n    -- 0. Verificar propiedad y obtener usuario_id\n    SELECT usuario_id INTO v_usuario_id FROM public.propiedad WHERE id = p_propiedad_id;\n\n    IF v_usuario_id IS NULL THEN\n        RETURN json_build_object('error', 'Propiedad no encontrada');\n    END IF;\n\n    -- Seguridad: Verificar que el usuario sea el due\u00f1o\n    -- Nota: procesar_colas_propiedad ya verifica esto, pero get_dashboard_data podr\u00eda ser llamada por otra funci\u00f3n.\n    -- Dado que es SECURITY DEFINER, verificamos manualmente si se expone.\n    IF v_usuario_id != auth.uid() THEN\n        -- Si se llama como usuario autenticado, verificamos.\n        RETURN json_build_object('error', 'No autorizado');\n    END IF;\n\n    -- 1. Procesar colas y materializar recursos\n    PERFORM public.procesar_colas_propiedad(p_propiedad_id);\n    PERFORM public.materializar_recursos(p_propiedad_id);\n\n    -- 2. Obtener datos de la propiedad actualizados\n    SELECT * INTO v_propiedad FROM public.propiedad WHERE id = p_propiedad_id;\n\n    -- 3. Calcular producci\u00f3n y capacidad\n    SELECT\n        COALESCE(SUM(CASE WHEN ch.recurso_producido = 'armas' THEN ch.produccion_base * hu.nivel ELSE 0 END), 0),\n        COALESCE(SUM(CASE WHEN ch.recurso_producido = 'municion' THEN ch.produccion_base * hu.nivel ELSE 0 END), 0),\n        COALESCE(SUM(CASE WHEN ch.recurso_producido = 'alcohol' THEN ch.produccion_base * hu.nivel ELSE 0 END), 0),\n        COALESCE(SUM(CASE WHEN ch.recurso_producido = 'dolares_por_alcohol' THEN ch.produccion_base * hu.nivel ELSE 0 END), 0)\n    INTO\n        v_produccion_armas,\n        v_produccion_municion,\n        v_produccion_alcohol,\n        v_produccion_dolares\n    FROM public.habitacion_usuario hu\n    JOIN public.configuracion_habitacion ch ON hu.habitacion_id = ch.id\n    WHERE hu.propiedad_id = p_propiedad_id;\n\n    SELECT\n        10000 + COALESCE(SUM(CASE WHEN hu.habitacion_id = 'almacen_de_armas' THEN hu.nivel * 10000 ELSE 0 END), 0),\n        10000 + COALESCE(SUM(CASE WHEN hu.habitacion_id = 'deposito_de_municion' THEN hu.nivel * 10000 ELSE 0 END), 0),\n        10000 + COALESCE(SUM(CASE WHEN hu.habitacion_id = 'almacen_de_alcohol' THEN hu.nivel * 10000 ELSE 0 END), 0),\n        10000 + COALESCE(SUM(CASE WHEN hu.habitacion_id = 'caja_fuerte' THEN hu.nivel * 10000 ELSE 0 END), 0)\n    INTO\n        v_capacidad_armas,\n        v_capacidad_municion,\n        v_capacidad_alcohol,\n        v_capacidad_dolares\n    FROM public.habitacion_usuario hu\n    WHERE hu.propiedad_id = p_propiedad_id;\n\n    -- 4. Obtener edificios (joined con configuracion para nombres)\n    SELECT json_agg(json_build_object(\n        'id', hu.habitacion_id,\n        'nivel', hu.nivel,\n        'nombre', ch.nombre\n    )) INTO v_edificios\n    FROM public.habitacion_usuario hu\n    JOIN public.configuracion_habitacion ch ON hu.habitacion_id = ch.id\n    WHERE hu.propiedad_id = p_propiedad_id;\n\n    -- 5. Obtener colas (joined con configuracion para nombres)\n    SELECT json_agg(json_build_object(\n        'id', cc.id,\n        'habitacion_id', cc.habitacion_id,\n        'nivel_destino', cc.nivel_destino,\n        'fecha_fin', cc.fecha_fin,\n        'nombre', ch.nombre\n    )) INTO v_cola_construccion\n    FROM public.cola_construccion cc\n    JOIN public.configuracion_habitacion ch ON cc.habitacion_id = ch.id\n    WHERE cc.propiedad_id = p_propiedad_id\n    ORDER BY cc.fecha_fin;\n\n    SELECT json_agg(json_build_object(\n        'id', ci.id,\n        'entrenamiento_id', ci.entrenamiento_id,\n        'nivel_destino', ci.nivel_destino,\n        'fecha_fin', ci.fecha_fin,\n        'nombre', ce.nombre\n    )) INTO v_cola_investigacion\n    FROM public.cola_investigacion ci\n    JOIN public.configuracion_entrenamiento ce ON ci.entrenamiento_id = ce.id\n    WHERE ci.propiedad_id = p_propiedad_id\n    ORDER BY ci.fecha_fin;\n\n    SELECT json_agg(json_build_object(\n        'id', cr.id,\n        'tropa_id', cr.tropa_id,\n        'cantidad', cr.cantidad,\n        'fecha_fin', cr.fecha_fin,\n        'nombre', ct.nombre\n    )) INTO v_cola_reclutamiento\n    FROM public.cola_reclutamiento cr\n    JOIN public.configuracion_tropa ct ON cr.tropa_id = ct.id\n    WHERE cr.propiedad_id = p_propiedad_id\n    ORDER BY cr.fecha_fin;\n\n    -- 6. Obtener puntuaci\u00f3n de usuario\n    SELECT puntos_totales INTO v_puntuacion_usuario FROM public.puntuacion_usuario WHERE usuario_id = v_usuario_id;\n\n    -- Construir respuesta\n    RETURN json_build_object(\n        'propiedad', v_propiedad,\n        'recursos', json_build_object(\n            'armas', json_build_object('val', v_propiedad.armas, 'max', v_capacidad_armas, 'prod', v_produccion_armas),\n            'municion', json_build_object('val', v_propiedad.municion, 'max', v_capacidad_municion, 'prod', v_produccion_municion),\n            'alcohol', json_build_object('val', v_propiedad.alcohol, 'max', v_capacidad_alcohol, 'prod', v_produccion_alcohol),\n            'dolares', json_build_object('val', v_propiedad.dolares, 'max', v_capacidad_dolares, 'prod', v_produccion_dolares)\n        ),\n        'edificios', COALESCE(v_edificios, '[]'::json),\n        'colas', json_build_object(\n            'construccion', COALESCE(v_cola_construccion, '[]'::json),\n            'investigacion', COALESCE(v_cola_investigacion, '[]'::json),\n            'reclutamiento', COALESCE(v_cola_reclutamiento, '[]'::json)\n        ),\n        'puntos', COALESCE(v_puntuacion_usuario, 0)\n    );\nEND;\n$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;\n"
+        },
+        {
+          "file": "20250525000000_fix_dashboard_aggregation.sql",
+          "line": 4,
+          "type": "CREATE_FUNCTION",
+          "code": "CREATE OR REPLACE FUNCTION public.get_dashboard_data(p_propiedad_id uuid)\nRETURNS json AS $$\nDECLARE\n    v_propiedad record;\n    v_edificios json;\n    v_cola_construccion json;\n    v_cola_investigacion json;\n    v_cola_reclutamiento json;\n    v_produccion_armas real;\n    v_produccion_municion real;\n    v_produccion_alcohol real;\n    v_produccion_dolares real;\n    v_capacidad_armas bigint;\n    v_capacidad_municion bigint;\n    v_capacidad_alcohol bigint;\n    v_capacidad_dolares bigint;\n    v_puntuacion_usuario real;\n    v_usuario_id uuid;\nBEGIN\n    -- 0. Verificar propiedad y obtener usuario_id\n    SELECT usuario_id INTO v_usuario_id FROM public.propiedad WHERE id = p_propiedad_id;\n\n    IF v_usuario_id IS NULL THEN\n        RETURN json_build_object('error', 'Propiedad no encontrada');\n    END IF;\n\n    -- Seguridad: Verificar que el usuario sea el due\u00f1o\n    -- Nota: procesar_colas_propiedad ya verifica esto, pero get_dashboard_data podr\u00eda ser llamada por otra funci\u00f3n.\n    -- Dado que es SECURITY DEFINER, verificamos manualmente si se expone.\n    IF v_usuario_id != auth.uid() THEN\n        -- Si se llama como usuario autenticado, verificamos.\n        RETURN json_build_object('error', 'No autorizado');\n    END IF;\n\n    -- 1. Procesar colas y materializar recursos\n    PERFORM public.procesar_colas_propiedad(p_propiedad_id);\n    PERFORM public.materializar_recursos(p_propiedad_id);\n\n    -- 2. Obtener datos de la propiedad actualizados\n    SELECT * INTO v_propiedad FROM public.propiedad WHERE id = p_propiedad_id;\n\n    -- 3. Calcular producci\u00f3n y capacidad\n    SELECT\n        COALESCE(SUM(CASE WHEN ch.recurso_producido = 'armas' THEN ch.produccion_base * hu.nivel ELSE 0 END), 0),\n        COALESCE(SUM(CASE WHEN ch.recurso_producido = 'municion' THEN ch.produccion_base * hu.nivel ELSE 0 END), 0),\n        COALESCE(SUM(CASE WHEN ch.recurso_producido = 'alcohol' THEN ch.produccion_base * hu.nivel ELSE 0 END), 0),\n        COALESCE(SUM(CASE WHEN ch.recurso_producido = 'dolares_por_alcohol' THEN ch.produccion_base * hu.nivel ELSE 0 END), 0)\n    INTO\n        v_produccion_armas,\n        v_produccion_municion,\n        v_produccion_alcohol,\n        v_produccion_dolares\n    FROM public.habitacion_usuario hu\n    JOIN public.configuracion_habitacion ch ON hu.habitacion_id = ch.id\n    WHERE hu.propiedad_id = p_propiedad_id;\n\n    SELECT\n        10000 + COALESCE(SUM(CASE WHEN hu.habitacion_id = 'almacen_de_armas' THEN hu.nivel * 10000 ELSE 0 END), 0),\n        10000 + COALESCE(SUM(CASE WHEN hu.habitacion_id = 'deposito_de_municion' THEN hu.nivel * 10000 ELSE 0 END), 0),\n        10000 + COALESCE(SUM(CASE WHEN hu.habitacion_id = 'almacen_de_alcohol' THEN hu.nivel * 10000 ELSE 0 END), 0),\n        10000 + COALESCE(SUM(CASE WHEN hu.habitacion_id = 'caja_fuerte' THEN hu.nivel * 10000 ELSE 0 END), 0)\n    INTO\n        v_capacidad_armas,\n        v_capacidad_municion,\n        v_capacidad_alcohol,\n        v_capacidad_dolares\n    FROM public.habitacion_usuario hu\n    WHERE hu.propiedad_id = p_propiedad_id;\n\n    -- 4. Obtener edificios (joined con configuracion para nombres)\n    SELECT json_agg(json_build_object(\n        'id', hu.habitacion_id,\n        'nivel', hu.nivel,\n        'nombre', ch.nombre\n    )) INTO v_edificios\n    FROM public.habitacion_usuario hu\n    JOIN public.configuracion_habitacion ch ON hu.habitacion_id = ch.id\n    WHERE hu.propiedad_id = p_propiedad_id;\n\n    -- 5. Obtener colas (joined con configuracion para nombres)\n    -- CORRECCION: ORDER BY movido dentro de json_agg para evitar error 42803\n    SELECT json_agg(json_build_object(\n        'id', cc.id,\n        'habitacion_id', cc.habitacion_id,\n        'nivel_destino', cc.nivel_destino,\n        'fecha_fin', cc.fecha_fin,\n        'nombre', ch.nombre\n    ) ORDER BY cc.fecha_fin) INTO v_cola_construccion\n    FROM public.cola_construccion cc\n    JOIN public.configuracion_habitacion ch ON cc.habitacion_id = ch.id\n    WHERE cc.propiedad_id = p_propiedad_id;\n\n    SELECT json_agg(json_build_object(\n        'id', ci.id,\n        'entrenamiento_id', ci.entrenamiento_id,\n        'nivel_destino', ci.nivel_destino,\n        'fecha_fin', ci.fecha_fin,\n        'nombre', ce.nombre\n    ) ORDER BY ci.fecha_fin) INTO v_cola_investigacion\n    FROM public.cola_investigacion ci\n    JOIN public.configuracion_entrenamiento ce ON ci.entrenamiento_id = ce.id\n    WHERE ci.propiedad_id = p_propiedad_id;\n\n    SELECT json_agg(json_build_object(\n        'id', cr.id,\n        'tropa_id', cr.tropa_id,\n        'cantidad', cr.cantidad,\n        'fecha_fin', cr.fecha_fin,\n        'nombre', ct.nombre\n    ) ORDER BY cr.fecha_fin) INTO v_cola_reclutamiento\n    FROM public.cola_reclutamiento cr\n    JOIN public.configuracion_tropa ct ON cr.tropa_id = ct.id\n    WHERE cr.propiedad_id = p_propiedad_id;\n\n    -- 6. Obtener puntuaci\u00f3n de usuario\n    SELECT puntos_totales INTO v_puntuacion_usuario FROM public.puntuacion_usuario WHERE usuario_id = v_usuario_id;\n\n    -- Construir respuesta\n    RETURN json_build_object(\n        'propiedad', v_propiedad,\n        'recursos', json_build_object(\n            'armas', json_build_object('val', v_propiedad.armas, 'max', v_capacidad_armas, 'prod', v_produccion_armas),\n            'municion', json_build_object('val', v_propiedad.municion, 'max', v_capacidad_municion, 'prod', v_produccion_municion),\n            'alcohol', json_build_object('val', v_propiedad.alcohol, 'max', v_capacidad_alcohol, 'prod', v_produccion_alcohol),\n            'dolares', json_build_object('val', v_propiedad.dolares, 'max', v_capacidad_dolares, 'prod', v_produccion_dolares)\n        ),\n        'edificios', COALESCE(v_edificios, '[]'::json),\n        'colas', json_build_object(\n            'construccion', COALESCE(v_cola_construccion, '[]'::json),\n            'investigacion', COALESCE(v_cola_investigacion, '[]'::json),\n            'reclutamiento', COALESCE(v_cola_reclutamiento, '[]'::json)\n        ),\n        'puntos', COALESCE(v_puntuacion_usuario, 0)\n    );\nEND;\n$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;\n"
+        }
+      ]
+    },
+    "types": {},
+    "policies": {},
+    "triggers": {}
+  }
+}
