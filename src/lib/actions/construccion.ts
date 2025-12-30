@@ -1,15 +1,13 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
-import { cookies } from 'next/headers';
 import { IniciarConstruccionSchema } from '@/types/game';
 
 export async function iniciarConstruccionHabitacion(
   propiedad_id: string,
   habitacion_id: string
 ) {
-  const cookieStore = await cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
   // 1. Validar las entradas
   const validatedFields = IniciarConstruccionSchema.safeParse({

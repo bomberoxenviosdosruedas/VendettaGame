@@ -11,7 +11,7 @@ const loginSchema = z.object({
 })
 
 export async function login(prevState: any, formData: FormData) {
-  const supabase = await createClient()
+  const supabase = createClient()
   const validatedFields = loginSchema.safeParse(Object.fromEntries(formData.entries()))
 
   if (!validatedFields.success) {
@@ -43,8 +43,8 @@ const signupSchema = z.object({
 })
 
 export async function signup(prevState: any, formData: FormData) {
-  const origin = (await headers()).get('origin')
-  const supabase = await createClient()
+  const origin = headers().get('origin')
+  const supabase = createClient()
   const validatedFields = signupSchema.safeParse(Object.fromEntries(formData.entries()))
   
   if (!validatedFields.success) {
@@ -79,8 +79,8 @@ const forgotPasswordSchema = z.object({
 })
 
 export async function forgotPassword(prevState: any, formData: FormData) {
-    const origin = (await headers()).get('origin')
-    const supabase = await createClient()
+    const origin = headers().get('origin')
+    const supabase = createClient()
     const validatedFields = forgotPasswordSchema.safeParse(Object.fromEntries(formData.entries()))
 
     if (!validatedFields.success) {
@@ -108,7 +108,7 @@ const resetPasswordSchema = z.object({
 });
 
 export async function resetPassword(prevState: any, formData: FormData) {
-    const supabase = await createClient()
+    const supabase = createClient()
     
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
@@ -135,8 +135,8 @@ export async function resetPassword(prevState: any, formData: FormData) {
 }
 
 export async function socialLogin(provider: 'google' | 'github') {
-  const origin = (await headers()).get('origin')
-  const supabase = await createClient()
+  const origin = headers().get('origin')
+  const supabase = createClient()
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
@@ -153,7 +153,7 @@ export async function socialLogin(provider: 'google' | 'github') {
 }
 
 export async function signOut() {
-  const supabase = await createClient()
+  const supabase = createClient()
   await supabase.auth.signOut()
   redirect('/login')
 }

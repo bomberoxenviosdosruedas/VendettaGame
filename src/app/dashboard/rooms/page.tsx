@@ -1,11 +1,9 @@
 import { roomsData } from "@/lib/data/rooms-data";
 import { RoomCard } from "@/components/dashboard/rooms/room-card";
 import { createClient } from "@/lib/supabase/server";
-import { cookies } from "next/headers";
 
 export default async function RoomsPage() {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
   const { data: { user } } = await supabase.auth.getUser();
 
