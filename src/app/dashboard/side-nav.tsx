@@ -20,20 +20,18 @@ const menuItems = [
     { name: "Recursos", icon: Warehouse, href: "/dashboard/resources" },
     { name: "Arbol Tecnologico", icon: FileText, href: "/dashboard/tech-tree" },
     { name: "Buscar", icon: Search, href: "/dashboard/search", isSearch: true },
-    { name: "Famiglia", icon: Users, href: "/dashboard/family" },
+    { name: "Familia", icon: Users, href: "/dashboard/family" },
     { name: "Mapa", icon: Map, href: "/dashboard/map" },
-    { name: "Simulatore", icon: Globe, href: "/dashboard/simulator" },
+    { name: "Simulador", icon: Globe, href: "/dashboard/simulator" },
     { name: "Mercado", icon: Hand, href: "/dashboard/market" },
     { name: "Misiones", icon: FileText, href: "/dashboard/missions" },
     { name: "Mensajes", icon: MessageSquare, href: "/dashboard/messages" },
-    { name: "Chat Globale", icon: Globe, href: "/dashboard/chat" },
+    { name: "Chat", icon: Globe, href: "/dashboard/chat" },
     { name: "Guerras", icon: Swords, href: "/dashboard/wars" },
     { name: "Records", icon: BookOpen, href: "/dashboard/records" },
     { name: "Batallas", icon: Crosshair, href: "/dashboard/battles" },
     { name: "Clasificacion", icon: Scale, href: "/dashboard/ranking" },
-    { name: "Regole Gioco", icon: BookOpen, href: "/dashboard/rules" },
     { name: "Opciones", icon: Settings, href: "/dashboard/options" },
-    { name: "Segnala un Bug", icon: HelpCircle, href: "/dashboard/bug-report" },
 ];
 
 
