@@ -62,10 +62,10 @@ export async function createInitialProperty(data: CreateInitialPropertyData): Pr
 
 export async function getUserProperty(userId: string): Promise<string | null> {
   const supabase = await createClient()
-  const { data, error } = await supabase.from('propiedad').select('id').eq('usuario_id', userId).single()
+  const { data, error } = await supabase.from('propiedad').select('id').eq('usuario_id', userId).maybeSingle()
 
   if (error) {
-    // It's normal if new user has no property yet
+    console.error('Error checking user property:', error)
     return null
   }
   return data?.id || null
