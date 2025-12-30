@@ -22,7 +22,7 @@ BEGIN
     INSERT INTO public.habitacion_usuario (propiedad_id, habitacion_id, nivel)
     VALUES
         (v_propiedad_id, 'oficina_del_jefe', 1),
-        (v_propiedad_id, 'escuela', 1),
+        (v_propiedad_id, 'escuela_especializacion', 1),
         (v_propiedad_id, 'armeria', 1),
         (v_propiedad_id, 'deposito_de_municion', 1),
         (v_propiedad_id, 'cerveceria', 1),
