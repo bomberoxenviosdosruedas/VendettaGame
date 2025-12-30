@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { IniciarConstruccionSchema } from '@/types/game';
 
@@ -47,6 +48,7 @@ export async function iniciarConstruccionHabitacion(
     }
 
     // 3. Devolver una respuesta exitosa
+    revalidatePath('/dashboard/rooms');
     return {
       success: true,
       data,

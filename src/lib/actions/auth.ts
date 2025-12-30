@@ -43,7 +43,7 @@ const signupSchema = z.object({
 })
 
 export async function signup(prevState: any, formData: FormData) {
-  const origin = headers().get('origin')
+  const origin = (await headers()).get('origin')
   const supabase = createClient()
   const validatedFields = signupSchema.safeParse(Object.fromEntries(formData.entries()))
   
@@ -79,7 +79,7 @@ const forgotPasswordSchema = z.object({
 })
 
 export async function forgotPassword(prevState: any, formData: FormData) {
-    const origin = headers().get('origin')
+    const origin = (await headers()).get('origin')
     const supabase = createClient()
     const validatedFields = forgotPasswordSchema.safeParse(Object.fromEntries(formData.entries()))
 
@@ -135,7 +135,7 @@ export async function resetPassword(prevState: any, formData: FormData) {
 }
 
 export async function socialLogin(provider: 'google' | 'github') {
-  const origin = headers().get('origin')
+  const origin = (await headers()).get('origin')
   const supabase = createClient()
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
