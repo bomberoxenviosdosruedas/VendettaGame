@@ -155,6 +155,90 @@
       "description": "Hidden land mines.",
       "imageUrl": "/img/hab/room-mines.webp",
       "imageHint": "land mines"
+    },
+    {
+      "id": "training-routes",
+      "description": "A map with routes planned on it.",
+      "imageUrl": "/img/train/training-routes.webp",
+      "imageHint": "route map"
+    },
+    {
+      "id": "training-planning",
+      "description": "A blueprint on a wooden table.",
+      "imageUrl": "/img/train/training-planning.webp",
+      "imageHint": "blueprint plan"
+    },
+    {
+      "id": "training-extortion",
+      "description": "Stacks of cash on a table.",
+      "imageUrl": "/img/train/training-extortion.webp",
+      "imageHint": "cash stacks"
+    },
+    {
+      "id": "training-base-admin",
+      "description": "Documents and a pen on a desk.",
+      "imageUrl": "/img/train/training-base-admin.webp",
+      "imageHint": "office documents"
+    },
+    {
+      "id": "training-espionage",
+      "description": "A map with a knife and a magnifying glass.",
+      "imageUrl": "/img/train/training-espionage.webp",
+      "imageHint": "espionage tools"
+    },
+    {
+      "id": "training-security",
+      "description": "A secure door with a keypad.",
+      "imageUrl": "/img/train/training-security.webp",
+      "imageHint": "security door"
+    },
+    {
+      "id": "training-hand-combat",
+      "description": "Two coins on a table.",
+      "imageUrl": "/img/train/training-hand-combat.webp",
+      "imageHint": "old coins"
+    },
+    {
+      "id": "training-close-combat",
+      "description": "A combat knife on a wooden surface.",
+      "imageUrl": "/img/train/training-close-combat.webp",
+      "imageHint": "combat knife"
+    },
+    {
+      "id": "training-shooting",
+      "description": "A rifle with accessories on a table.",
+      "imageUrl": "/img/train/training-shooting.webp",
+      "imageHint": "rifle accessories"
+    },
+    {
+      "id": "training-explosives",
+      "description": "Sticks of dynamite and a blueprint.",
+      "imageUrl": "/img/train/training-explosives.webp",
+      "imageHint": "dynamite blueprint"
+    },
+    {
+      "id": "training-guerrilla",
+      "description": "A map, a compass and a knife.",
+      "imageUrl": "/img/train/training-guerrilla.webp",
+      "imageHint": "guerrilla tools"
+    },
+    {
+      "id": "training-psychological",
+      "description": "Pills and dice on a table.",
+      "imageUrl": "/img/train/training-psychological.webp",
+      "imageHint": "pills dice"
+    },
+    {
+      "id": "training-chemical",
+      "description": "Concrete cylinders on a surface.",
+      "imageUrl": "/img/train/training-chemical.webp",
+      "imageHint": "concrete cylinders"
+    },
+    {
+      "id": "training-honor",
+      "description": "A framed certificate on a table.",
+      "imageUrl": "/img/train/training-honor.webp",
+      "imageHint": "framed certificate"
     }
   ]
 }

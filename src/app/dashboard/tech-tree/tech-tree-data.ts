@@ -1,4 +1,5 @@
 
+
 export type Requirement = {
     name: string;
     level: number;
@@ -122,3 +123,134 @@ export const roomsTechData: TechItem[] = [
         requirements: [{ name: "Oficina del Jefe", level: 5 }],
     },
 ];
+
+
+export const trainingTechData: TechItem[] = [
+    {
+      id: "planificacion-rutas",
+      name: "Planificación de rutas",
+      image: "training-routes",
+      available: true,
+      requirements: [],
+    },
+    {
+      id: "planificacion-encargos",
+      name: "Planificación de encargos",
+      image: "training-planning",
+      available: false,
+      requirements: [{ name: "Planificación de rutas", level: 4 }],
+    },
+    {
+      id: "extorsion",
+      name: "Extorsión",
+      image: "training-extortion",
+      available: true,
+      requirements: [],
+    },
+    {
+      id: "administracion-base",
+      name: "Administración de base",
+      image: "training-base-admin",
+      available: false,
+      requirements: [{ name: "Seguridad", level: 5 }],
+    },
+    {
+      id: "contrabando-training",
+      name: "Contrabando",
+      image: "room-contraband",
+      available: false,
+      requirements: [{ name: "Planificación de encargos", level: 1 }],
+    },
+    {
+      id: "espionaje",
+      name: "Espionaje",
+      image: "training-espionage",
+      available: true,
+      requirements: [],
+    },
+    {
+      id: "seguridad",
+      name: "Seguridad",
+      image: "training-security",
+      available: true,
+      requirements: [],
+    },
+    {
+      id: "proteccion-grupo",
+      name: "Protección de grupo",
+      image: "room-contraband",
+      available: false,
+      requirements: [{ name: "Seguridad", level: 4 }],
+    },
+    {
+      id: "combate-cuerpo-a-cuerpo",
+      name: "Combate cuerpo a cuerpo",
+      image: "training-hand-combat",
+      available: false,
+      requirements: [{ name: "Extorsión", level: 3 }],
+    },
+    {
+      id: "combate-armas-corta-distancia",
+      name: "Combate de armas a corta distancia",
+      image: "training-close-combat",
+      available: false,
+      requirements: [{ name: "Extorsión", level: 5 }],
+    },
+    {
+      id: "entrenamiento-tiro",
+      name: "Entrenamiento de Tiro",
+      image: "training-shooting",
+      available: false,
+      requirements: [
+        { name: "Combate de armas a corta distancia", level: 4 },
+        { name: "Protección de grupo", level: 4 },
+      ],
+    },
+    {
+      id: "fabricacion-explosivos",
+      name: "Fabricación de explosivos",
+      image: "training-explosives",
+      available: false,
+      requirements: [
+        { name: "Planificación de encargos", level: 4 },
+        { name: "Combate cuerpo a cuerpo", level: 4 },
+      ],
+    },
+    {
+      id: "entrenamiento-guerrilla",
+      name: "Entrenamiento de guerrilla",
+      image: "training-guerrilla",
+      available: false,
+      requirements: [
+        { name: "Seguridad", level: 6 },
+        { name: "Entrenamiento de Tiro", level: 6 },
+      ],
+    },
+    {
+      id: "entrenamiento-psicologico",
+      name: "Entrenamiento psicológico",
+      image: "training-psychological",
+      available: false,
+      requirements: [{ name: "Entrenamiento de guerrilla", level: 4 }],
+    },
+    {
+      id: "entrenamiento-quimico",
+      name: "Entrenamiento Químico",
+      image: "training-chemical",
+      available: false,
+      requirements: [
+        { name: "Fabricación de explosivos", level: 4 },
+        { name: "Entrenamiento psicológico", level: 4 },
+      ],
+    },
+    {
+      id: "honor",
+      name: "Honor",
+      image: "training-honor",
+      available: false,
+      requirements: [
+        { name: "Espionaje", level: 8 },
+        { name: "Contrabando", level: 8 },
+      ],
+    },
+  ];

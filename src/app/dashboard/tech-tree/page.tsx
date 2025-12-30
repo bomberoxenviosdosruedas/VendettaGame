@@ -1,7 +1,7 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { TechTreeTable } from "./tech-tree-table";
-import { roomsTechData } from "./tech-tree-data";
+import { roomsTechData, trainingTechData } from "./tech-tree-data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function TechTreePage() {
@@ -36,7 +36,7 @@ export default function TechTreePage() {
                         <TechTreeTable data={roomsTechData} />
                     </TabsContent>
                     <TabsContent value="training">
-                        <p className="p-4 text-center">Contenido de Entrenamientos no disponible.</p>
+                        <TechTreeTable data={trainingTechData} />
                     </TabsContent>
                     <TabsContent value="troops">
                         <p className="p-4 text-center">Contenido de Tropas no disponible.</p>
