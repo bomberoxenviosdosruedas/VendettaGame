@@ -14,7 +14,12 @@ def get_full_structure(path):
     name = p.name
     
     if p.is_file():
-        return {"name": name, "type": "file"}
+        content = ""
+        try:
+            content = p.read_text(encoding='utf-8')
+        except Exception:
+            content = "<binary or unreadable content>"
+        return {"name": name, "type": "file", "content": content}
     
     children = []
     try:
