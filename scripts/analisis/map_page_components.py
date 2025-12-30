@@ -17,6 +17,15 @@ def get_page_files():
     pattern = os.path.join(SRC_DIR, 'app', '**', 'page.tsx')
     return glob.glob(pattern, recursive=True)
 
+def get_file_content(file_path):
+    """Read and return the content of a file."""
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            return f.read()
+    except Exception as e:
+        print(f"Error reading {file_path}: {e}")
+        return ""
+
 def resolve_import_path(import_path, current_file_path):
     """
     Resolve an import path to a physical file path.
@@ -81,11 +90,8 @@ def analyze_file(file_path, filter_ui=False):
     Returns a list of resolved file paths relative to ROOT_DIR.
     If filter_ui is True, excludes imports from src/components/ui.
     """
-    try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-    except Exception as e:
-        print(f"Error reading {file_path}: {e}")
+    content = get_file_content(file_path)
+    if not content:
         return []
 
     # Regex to capture import paths
@@ -128,48 +134,52 @@ def main():
         
         route = infer_route(page)
         
-        # Level 1: Get all direct imports of components/actions/hooks for the page
-        # Original requirement was "componentes de UI (src/components/**)", but user 
-        # expanded this implicitly by asking for "important components".
-        # We will keep Level 1 broad but maybe filter for 'src/components' primarily
-        # to stay close to original intent, or just grab everything.
-        # Given the prompt, let's grab everything in src/ but highlight components.
-        # But `map_page_components` implies components.
-        # Let's filter Level 1 to `src/components` to respect original mandate, 
-        # but allow actions/hooks in Level 2 as requested.
+        # Read Page Code
+        page_code = get_file_content(page)
         
+        # Level 1 Analysis
         raw_imports = analyze_file(page, filter_ui=False)
         level1_components = []
         
         for imp in raw_imports:
-            # Level 1 Filter: We mainly care about components here as per original spec
+            # Filter: primarily interested in src/components for Level 1
             if 'src/components' in imp:
                 level1_components.append(imp)
-            # Note: We could include actions/hooks here too if desired, but sticking to 
-            # "components map" for top level seems safer unless requested otherwise.
         
         detailed_components = []
         
         for comp_path in level1_components:
+            abs_path = os.path.join(ROOT_DIR, comp_path)
+            comp_code = get_file_content(abs_path)
+            
             comp_entry = {
                 "path": comp_path,
+                "code": comp_code,
                 "dependencies": []
             }
             
             # Level 2 Analysis
-            # "no es necesario remarcar en este nivel '@/components/ui/" -> Skip UI components analysis
-            # Also, only analyze if it's a project file we can read
-            if 'src/components/ui' not in comp_path:
-                abs_path = os.path.join(ROOT_DIR, comp_path)
-                if os.path.exists(abs_path):
-                    # Get sub-dependencies, excluding UI components
-                    sub_deps = analyze_file(abs_path, filter_ui=True)
-                    comp_entry["dependencies"] = sub_deps
+            if 'src/components/ui' not in comp_path and os.path.exists(abs_path):
+                # Get sub-dependencies paths, excluding UI components
+                sub_deps_paths = analyze_file(abs_path, filter_ui=True)
+                
+                # Convert paths to objects with code
+                sub_deps_objects = []
+                for dep_path in sub_deps_paths:
+                    dep_abs_path = os.path.join(ROOT_DIR, dep_path)
+                    dep_code = get_file_content(dep_abs_path)
+                    sub_deps_objects.append({
+                        "path": dep_path,
+                        "code": dep_code
+                    })
+                
+                comp_entry["dependencies"] = sub_deps_objects
             
             detailed_components.append(comp_entry)
         
         result[rel_path] = {
             "route": route,
+            "code": page_code,
             "components": detailed_components
         }
         
