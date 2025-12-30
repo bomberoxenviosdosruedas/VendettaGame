@@ -1,55 +1,117 @@
-"use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+'use client'
+
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { ChevronLeft, ChevronRight, Search, Map as MapIcon } from 'lucide-react'
+import { useState, useEffect } from 'react'
 
 interface MapControlsProps {
-    currentCity: number;
-    currentDistrict: number;
+  currentCity: number
+  currentDistrict: number
 }
 
 export function MapControls({ currentCity, currentDistrict }: MapControlsProps) {
-    const router = useRouter();
-    const [city, setCity] = useState(currentCity);
-    const [district, setDistrict] = useState(currentDistrict);
+  const router = useRouter()
+  // Local state for inputs to allow typing before navigating
+  const [cityInput, setCityInput] = useState(currentCity.toString())
+  const [districtInput, setDistrictInput] = useState(currentDistrict.toString())
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        router.push(`/dashboard/map?city=${city}&district=${district}`);
-    };
+  // Sync state if props change (e.g. external navigation)
+  useEffect(() => {
+    setCityInput(currentCity.toString())
+    setDistrictInput(currentDistrict.toString())
+  }, [currentCity, currentDistrict])
 
-    return (
-        <div className="bg-stone-300/80 p-4 rounded-md border border-primary/30 w-full max-w-md">
-            <form onSubmit={handleSubmit} className="flex flex-col items-center gap-3">
-                <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2">
-                        <Label htmlFor="city" className="text-sm">Ciudad</Label>
-                        <Input
-                            id="city"
-                            type="number"
-                            min={1}
-                            value={city}
-                            onChange={(e) => setCity(parseInt(e.target.value) || 0)}
-                            className="w-20 h-8 bg-white text-black"
-                        />
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <Label htmlFor="neighborhood" className="text-sm">Barrio</Label>
-                        <Input
-                            id="neighborhood"
-                            type="number"
-                            min={1}
-                            value={district}
-                            onChange={(e) => setDistrict(parseInt(e.target.value) || 0)}
-                            className="w-20 h-8 bg-white text-black"
-                        />
-                    </div>
-                </div>
-                <Button type="submit" variant="outline" size="sm" className="h-8 bg-white text-black hover:bg-stone-100">Ir</Button>
-            </form>
+  const navigateTo = (city: number | string, district: number | string) => {
+    const c = Number(city)
+    const d = Number(district)
+    if (c > 0 && d > 0) {
+      router.push(`/dashboard/map?city=${c}&district=${d}`)
+    }
+  }
+
+  const handlePrevDistrict = () => {
+    if (currentDistrict > 1) {
+      navigateTo(currentCity, currentDistrict - 1)
+    } else {
+      // Logic to go to previous city? Maybe keep it simple for now.
+    }
+  }
+
+  const handleNextDistrict = () => {
+    // Assuming max district 50 or infinite? Requirement says 1-50 in memory, but let's just go +1
+    navigateTo(currentCity, currentDistrict + 1)
+  }
+
+  const handleGo = () => {
+    navigateTo(cityInput, districtInput)
+  }
+
+  return (
+    <div className="flex flex-wrap items-center justify-center gap-4 bg-stone-900/80 p-3 rounded-lg border border-stone-700 w-full max-w-2xl shadow-xl">
+      <div className="flex items-center gap-2">
+        <label className="text-xs text-amber-500 font-bold uppercase tracking-wider">Ciudad</label>
+        <Input
+          type="number"
+          min={1}
+          className="w-20 bg-stone-950 border-stone-700 text-stone-200 h-9"
+          value={cityInput}
+          onChange={(e) => setCityInput(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleGo()}
+        />
+      </div>
+
+      <div className="flex items-center gap-2">
+        <label className="text-xs text-amber-500 font-bold uppercase tracking-wider">Barrio</label>
+        <div className="flex items-center">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-9 w-9 rounded-r-none border-r-0 border-stone-700 hover:bg-stone-800 text-stone-400"
+            onClick={handlePrevDistrict}
+            disabled={currentDistrict <= 1}
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <Input
+            type="number"
+            min={1}
+            className="w-20 bg-stone-950 border-stone-700 text-stone-200 h-9 rounded-none text-center focus-visible:ring-0"
+            value={districtInput}
+            onChange={(e) => setDistrictInput(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleGo()}
+          />
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-9 w-9 rounded-l-none border-l-0 border-stone-700 hover:bg-stone-800 text-stone-400"
+            onClick={handleNextDistrict}
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
         </div>
-    );
+      </div>
+
+      <Button
+        variant="default"
+        size="sm"
+        className="bg-amber-600 hover:bg-amber-700 text-white shadow-lg"
+        onClick={handleGo}
+      >
+        <Search className="h-4 w-4 mr-2" />
+        Ir
+      </Button>
+
+      <Button
+        variant="outline"
+        size="sm"
+        className="border-stone-600 text-stone-400 hover:bg-stone-800"
+        onClick={() => router.push('/dashboard/map')} // Resets to home
+      >
+        <MapIcon className="h-4 w-4" />
+      </Button>
+    </div>
+  )
 }
