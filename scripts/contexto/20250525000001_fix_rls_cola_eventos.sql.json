@@ -1,0 +1,9 @@
+{
+    "filename": "20250525000001_fix_rls_cola_eventos.sql",
+    "timestamp": "2025-05-25T00:00:01",
+    "content": "-- Fix missing RLS policy for cola_eventos_flota\n-- This table is internal and should only be accessed by the service_role\n\nCREATE POLICY \"service_role_manage_all\" ON public.cola_eventos_flota\nAS PERMISSIVE FOR ALL\nTO service_role\nUSING (true)\nWITH CHECK (true);\n",
+    "summary": {
+        "tables_created": [],
+        "functions_created": []
+    }
+}

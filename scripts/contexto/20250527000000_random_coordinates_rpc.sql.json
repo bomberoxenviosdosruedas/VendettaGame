@@ -1,0 +1,11 @@
+{
+    "filename": "20250527000000_random_coordinates_rpc.sql",
+    "timestamp": "2025-05-27T00:00:00",
+    "content": "CREATE OR REPLACE FUNCTION public.obtener_coordenada_libre()\nRETURNS json AS $$\nDECLARE\n    v_ciudad int;\n    v_barrio int;\n    v_edificio int;\n    i int;\nBEGIN\n    FOR i IN 1..20 LOOP\n        -- Generar coordenadas aleatorias dentro de los rangos permitidos\n        -- Ciudad: 1-50\n        -- Barrio: 1-50\n        -- Edificio: 1-255\n        v_ciudad := floor(random() * 50 + 1)::int;\n        v_barrio := floor(random() * 50 + 1)::int;\n        v_edificio := floor(random() * 255 + 1)::int;\n\n        -- Verificar si la coordenada está ocupada\n        IF NOT EXISTS (\n            SELECT 1 FROM public.propiedad\n            WHERE coordenada_ciudad = v_ciudad\n            AND coordenada_barrio = v_barrio\n            AND coordenada_edificio = v_edificio\n        ) THEN\n            -- Si no existe, retornar la coordenada encontrada\n            RETURN json_build_object(\n                'ciudad', v_ciudad,\n                'barrio', v_barrio,\n                'edificio', v_edificio\n            );\n        END IF;\n    END LOOP;\n\n    -- Si tras 20 intentos no se encuentra (altamente improbable con estos rangos), devolver error\n    RETURN json_build_object('error', 'No se encontró ubicación libre tras 20 intentos. Por favor intente nuevamente.');\nEND;\n$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;\n",
+    "summary": {
+        "tables_created": [],
+        "functions_created": [
+            "obtener_coordenada_libre"
+        ]
+    }
+}
