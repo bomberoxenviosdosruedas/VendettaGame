@@ -1,0 +1,1 @@
+export const MAX_CONSTRUCTION_QUEUE_SIZE = 5;

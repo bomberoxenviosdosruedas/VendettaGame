@@ -11,13 +11,14 @@ import { upgradeBuildingAction, cancelConstructionAction } from "@/actions/game.
 import { useToast } from "@/hooks/use-toast";
 import { useState, useOptimistic, useTransition } from "react";
 import { ColaDetalle } from "@/types/game";
-import { Progress } from "@/components/ui/progress"; // Assuming shadcn component exists
+import { Progress } from "@/components/ui/progress";
 
 type RoomCardProps = {
   room: Room;
   propiedadId?: string;
   dynamicLevel: number;
   construction?: ColaDetalle;
+  isQueueFull?: boolean;
 };
 
 const ResourceIcon = ({ type }: { type: string }) => {
@@ -34,7 +35,7 @@ const ResourceIcon = ({ type }: { type: string }) => {
     }
 }
 
-export function RoomCard({ room, propiedadId, dynamicLevel, construction }: RoomCardProps) {
+export function RoomCard({ room, propiedadId, dynamicLevel, construction, isQueueFull = false }: RoomCardProps) {
   const image = PlaceHolderImages.find((p) => p.id === room.image) || PlaceHolderImages.find(p => p.id === 'dark-alley');
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
@@ -139,9 +140,10 @@ export function RoomCard({ room, propiedadId, dynamicLevel, construction }: Room
                     className="w-full sm:w-auto"
                     size="sm"
                     onClick={handleUpgrade}
-                    disabled={isPending || !propiedadId}
+                    disabled={isPending || !propiedadId || isQueueFull}
+                    title={isQueueFull ? "Cola de construcción llena (5/5)" : "Ampliar edificio"}
                 >
-                    {isPending ? "Iniciando..." : "Ampliar"}
+                    {isPending ? "Iniciando..." : (isQueueFull ? "Cola Llena" : "Ampliar")}
                 </Button>
                 )}
             </div>
