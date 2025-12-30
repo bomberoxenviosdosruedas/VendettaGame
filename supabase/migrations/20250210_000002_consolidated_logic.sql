@@ -340,6 +340,9 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- 5. Onboarding y Creación de Usuario
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+DROP FUNCTION IF EXISTS public.handle_new_user();
+
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger AS $$
 BEGIN
