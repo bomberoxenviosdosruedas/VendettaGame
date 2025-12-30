@@ -43,7 +43,8 @@ export default function BuildingsPage() {
                 </CardDescription>
             </CardHeader>
             <CardContent className="p-0">
-                <div className="overflow-x-auto">
+                {/* Vista de tabla para pantallas grandes */}
+                <div className="hidden md:block overflow-x-auto">
                     <Table>
                         <TableHeader>
                             <TableRow className="bg-primary/70 hover:bg-primary/70">
@@ -82,6 +83,42 @@ export default function BuildingsPage() {
                             ))}
                         </TableBody>
                     </Table>
+                </div>
+                {/* Vista de tarjetas para pantallas pequeñas */}
+                <div className="md:hidden p-4 space-y-4">
+                    {buildings.map((building, index) => (
+                        <div key={index} className="bg-stone-300/60 p-4 rounded-lg border border-primary/30 space-y-3">
+                             <div className="flex justify-between items-start">
+                                <div>
+                                    <p className="text-sm text-muted-foreground">Coordinación</p>
+                                    <p className="font-medium text-red-600">{building.coords}</p>
+                                </div>
+                                <Button variant="destructive" size="sm" className="bg-accent hover:bg-accent/90">Cambiar</Button>
+                            </div>
+                            <div>
+                                <p className="text-sm text-muted-foreground">Nombre</p>
+                                <div className="flex flex-col gap-2 mt-1">
+                                    <span>{building.name}</span>
+                                    <div className="flex gap-1">
+                                        <Input defaultValue="Rebautizar" className="h-8 text-xs w-full" />
+                                        <Button variant="outline" size="sm" className="h-8 text-xs">Renombrar</Button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <p className="text-sm text-muted-foreground">Bajo construcción</p>
+                                <div className="flex flex-col mt-1">
+                                    <span className="text-red-600 font-semibold">{building.underConstruction.name} (Niv. {building.underConstruction.level})</span>
+                                    <span>{building.underConstruction.time}</span>
+                                    <Link href="#" className="text-red-600 hover:underline text-xs self-start">[X] Cancel</Link>
+                                </div>
+                            </div>
+                            <div>
+                                <p className="text-sm text-muted-foreground">Agujas</p>
+                                <p>{building.needles}</p>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </CardContent>
         </Card>
