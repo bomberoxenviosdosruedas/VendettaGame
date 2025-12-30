@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { Bell, BookOpen, Building, ChevronDown, Castle, Crosshair, FileText, Globe, Hand, HelpCircle, Home, LogOut, Map, MessageSquare, Scale, Search, Settings, Shield, Swords, Users, Warehouse } from "lucide-react";
-import { SidebarHeader, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar";
+import { SidebarHeader, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, useSidebar } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { SignOutButton } from "./sign-out-button";
 import { ClientSelect } from "@/components/ui/client-select";
@@ -16,10 +16,10 @@ const menuItems = [
     { name: "Seguridad", icon: Shield, href: "/dashboard/security" },
     { name: "Entrenamiento", icon: Crosshair, href: "/dashboard/training" },
     { name: "Edificios", icon: Castle, href: "/dashboard/buildings" },
-    { name: "Buscar", icon: Search, href: "/dashboard/search", isSearch: true },
-    { name: "Arbol Tecnologico", icon: FileText, href: "/dashboard/tech-tree" },
-    { name: "Famiglia", icon: Users, href: "/dashboard/family" },
     { name: "Recursos", icon: Warehouse, href: "/dashboard/resources" },
+    { name: "Arbol Tecnologico", icon: FileText, href: "/dashboard/tech-tree" },
+    { name: "Buscar", icon: Search, href: "/dashboard/search", isSearch: true },
+    { name: "Famiglia", icon: Users, href: "/dashboard/family" },
     { name: "Mapa", icon: Map, href: "/dashboard/map" },
     { name: "Simulatore", icon: Globe, href: "/dashboard/simulator" },
     { name: "Mercado", icon: Hand, href: "/dashboard/market" },
@@ -37,6 +37,7 @@ const menuItems = [
 
 
 export function SideNav({ userEmail }: { userEmail: string | undefined }) {
+    const { setOpenMobile } = useSidebar();
     const [currentDate, setCurrentDate] = React.useState('');
 
     React.useEffect(() => {
@@ -60,6 +61,10 @@ export function SideNav({ userEmail }: { userEmail: string | undefined }) {
         return () => clearInterval(intervalId);
     }, []);
 
+    const handleLinkClick = () => {
+        setOpenMobile(false);
+    }
+
     return (
         <div className="flex flex-col h-full">
             <SidebarHeader className="bg-stone-900/50 p-2 text-center border-b-2 border-black/30">
@@ -79,7 +84,7 @@ export function SideNav({ userEmail }: { userEmail: string | undefined }) {
                                     </div>
                                 </div>
                             ) : (
-                                <Link href={item.href} passHref>
+                                <Link href={item.href} passHref onClick={handleLinkClick}>
                                   <SidebarMenuButton 
                                     className={`justify-start w-full border-b border-stone-700 rounded-none hover:bg-stone-700 transition-colors ${item.highlight ? 'bg-stone-600 font-bold' : ''}`}
                                   >
