@@ -1,0 +1,11 @@
+{
+    "filename": "20250215_000000_fix_handle_new_user_null_username.sql",
+    "timestamp": "2025-02-15T00:00:00",
+    "content": "CREATE OR REPLACE FUNCTION public.handle_new_user()\nRETURNS trigger AS $$\nBEGIN\n  INSERT INTO public.usuario (id, email, nombre_usuario)\n  VALUES (\n    new.id,\n    new.email,\n    COALESCE(\n      new.raw_user_meta_data->>'full_name',\n      SPLIT_PART(new.email, '@', 1) || '_' || SUBSTRING(MD5(RANDOM()::TEXT), 1, 6)\n    )\n  );\n  INSERT INTO public.puntuacion_usuario (usuario_id)\n  VALUES (new.id);\n  RETURN new;\nEND;\n$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = '';\n",
+    "summary": {
+        "tables_created": [],
+        "functions_created": [
+            "handle_new_user"
+        ]
+    }
+}

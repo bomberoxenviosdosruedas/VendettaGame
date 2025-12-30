@@ -1,0 +1,65 @@
+{
+  "actions": [
+    "src/actions"
+  ],
+  "ai": [
+    "src/ai"
+  ],
+  "app": [
+    "src/app",
+    "src/app/(auth)",
+    "src/app/(auth)/forgot-password",
+    "src/app/(auth)/login",
+    "src/app/(auth)/signup",
+    "src/app/api",
+    "src/app/api/cron",
+    "src/app/api/cron/process-queues",
+    "src/app/auth",
+    "src/app/auth/callback",
+    "src/app/dashboard",
+    "src/app/dashboard/buildings",
+    "src/app/dashboard/map",
+    "src/app/dashboard/overview",
+    "src/app/dashboard/poderataque",
+    "src/app/dashboard/recruitment",
+    "src/app/dashboard/resources",
+    "src/app/dashboard/rooms",
+    "src/app/dashboard/tech-tree",
+    "src/app/dashboard/training",
+    "src/app/reset-password"
+  ],
+  "components": [
+    "src/components",
+    "src/components/auth",
+    "src/components/auth/forgot-password",
+    "src/components/auth/login",
+    "src/components/auth/signup",
+    "src/components/dashboard",
+    "src/components/dashboard/buildings",
+    "src/components/dashboard/map",
+    "src/components/dashboard/overview",
+    "src/components/dashboard/recruitment",
+    "src/components/dashboard/reset-password",
+    "src/components/dashboard/resources",
+    "src/components/dashboard/rooms",
+    "src/components/dashboard/tech-tree",
+    "src/components/dashboard/training",
+    "src/components/landing",
+    "src/components/providers",
+    "src/components/reset-password",
+    "src/components/ui"
+  ],
+  "hooks": [
+    "src/hooks"
+  ],
+  "lib": [
+    "src/lib",
+    "src/lib/actions",
+    "src/lib/data",
+    "src/lib/services",
+    "src/lib/supabase"
+  ],
+  "types": [
+    "src/types"
+  ]
+}

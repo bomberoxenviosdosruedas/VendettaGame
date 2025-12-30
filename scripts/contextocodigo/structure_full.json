@@ -1,0 +1,768 @@
+{
+  "name": "src",
+  "type": "directory",
+  "children": [
+    {
+      "name": "actions",
+      "type": "directory",
+      "children": [
+        {
+          "name": "auth.actions.ts",
+          "type": "file"
+        },
+        {
+          "name": "auth.stubs.ts",
+          "type": "file"
+        },
+        {
+          "name": "game.actions.ts",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "ai",
+      "type": "directory",
+      "children": [
+        {
+          "name": "dev.ts",
+          "type": "file"
+        },
+        {
+          "name": "genkit.ts",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "app",
+      "type": "directory",
+      "children": [
+        {
+          "name": "(auth)",
+          "type": "directory",
+          "children": [
+            {
+              "name": "forgot-password",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "layout.tsx",
+              "type": "file"
+            },
+            {
+              "name": "login",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "signup",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "type": "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "api",
+          "type": "directory",
+          "children": [
+            {
+              "name": "cron",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "process-queues",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "route.ts",
+                      "type": "file"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "auth",
+          "type": "directory",
+          "children": [
+            {
+              "name": "callback",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "route.ts",
+                  "type": "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "dashboard",
+          "type": "directory",
+          "children": [
+            {
+              "name": "buildings",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "layout.tsx",
+              "type": "file"
+            },
+            {
+              "name": "map",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "overview",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "page.tsx",
+              "type": "file"
+            },
+            {
+              "name": "poderataque",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "recruitment",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "resources",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "rooms",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "tech-tree",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "training",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "type": "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "favicon.ico",
+          "type": "file"
+        },
+        {
+          "name": "globals.css",
+          "type": "file"
+        },
+        {
+          "name": "layout.tsx",
+          "type": "file"
+        },
+        {
+          "name": "page.tsx",
+          "type": "file"
+        },
+        {
+          "name": "reset-password",
+          "type": "directory",
+          "children": [
+            {
+              "name": "page.tsx",
+              "type": "file"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "components",
+      "type": "directory",
+      "children": [
+        {
+          "name": "auth",
+          "type": "directory",
+          "children": [
+            {
+              "name": "forgot-password",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "forgot-password-form.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "login",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "login-form.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "signup",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "signup-form.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "social-buttons.tsx",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "dashboard",
+          "type": "directory",
+          "children": [
+            {
+              "name": "building-info.tsx",
+              "type": "file"
+            },
+            {
+              "name": "buildings",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "buildings-content.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "expanding-rooms.tsx",
+              "type": "file"
+            },
+            {
+              "name": "map",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "city-map.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "map-controls.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "needles.tsx",
+              "type": "file"
+            },
+            {
+              "name": "overview",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "overview-content.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "recruitment",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "troop-card.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "reset-password",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "reset-password-form.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "resource-bar.tsx",
+              "type": "file"
+            },
+            {
+              "name": "resources",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "building-production.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "total-production.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "rooms",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "room-card.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "server-time.tsx",
+              "type": "file"
+            },
+            {
+              "name": "side-nav.tsx",
+              "type": "file"
+            },
+            {
+              "name": "sign-out-button.tsx",
+              "type": "file"
+            },
+            {
+              "name": "tech-tree",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "tech-tree-table.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "training",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "training-card.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "training.tsx",
+              "type": "file"
+            },
+            {
+              "name": "troops-defense.tsx",
+              "type": "file"
+            },
+            {
+              "name": "troops-in-training.tsx",
+              "type": "file"
+            },
+            {
+              "name": "troops.tsx",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "landing",
+          "type": "directory",
+          "children": [
+            {
+              "name": "game-preview.tsx",
+              "type": "file"
+            },
+            {
+              "name": "landing-page.tsx",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "providers",
+          "type": "directory",
+          "children": [
+            {
+              "name": "game-state-provider.tsx",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "reset-password",
+          "type": "directory",
+          "children": [
+            {
+              "name": "reset-password-form.tsx",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "ui",
+          "type": "directory",
+          "children": [
+            {
+              "name": "accordion.tsx",
+              "type": "file"
+            },
+            {
+              "name": "alert-dialog.tsx",
+              "type": "file"
+            },
+            {
+              "name": "alert.tsx",
+              "type": "file"
+            },
+            {
+              "name": "avatar.tsx",
+              "type": "file"
+            },
+            {
+              "name": "badge.tsx",
+              "type": "file"
+            },
+            {
+              "name": "button.tsx",
+              "type": "file"
+            },
+            {
+              "name": "calendar.tsx",
+              "type": "file"
+            },
+            {
+              "name": "card.tsx",
+              "type": "file"
+            },
+            {
+              "name": "carousel.tsx",
+              "type": "file"
+            },
+            {
+              "name": "chart.tsx",
+              "type": "file"
+            },
+            {
+              "name": "checkbox.tsx",
+              "type": "file"
+            },
+            {
+              "name": "client-select.tsx",
+              "type": "file"
+            },
+            {
+              "name": "collapsible.tsx",
+              "type": "file"
+            },
+            {
+              "name": "dialog.tsx",
+              "type": "file"
+            },
+            {
+              "name": "dropdown-menu.tsx",
+              "type": "file"
+            },
+            {
+              "name": "form.tsx",
+              "type": "file"
+            },
+            {
+              "name": "input.tsx",
+              "type": "file"
+            },
+            {
+              "name": "label.tsx",
+              "type": "file"
+            },
+            {
+              "name": "menubar.tsx",
+              "type": "file"
+            },
+            {
+              "name": "popover.tsx",
+              "type": "file"
+            },
+            {
+              "name": "progress.tsx",
+              "type": "file"
+            },
+            {
+              "name": "radio-group.tsx",
+              "type": "file"
+            },
+            {
+              "name": "scroll-area.tsx",
+              "type": "file"
+            },
+            {
+              "name": "select.tsx",
+              "type": "file"
+            },
+            {
+              "name": "separator.tsx",
+              "type": "file"
+            },
+            {
+              "name": "sheet.tsx",
+              "type": "file"
+            },
+            {
+              "name": "sidebar.tsx",
+              "type": "file"
+            },
+            {
+              "name": "skeleton.tsx",
+              "type": "file"
+            },
+            {
+              "name": "slider.tsx",
+              "type": "file"
+            },
+            {
+              "name": "switch.tsx",
+              "type": "file"
+            },
+            {
+              "name": "table.tsx",
+              "type": "file"
+            },
+            {
+              "name": "tabs.tsx",
+              "type": "file"
+            },
+            {
+              "name": "textarea.tsx",
+              "type": "file"
+            },
+            {
+              "name": "toast.tsx",
+              "type": "file"
+            },
+            {
+              "name": "toaster.tsx",
+              "type": "file"
+            },
+            {
+              "name": "tooltip.tsx",
+              "type": "file"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hooks",
+      "type": "directory",
+      "children": [
+        {
+          "name": "use-game-realtime.ts",
+          "type": "file"
+        },
+        {
+          "name": "use-mobile.tsx",
+          "type": "file"
+        },
+        {
+          "name": "use-toast.ts",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "lib",
+      "type": "directory",
+      "children": [
+        {
+          "name": "actions",
+          "type": "directory",
+          "children": [
+            {
+              "name": "auth.ts",
+              "type": "file"
+            },
+            {
+              "name": "construccion.ts",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "data",
+          "type": "directory",
+          "children": [
+            {
+              "name": "map-data.ts",
+              "type": "file"
+            },
+            {
+              "name": "overview-data.ts",
+              "type": "file"
+            },
+            {
+              "name": "poderataque-data.ts",
+              "type": "file"
+            },
+            {
+              "name": "recruitment-data.ts",
+              "type": "file"
+            },
+            {
+              "name": "resources-data.ts",
+              "type": "file"
+            },
+            {
+              "name": "rooms-data.ts",
+              "type": "file"
+            },
+            {
+              "name": "tech-tree-data.ts",
+              "type": "file"
+            },
+            {
+              "name": "training-data.ts",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "placeholder-images.json",
+          "type": "file"
+        },
+        {
+          "name": "placeholder-images.ts",
+          "type": "file"
+        },
+        {
+          "name": "services",
+          "type": "directory",
+          "children": [
+            {
+              "name": "auth.service.ts",
+              "type": "file"
+            },
+            {
+              "name": "game.service.ts",
+              "type": "file"
+            },
+            {
+              "name": "user.service.ts",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "supabase",
+          "type": "directory",
+          "children": [
+            {
+              "name": "client.ts",
+              "type": "file"
+            },
+            {
+              "name": "server.ts",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "utils.ts",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "middleware.ts",
+      "type": "file"
+    },
+    {
+      "name": "types",
+      "type": "directory",
+      "children": [
+        {
+          "name": "database.ts",
+          "type": "file"
+        },
+        {
+          "name": "game.ts",
+          "type": "file"
+        }
+      ]
+    }
+  ]
+}

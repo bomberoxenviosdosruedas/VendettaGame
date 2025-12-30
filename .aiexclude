@@ -1,0 +1,57 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+.genkit/*
+.env*
+
+# firebase
+firebase-debug.log
+firestore-debug.log
+scripts/contexto/20250210_000001_consolidated_schema_tables.sql.json
+scripts/contexto/20250211_000000_consolidated_logic.sql.json
+scripts/contexto/20250212_000000_adjust_initial_buildings.sql.json
+scripts/contexto/20250213_000000_seed_data.sql.json
+scripts/contexto/20250214_000000_secure_functions_search_path.sql.json
+scripts/contexto/20250215_000000_fix_handle_new_user_null_username.sql.json
+scripts/contexto/20240726120000_initial_schema.sql.json
+scripts/contexto/20250523000000_sync_logic_improvements.sql.json
+scripts/contexto/20250524000000_dashboard_rpc.sql.json
+scripts/contexto/
+scripts/contextocodigo/structure_full.json
+scripts/contextocodigo/structure_paths.json

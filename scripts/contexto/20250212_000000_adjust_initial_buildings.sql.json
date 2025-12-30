@@ -1,0 +1,11 @@
+{
+    "filename": "20250212_000000_adjust_initial_buildings.sql",
+    "timestamp": "2025-02-12T00:00:00",
+    "content": "CREATE OR REPLACE FUNCTION public.crear_propiedad_inicial(p_nombre text, p_ciudad integer, p_barrio integer, p_edificio integer)\nRETURNS json AS $$\nDECLARE\n    v_propiedad_id uuid;\nBEGIN\n    -- Verificar si el usuario ya tiene una propiedad\n    IF EXISTS (SELECT 1 FROM public.propiedad WHERE usuario_id = auth.uid()) THEN\n        RETURN json_build_object('error', 'El usuario ya tiene una propiedad.');\n    END IF;\n\n    -- Verificar unicidad de coordenadas\n    IF EXISTS (SELECT 1 FROM public.propiedad WHERE coordenada_ciudad = p_ciudad AND coordenada_barrio = p_barrio AND coordenada_edificio = p_edificio) THEN\n        RETURN json_build_object('error', 'Las coordenadas ya están ocupadas.');\n    END IF;\n\n    -- Insertar la nueva propiedad\n    INSERT INTO public.propiedad (usuario_id, nombre, coordenada_ciudad, coordenada_barrio, coordenada_edificio, armas, municion, alcohol, dolares, ultima_recogida_recursos)\n    VALUES (auth.uid(), p_nombre, p_ciudad, p_barrio, p_edificio, 500, 500, 500, 500, now())\n    RETURNING id INTO v_propiedad_id;\n\n    -- Insertar habitaciones iniciales\n    INSERT INTO public.habitacion_usuario (propiedad_id, habitacion_id, nivel)\n    VALUES\n        (v_propiedad_id, 'oficina_del_jefe', 1),\n        (v_propiedad_id, 'escuela_especializacion', 1),\n        (v_propiedad_id, 'armeria', 1),\n        (v_propiedad_id, 'deposito_de_municion', 1),\n        (v_propiedad_id, 'cerveceria', 1),\n        (v_propiedad_id, 'taberna', 1),\n        (v_propiedad_id, 'campo_de_entrenamiento', 1);\n\n    -- Actualizar el estado del primer login del usuario\n    UPDATE public.usuario SET primer_login = true WHERE id = auth.uid();\n\n    RETURN json_build_object('success', true, 'propiedad_id', v_propiedad_id);\nEND;\n$$ LANGUAGE plpgsql SECURITY DEFINER;\n",
+    "summary": {
+        "tables_created": [],
+        "functions_created": [
+            "crear_propiedad_inicial"
+        ]
+    }
+}
