@@ -1,5 +1,5 @@
-import { roomsData } from "./rooms-data";
-import { RoomCard } from "./room-card";
+import { roomsData } from "@/lib/data/rooms-data";
+import { RoomCard } from "@/components/dashboard/rooms/room-card";
 
 export default function RoomsPage() {
   return (

@@ -1,5 +1,5 @@
-import { TotalProduction } from "./total-production";
-import { BuildingProduction } from "./building-production";
+import { TotalProduction } from "@/components/dashboard/resources/total-production";
+import { BuildingProduction } from "@/components/dashboard/resources/building-production";
 import {
     Select,
     SelectContent,

@@ -1,6 +1,6 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import { socialLogin } from '@/app/auth/actions'
+import { socialLogin } from '@/lib/actions/auth'
 import { Github } from 'lucide-react'
 
 const GoogleIcon = () => (

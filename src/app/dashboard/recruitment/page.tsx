@@ -1,5 +1,5 @@
-import { recruitmentData, recruitmentQueue } from "./recruitment-data";
-import { TroopCard } from "./troop-card";
+import { recruitmentData, recruitmentQueue } from "@/lib/data/recruitment-data";
+import { TroopCard } from "@/components/dashboard/recruitment/troop-card";
 import {
     Card,
     CardContent,

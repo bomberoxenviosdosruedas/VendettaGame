@@ -2,15 +2,16 @@
 
 import { useActionState } from 'react'
 import { useFormStatus } from 'react-dom'
-import { login } from '@/app/auth/actions'
-import { Button } from '@/components/ui/button'
+import { signup } from '@/lib/actions/auth'
+import { SocialButtons } from '@/components/auth/social-buttons'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import Link from 'next/link'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useToast } from '@/hooks/use-toast'
 import { SocialButtons } from '@/app/(auth)/social-buttons'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Terminal } from 'lucide-react'
 
 const initialState = {
   message: '',
@@ -21,31 +22,46 @@ function SubmitButton() {
   const { pending } = useFormStatus()
   return (
     <Button type="submit" className="w-full" disabled={pending}>
-      {pending ? 'Iniciando Sesión...' : 'Iniciar Sesión'}
+      {pending ? 'Creando cuenta...' : 'Crear una cuenta'}
     </Button>
   )
 }
 
-export function LoginForm() {
-  const [state, formAction] = useActionState(login, initialState)
+export function SignupForm() {
+  const [state, formAction] = useActionState(signup, initialState)
   const { toast } = useToast()
+  const [showSuccess, setShowSuccess] = useState(false)
 
   useEffect(() => {
-    if (state?.message) {
+    if (state?.message && !state.errors) {
+      setShowSuccess(true)
+    } else if (state?.message) {
       toast({
-        title: 'Error de inicio de sesión',
+        title: 'Error de registro',
         description: state.message,
         variant: 'destructive',
       })
     }
   }, [state, toast])
 
+  if (showSuccess) {
+    return (
+        <Alert>
+          <Terminal className="h-4 w-4" />
+          <AlertTitle>¡Hecho!</AlertTitle>
+          <AlertDescription>
+            {state.message}
+          </AlertDescription>
+        </Alert>
+    )
+  }
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl">Iniciar Sesión</CardTitle>
+        <CardTitle className="text-2xl">Registrarse</CardTitle>
         <CardDescription>
-          Ingresa tu correo electrónico para acceder a tu cuenta.
+          Ingresa tu información para crear una cuenta.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -58,23 +74,14 @@ export function LoginForm() {
               type="email"
               placeholder="nombre@ejemplo.com"
               required
-              defaultValue="profematiasprestes@gmail.com"
             />
-            {state?.errors?.email && (
+             {state?.errors?.email && (
               <p className="text-sm text-destructive">{state.errors.email[0]}</p>
             )}
           </div>
           <div className="space-y-2">
-            <div className="flex items-center">
-              <Label htmlFor="password">Contraseña</Label>
-              <Link
-                href="/forgot-password"
-                className="ml-auto inline-block text-sm underline text-accent hover:text-accent/90"
-              >
-                ¿Olvidaste tu contraseña?
-              </Link>
-            </div>
-            <Input id="password" name="password" type="password" required defaultValue="password123" />
+            <Label htmlFor="password">Contraseña</Label>
+            <Input id="password" name="password" type="password" required />
             {state?.errors?.password && (
               <p className="text-sm text-destructive">{state.errors.password[0]}</p>
             )}

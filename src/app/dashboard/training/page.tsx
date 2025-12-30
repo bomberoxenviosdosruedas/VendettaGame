@@ -1,6 +1,6 @@
 
-import { trainingData } from "./training-data";
-import { TrainingCard } from "./training-card";
+import { trainingData } from "@/lib/data/training-data";
+import { TrainingCard } from "@/components/dashboard/training/training-card";
 import {
     Card,
     CardContent,

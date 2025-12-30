@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
-import { SideNav } from './side-nav';
-import { ResourceBar } from './resource-bar';
+import { SideNav } from '@/components/dashboard/side-nav';
+import { ResourceBar } from '@/components/dashboard/resource-bar';
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
 
 export default async function DashboardLayout({

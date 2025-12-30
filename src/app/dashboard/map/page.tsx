@@ -1,12 +1,12 @@
-import { MapControls } from "./map-controls";
-import { CityMap } from "./city-map";
+import { MapControls } from "@/components/dashboard/map/map-controls";
+import { CityMap } from "@/components/dashboard/map/city-map";
 import {
     Card,
     CardContent,
     CardHeader,
     CardTitle,
   } from "@/components/ui/card";
-import { mapData } from "./map-data";
+import { mapData } from "@/lib/data/map-data";
 
 export default function MapPage() {
     return (

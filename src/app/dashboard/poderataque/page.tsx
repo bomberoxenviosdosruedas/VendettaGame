@@ -12,7 +12,7 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table";
-import { attackPowerData } from "./data";
+import { attackPowerData } from "@/lib/data/poderataque-data";
 
 export default function AttackPowerPage() {
     return (

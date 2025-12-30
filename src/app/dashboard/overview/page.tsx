@@ -12,7 +12,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { overviewData } from "./data";
+import { overviewData } from "@/lib/data/overview-data";
 import { cn } from "@/lib/utils";
   
 export default function OverviewPage() {

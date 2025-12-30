@@ -1,7 +1,7 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { TechTreeTable } from "./tech-tree-table";
-import { roomsTechData, trainingTechData } from "./tech-tree-data";
+import { TechTreeTable } from "@/components/dashboard/tech-tree/tech-tree-table";
+import { roomsTechData, trainingTechData } from "@/lib/data/tech-tree-data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function TechTreePage() {
