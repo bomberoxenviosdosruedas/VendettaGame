@@ -101,16 +101,31 @@ export async function getUserProperty(userId: string): Promise<string | null> {
 export async function getDashboardData(propertyId: string): Promise<DashboardData | null> {
   const supabase = await createClient()
 
-  const { data, error } = await supabase.rpc('get_dashboard_data', {
+  const { data: dashboardData, error } = await supabase.rpc('get_dashboard_data', {
     p_propiedad_id: propertyId
   })
 
-  if (error) {
+  if (error || !dashboardData) {
     console.error('Error fetching dashboard data:', error)
     return null
   }
 
-  return data as DashboardData
+  // Fetch real-time collections in parallel
+  const [attacks, missions] = await Promise.all([
+    getIncomingAttacks(propertyId),
+    getActiveMissions(propertyId)
+  ])
+
+  // Merge into expanded DashboardData structure
+  const result: DashboardData = {
+    ...dashboardData,
+    incoming_attacks: attacks,
+    cola_misiones: missions,
+    tropa_usuario: dashboardData.tropas || [],
+    cola_reclutamiento: dashboardData.colas?.reclutamiento || []
+  }
+
+  return result
 }
 
 export async function getIncomingAttacks(propertyId: string): Promise<AtaqueEntrante[]> {

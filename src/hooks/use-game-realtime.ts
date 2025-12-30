@@ -15,6 +15,7 @@ export function useGameRealtime(initialData: DashboardData | null) {
     if (!initialData?.propiedad.id) return;
 
     const propertyId = initialData.propiedad.id;
+    const userId = initialData.propiedad.usuario_id;
 
     // Helper to refresh full data on complex events
     const refreshData = async () => {
@@ -42,9 +43,6 @@ export function useGameRealtime(initialData: DashboardData | null) {
             return {
               ...prev,
               propiedad: { ...prev.propiedad, ...payload.new as any },
-              // Note: Resources val/max/prod might need recalibration if prod changed.
-              // But 'propiedad' row update usually means resources were materialized (updated to now).
-              // So we take the new values.
               recursos: {
                 ...prev.recursos,
                 armas: { ...prev.recursos.armas, val: payload.new.armas },
@@ -59,34 +57,45 @@ export function useGameRealtime(initialData: DashboardData | null) {
       )
       .on(
         'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'cola_construccion',
-          filter: `propiedad_id=eq.${propertyId}`,
-        },
-        () => {
-          refreshData();
-        }
+        { event: '*', schema: 'public', table: 'cola_construccion', filter: `propiedad_id=eq.${propertyId}` },
+        () => refreshData()
       )
       .on(
         'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'habitacion_usuario',
-          filter: `propiedad_id=eq.${propertyId}`,
-        },
-        () => {
-          refreshData();
-        }
+        { event: '*', schema: 'public', table: 'habitacion_usuario', filter: `propiedad_id=eq.${propertyId}` },
+        () => refreshData()
       )
-      .subscribe();
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'cola_reclutamiento', filter: `propiedad_id=eq.${propertyId}` },
+        () => refreshData()
+      )
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'tropa_propiedad', filter: `propiedad_id=eq.${propertyId}` },
+        () => refreshData()
+      );
+
+    if (userId) {
+      channel
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'ataque_entrante', filter: `defensor_id=eq.${userId}` },
+          () => refreshData()
+        )
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'cola_misiones', filter: `usuario_id=eq.${userId}` },
+          () => refreshData()
+        );
+    }
+
+    channel.subscribe();
 
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [initialData?.propiedad.id, supabase]);
+  }, [initialData?.propiedad.id, initialData?.propiedad.usuario_id, supabase]);
 
   // Interpolation effect
   useEffect(() => {

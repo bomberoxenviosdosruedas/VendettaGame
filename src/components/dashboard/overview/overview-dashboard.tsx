@@ -3,25 +3,25 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
-import { DashboardData } from '@/types/game';
-import { AtaqueEntrante, ColaMisiones, MiembroFamilia, Familia } from '@/types/database';
+import { MiembroFamilia, Familia } from '@/types/database';
 import { ResourceTicker } from './resource-ticker';
 import { AlertsWidget } from './alerts-widget';
+import { useGameState } from '@/components/providers/game-state-provider';
 
 interface OverviewDashboardProps {
-    dashboardData: DashboardData | null;
-    attacks: AtaqueEntrante[];
-    missions: ColaMisiones[];
     familyInfo: { miembro: MiembroFamilia; familia: Familia } | null;
 }
 
-export function OverviewDashboard({ dashboardData, attacks, missions, familyInfo }: OverviewDashboardProps) {
+export function OverviewDashboard({ familyInfo }: OverviewDashboardProps) {
+  const { gameState } = useGameState();
 
-  if (!dashboardData) {
+  if (!gameState) {
     return <div className="p-4 text-center">Cargando datos del imperio...</div>;
   }
 
-  const { propiedad, recursos, edificios, puntos } = dashboardData;
+  const { propiedad, recursos, edificios, puntos, incoming_attacks, cola_misiones } = gameState;
+  const attacks = incoming_attacks || [];
+  const missions = cola_misiones || [];
 
   const resourceList = [
     { name: "Armas", value: recursos.armas.val, max: recursos.armas.max, prod: recursos.armas.prod, highlight: recursos.armas.val >= recursos.armas.max },

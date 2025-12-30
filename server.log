@@ -1,57 +1,23 @@
-$ next dev --turbopack -p 9002
+
+> nextn@0.1.0 dev
+> next dev --turbopack -p 9002
+
    ▲ Next.js 15.5.9 (Turbopack)
    - Local:        http://localhost:9002
    - Network:      http://192.168.0.2:9002
 
  ✓ Starting...
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
  ○ Compiling middleware ...
- ✓ Compiled middleware in 825ms
- ✓ Ready in 2.6s
- ○ Compiling /login ...
- ✓ Compiled /login in 8.4s
- GET /login 200 in 9876ms
- ✓ Compiled middleware in 4ms
- ✓ Compiled in 8ms
+ ✓ Compiled middleware in 681ms
+ ✓ Ready in 2.4s
  ○ Compiling /test-dashboard ...
- ✓ Compiled /test-dashboard in 542ms
- ⨯ ./src/components/dashboard/overview/overview-content.tsx:136:1
-Parsing ecmascript source code failed
-[0m [90m 134 |[39m     [33m<[39m[33m/[39m[33mCard[39m[33m>[39m
- [90m 135 |[39m   )[33m;[39m
-[31m[1m>[22m[39m[90m 136 |[39m }
- [90m     |[39m [31m[1m^[22m[39m
- [90m 137 |[39m[0m
-
-Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
-
-Import trace:
-  Server Component:
-    ./src/components/dashboard/overview/overview-content.tsx
-    ./src/app/test-dashboard/page.tsx
-
-
- ○ Compiling /_error ...
- ✓ Compiled /_error in 3s
- GET /test-dashboard 500 in 3977ms
- ✓ Compiled in 870ms
- ✓ Compiled /test-dashboard in 108ms
- ⨯ Error: useGameState must be used within a GameStateProvider
-    at useGameState (src/components/providers/game-state-provider.tsx:31:11)
-    at OverviewContent (src/components/dashboard/overview/overview-content.tsx:19:37)
-  29 |   const context = useContext(GameStateContext);
-  30 |   if (context === undefined) {
-> 31 |     throw new Error('useGameState must be used within a GameStateProvider');
-     |           ^
-  32 |   }
-  33 |   return context;
-  34 | } {
-  digest: '2588018978'
-}
- GET /test-dashboard 500 in 1220ms
- ✓ Compiled in 132ms
- ✓ Compiled /test-dashboard in 46ms
- GET /test-dashboard 200 in 869ms
- ✓ Compiled middleware in 17ms
- ✓ Compiled middleware in 3ms
- ✓ Compiled in 5ms
-[?25h
+ ✓ Compiled /test-dashboard in 9s
+ GET /test-dashboard 200 in 10714ms
+ ✓ Compiled middleware in 9ms
+ ✓ Compiled middleware in 5ms
+ ✓ Compiled in 0ms

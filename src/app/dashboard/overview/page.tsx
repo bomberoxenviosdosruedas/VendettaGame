@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getActiveMissions, getDashboardData, getFamilyInfo, getIncomingAttacks, getUserProperty } from "@/lib/services/game.service";
-import { OverviewDashboard } from "@/components/dashboard/overview/overview-dashboard";
+import { OverviewWrapper } from "@/components/dashboard/overview/overview-wrapper";
+import { DashboardData } from "@/types/game";
 
 export default async function OverviewPage() {
     const supabase = await createClient();
@@ -17,18 +18,18 @@ export default async function OverviewPage() {
     }
 
     // Parallel data fetching
-    const [dashboardData, attacks, missions, familyInfo] = await Promise.all([
+    const [dashboardData, familyInfo] = await Promise.all([
         getDashboardData(propertyId),
-        getIncomingAttacks(propertyId),
-        getActiveMissions(propertyId),
         getFamilyInfo(user.id)
     ]);
 
+    if (!dashboardData) {
+        return <div>Error cargando datos.</div>;
+    }
+
     return (
-        <OverviewDashboard 
-            dashboardData={dashboardData}
-            attacks={attacks}
-            missions={missions}
+        <OverviewWrapper
+            initialData={dashboardData}
             familyInfo={familyInfo}
         />
     );
