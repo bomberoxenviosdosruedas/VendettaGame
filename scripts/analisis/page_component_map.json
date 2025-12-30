@@ -1,0 +1,258 @@
+{
+  "src/app/page.tsx": {
+    "route": "/",
+    "components": [
+      {
+        "path": "src/components/landing/landing-page.tsx",
+        "dependencies": [
+          "src/components/landing/game-preview.tsx",
+          "src/lib/placeholder-images.ts"
+        ]
+      }
+    ]
+  },
+  "src/app/dashboard/page.tsx": {
+    "route": "/dashboard",
+    "components": [
+      {
+        "path": "src/components/dashboard/building-info.tsx",
+        "dependencies": [
+          "src/lib/placeholder-images.ts"
+        ]
+      },
+      {
+        "path": "src/components/dashboard/expanding-rooms.tsx",
+        "dependencies": []
+      },
+      {
+        "path": "src/components/dashboard/needles.tsx",
+        "dependencies": []
+      },
+      {
+        "path": "src/components/dashboard/server-time.tsx",
+        "dependencies": []
+      },
+      {
+        "path": "src/components/dashboard/training.tsx",
+        "dependencies": []
+      },
+      {
+        "path": "src/components/dashboard/troops-defense.tsx",
+        "dependencies": []
+      },
+      {
+        "path": "src/components/dashboard/troops-in-training.tsx",
+        "dependencies": []
+      },
+      {
+        "path": "src/components/dashboard/troops.tsx",
+        "dependencies": []
+      }
+    ]
+  },
+  "src/app/dashboard/buildings/page.tsx": {
+    "route": "/dashboard/buildings",
+    "components": [
+      {
+        "path": "src/components/dashboard/buildings/buildings-content.tsx",
+        "dependencies": [
+          "src/actions/game.actions.ts",
+          "src/components/providers/game-state-provider.tsx",
+          "src/hooks/use-toast.ts",
+          "src/types/game.ts"
+        ]
+      }
+    ]
+  },
+  "src/app/dashboard/training/page.tsx": {
+    "route": "/dashboard/training",
+    "components": [
+      {
+        "path": "src/components/dashboard/training/training-card.tsx",
+        "dependencies": [
+          "src/lib/data/training-data.ts",
+          "src/lib/placeholder-images.ts"
+        ]
+      },
+      {
+        "path": "src/components/ui/card.tsx",
+        "dependencies": []
+      }
+    ]
+  },
+  "src/app/dashboard/resources/page.tsx": {
+    "route": "/dashboard/resources",
+    "components": [
+      {
+        "path": "src/components/dashboard/resources/building-production.tsx",
+        "dependencies": [
+          "src/lib/data/resources-data.ts"
+        ]
+      },
+      {
+        "path": "src/components/dashboard/resources/total-production.tsx",
+        "dependencies": [
+          "src/lib/data/resources-data.ts"
+        ]
+      },
+      {
+        "path": "src/components/ui/select.tsx",
+        "dependencies": []
+      }
+    ]
+  },
+  "src/app/dashboard/poderataque/page.tsx": {
+    "route": "/dashboard/poderataque",
+    "components": [
+      {
+        "path": "src/components/ui/card.tsx",
+        "dependencies": []
+      },
+      {
+        "path": "src/components/ui/table.tsx",
+        "dependencies": []
+      }
+    ]
+  },
+  "src/app/dashboard/map/page.tsx": {
+    "route": "/dashboard/map",
+    "components": [
+      {
+        "path": "src/components/dashboard/map/city-map.tsx",
+        "dependencies": [
+          "src/lib/data/map-data.ts",
+          "src/lib/utils.ts"
+        ]
+      },
+      {
+        "path": "src/components/dashboard/map/map-controls.tsx",
+        "dependencies": []
+      },
+      {
+        "path": "src/components/ui/card.tsx",
+        "dependencies": []
+      }
+    ]
+  },
+  "src/app/dashboard/overview/page.tsx": {
+    "route": "/dashboard/overview",
+    "components": [
+      {
+        "path": "src/components/dashboard/overview/overview-content.tsx",
+        "dependencies": [
+          "src/components/providers/game-state-provider.tsx",
+          "src/lib/utils.ts"
+        ]
+      }
+    ]
+  },
+  "src/app/dashboard/recruitment/page.tsx": {
+    "route": "/dashboard/recruitment",
+    "components": [
+      {
+        "path": "src/components/dashboard/recruitment/troop-card.tsx",
+        "dependencies": [
+          "src/lib/data/recruitment-data.ts",
+          "src/lib/placeholder-images.ts"
+        ]
+      },
+      {
+        "path": "src/components/ui/button.tsx",
+        "dependencies": []
+      },
+      {
+        "path": "src/components/ui/card.tsx",
+        "dependencies": []
+      },
+      {
+        "path": "src/components/ui/select.tsx",
+        "dependencies": []
+      }
+    ]
+  },
+  "src/app/dashboard/tech-tree/page.tsx": {
+    "route": "/dashboard/tech-tree",
+    "components": [
+      {
+        "path": "src/components/dashboard/tech-tree/tech-tree-table.tsx",
+        "dependencies": [
+          "src/lib/data/tech-tree-data.ts",
+          "src/lib/placeholder-images.ts",
+          "src/lib/utils.ts"
+        ]
+      },
+      {
+        "path": "src/components/ui/card.tsx",
+        "dependencies": []
+      },
+      {
+        "path": "src/components/ui/tabs.tsx",
+        "dependencies": []
+      }
+    ]
+  },
+  "src/app/dashboard/rooms/page.tsx": {
+    "route": "/dashboard/rooms",
+    "components": [
+      {
+        "path": "src/components/dashboard/rooms/room-card.tsx",
+        "dependencies": [
+          "src/hooks/use-toast.ts",
+          "src/lib/actions/construccion.ts",
+          "src/lib/data/rooms-data.ts",
+          "src/lib/placeholder-images.ts"
+        ]
+      }
+    ]
+  },
+  "src/app/(auth)/forgot-password/page.tsx": {
+    "route": "/forgot-password",
+    "components": [
+      {
+        "path": "src/components/auth/forgot-password/forgot-password-form.tsx",
+        "dependencies": [
+          "src/actions/auth.stubs.ts",
+          "src/hooks/use-toast.ts"
+        ]
+      }
+    ]
+  },
+  "src/app/(auth)/login/page.tsx": {
+    "route": "/login",
+    "components": [
+      {
+        "path": "src/components/auth/login/login-form.tsx",
+        "dependencies": [
+          "src/actions/auth.actions.ts",
+          "src/components/auth/social-buttons.tsx",
+          "src/hooks/use-toast.ts"
+        ]
+      }
+    ]
+  },
+  "src/app/(auth)/signup/page.tsx": {
+    "route": "/signup",
+    "components": [
+      {
+        "path": "src/components/auth/signup/signup-form.tsx",
+        "dependencies": [
+          "src/actions/auth.actions.ts",
+          "src/components/auth/social-buttons.tsx",
+          "src/hooks/use-toast.ts"
+        ]
+      }
+    ]
+  },
+  "src/app/reset-password/page.tsx": {
+    "route": "/reset-password",
+    "components": [
+      {
+        "path": "src/components/reset-password/reset-password-form.tsx",
+        "dependencies": [
+          "src/hooks/use-toast.ts",
+          "src/lib/actions/auth.ts"
+        ]
+      }
+    ]
+  }
+}
