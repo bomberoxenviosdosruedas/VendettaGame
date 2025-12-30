@@ -1,7 +1,14 @@
 'use server'
 
 import { z } from 'zod'
-import { createInitialProperty, startConstruction, syncResources } from '@/lib/services/game.service'
+import {
+  createInitialProperty,
+  startConstruction,
+  syncResources,
+  startResearch,
+  recruitTroops,
+  launchMission
+} from '@/lib/services/game.service'
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -11,6 +18,17 @@ const onboardingSchema = z.object({
   ciudad: z.coerce.number().min(1).max(100),
   barrio: z.coerce.number().min(1).max(25),
   edificio: z.coerce.number().min(1).max(25),
+})
+
+const missionSchema = z.object({
+  propiedad_origen_id: z.string().uuid(),
+  tipo_mision: z.enum(['atacar', 'transportar', 'espiar', 'colonizar', 'recolectar']),
+  tropas: z.record(z.string(), z.number().int().min(1)),
+  recursos: z.record(z.string(), z.number().int().min(0)).optional(),
+  destino_ciudad: z.coerce.number().min(1),
+  destino_barrio: z.coerce.number().min(1),
+  destino_edificio: z.coerce.number().min(1),
+  velocidad_flota: z.coerce.number().min(1).max(100).optional(),
 })
 
 export async function completeOnboardingAction(prevState: any, formData: FormData) {
@@ -38,8 +56,6 @@ export async function completeOnboardingAction(prevState: any, formData: FormDat
 }
 
 export async function upgradeBuildingAction(buildingId: string) {
-  // Use z.string() because the DB uses text IDs (slugs), not UUIDs, for configuration tables like 'configuracion_habitacion'
-  // Example ID: 'oficina_del_jefe'
   const schema = z.string().min(1)
   const parsed = schema.safeParse(buildingId)
 
@@ -47,7 +63,6 @@ export async function upgradeBuildingAction(buildingId: string) {
     return { success: false, error: 'ID de edificio inválido' }
   }
 
-  // Verify authentication and get property ID
   const supabase = await createClient()
   const { data: { user }, error: authError } = await supabase.auth.getUser()
 
@@ -71,7 +86,6 @@ export async function upgradeBuildingAction(buildingId: string) {
     revalidatePath('/game/buildings')
     return { success: true, message: 'Construcción iniciada' }
   } else {
-    // If specific error from RPC (e.g. resources insufficient, queue full)
     return { success: false, error: result.error || 'No se pudo iniciar la construcción' }
   }
 }
@@ -101,4 +115,112 @@ export async function refreshGameStateAction() {
   }
 
   return { success: true, data: resources }
+}
+
+export async function startResearchAction(researchId: string) {
+  const schema = z.string().min(1)
+  const parsed = schema.safeParse(researchId)
+
+  if (!parsed.success) {
+    return { success: false, error: 'ID de investigación inválido' }
+  }
+
+  const supabase = await createClient()
+  const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+  if (authError || !user) {
+    return { success: false, error: 'No autenticado' }
+  }
+
+  // Research is tied to property for queue, so we need a property context.
+  // Assuming active property or main property. For now, fetch main property.
+  const { data: propiedad, error: propError } = await supabase
+    .from('propiedad')
+    .select('id')
+    .eq('usuario_id', user.id)
+    .single()
+
+  if (propError || !propiedad) {
+    return { success: false, error: 'Propiedad no encontrada' }
+  }
+
+  const result = await startResearch(propiedad.id, parsed.data)
+
+  if (result.success) {
+    revalidatePath('/game/research')
+    return { success: true, message: 'Investigación iniciada' }
+  } else {
+    return { success: false, error: result.error || 'No se pudo iniciar la investigación' }
+  }
+}
+
+export async function recruitTroopsAction(troopId: string, amount: number) {
+  if (amount <= 0) return { success: false, error: 'Cantidad inválida' }
+
+  const supabase = await createClient()
+  const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+  if (authError || !user) {
+    return { success: false, error: 'No autenticado' }
+  }
+
+  const { data: propiedad, error: propError } = await supabase
+    .from('propiedad')
+    .select('id')
+    .eq('usuario_id', user.id)
+    .single()
+
+  if (propError || !propiedad) {
+    return { success: false, error: 'Propiedad no encontrada' }
+  }
+
+  const result = await recruitTroops(propiedad.id, troopId, amount)
+
+  if (result.success) {
+    revalidatePath('/game/recruitment')
+    return { success: true, message: 'Reclutamiento iniciado' }
+  } else {
+    return { success: false, error: result.error || 'No se pudo iniciar el reclutamiento' }
+  }
+}
+
+export async function launchMissionAction(prevState: any, formData: FormData) {
+  const data = Object.fromEntries(formData.entries())
+
+  // Parse nested JSON strings if coming from form hidden inputs, or handle appropriately.
+  // Assuming the form sends 'tropas' as a JSON string for now, or constructing it manually.
+  // For simplicity, let's assume valid form data structure or client-side preparation.
+  // If complex, it might need more parsing logic.
+
+  // However, Server Actions usually receive FormData. If the client sends complex structures,
+  // they often serialize to JSON strings.
+
+  const rawTropas = data.tropas ? JSON.parse(data.tropas as string) : {}
+  const rawRecursos = data.recursos ? JSON.parse(data.recursos as string) : {}
+
+  const payload = {
+    propiedad_origen_id: data.propiedad_origen_id,
+    tipo_mision: data.tipo_mision,
+    tropas: rawTropas,
+    recursos: rawRecursos,
+    destino_ciudad: data.destino_ciudad,
+    destino_barrio: data.destino_barrio,
+    destino_edificio: data.destino_edificio,
+    velocidad_flota: data.velocidad_flota
+  }
+
+  const parsed = missionSchema.safeParse(payload)
+
+  if (!parsed.success) {
+    return { success: false, error: 'Datos de misión inválidos', details: parsed.error.flatten() }
+  }
+
+  const result = await launchMission(parsed.data)
+
+  if (result.success) {
+    revalidatePath('/game/fleet')
+    return { success: true, message: 'Misión lanzada exitosamente' }
+  } else {
+    return { success: false, error: result.error || 'No se pudo lanzar la misión' }
+  }
 }
