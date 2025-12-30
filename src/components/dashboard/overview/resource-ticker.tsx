@@ -1,58 +1,51 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 interface ResourceTickerProps {
   initialValue: number;
-  max: number;
-  productionRate: number; // units per second
-  lastUpdated: string; // ISO timestamp
+  productionRate: number; // per hour
+  lastUpdated?: string; // timestamp string (ISO)
 }
 
-export function ResourceTicker({ initialValue, max, productionRate, lastUpdated }: ResourceTickerProps) {
+export function ResourceTicker({ initialValue, productionRate, lastUpdated }: ResourceTickerProps) {
   const [currentValue, setCurrentValue] = useState(initialValue);
+  const startTimeRef = useRef(Date.now());
+  const animationFrameRef = useRef<number | null>(null);
+
+  // Parse lastUpdated if provided, otherwise assume initialValue is fresh from server rendering
+  const baseTimeRef = useRef(lastUpdated ? new Date(lastUpdated).getTime() : Date.now());
 
   useEffect(() => {
-    // Reset on prop change
-    setCurrentValue(initialValue);
-
+    const ratePerSecond = productionRate / 3600;
+    
+    // Function to calculate the current value
     const updateValue = () => {
-        const lastUpdatedTime = new Date(lastUpdated).getTime();
-        const now = Date.now();
-        // Handle potential clock skew or just rely on relative time if passed 'now' from server?
-        // Since we don't have server time synced, we might see a jump.
-        // But 'materializar_recursos' sets 'ultima_recogida_recursos' to NOW().
-        // If client and server clocks differ, 'now - lastUpdatedTime' might be negative or huge.
-        // BETTER APPROACH: Use the value as "current at fetch time" and just add elapsed time since mount.
-        // But 'initialValue' is tied to 'lastUpdated'.
-        // If I assume 'initialValue' was correct 'secondsAgo', I need 'secondsAgo'.
-        // Let's assume the user just fetched it.
-        // Simple Ticker: Start from initialValue and add productionRate * elapsed_since_mount.
-        // This avoids clock skew issues.
-        // The error is the time between server response and client mount, usually small (<1s).
-
-        // Actually, let's stick to the Plan: "Formula: Current = Initial + (SecondsElapsed * RatePerSecond)"
+      const now = Date.now();
+      
+      // Calculate elapsed time since the base time (when the value was accurate)
+      // If lastUpdated was provided, we use that.
+      // If we only have initialValue and assume it's "now", we rely on client clock which is fine for visual interpolation.
+      // However, usually we get 'val' which is the value at 'lastUpdated' or 'now' (if fresh).
+      // Since dashboard RPC usually updates resources before returning, let's assume initialValue is fresh at component mount.
+      
+      const secondsElapsed = (now - baseTimeRef.current) / 1000;
+      const addedValue = secondsElapsed * ratePerSecond;
+      
+      setCurrentValue(initialValue + addedValue);
+      
+      animationFrameRef.current = requestAnimationFrame(updateValue);
     };
 
-    const startTime = Date.now();
+    // Start the loop
+    animationFrameRef.current = requestAnimationFrame(updateValue);
 
-    const interval = setInterval(() => {
-      const now = Date.now();
-      const secondsElapsed = (now - startTime) / 1000;
-      const produced = secondsElapsed * productionRate;
-      const newValue = Math.min(initialValue + produced, max);
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [initialValue, productionRate, lastUpdated]);
 
-      setCurrentValue(newValue);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [initialValue, max, productionRate, lastUpdated]);
-
-  const isFull = currentValue >= max;
-
-  return (
-    <span className={isFull ? "text-red-600 font-bold" : ""}>
-      {Math.floor(currentValue).toLocaleString()}
-    </span>
-  );
+  return <>{Math.floor(currentValue).toLocaleString()}</>;
 }

@@ -1,23 +1,23 @@
-import { OverviewContent } from "@/components/dashboard/overview/overview-content";
-import { getDashboardData, getIncomingAttacks, getActiveMissions, getFamilyInfo, getUserProperty } from "@/lib/services/game.service";
 import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
+import { getActiveMissions, getDashboardData, getFamilyInfo, getIncomingAttacks, getUserProperty } from "@/lib/services/game.service";
+import { OverviewDashboard } from "@/components/dashboard/overview/overview-dashboard";
 
 export default async function OverviewPage() {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) {
-        redirect("/auth/login");
+        return <div>Acceso denegado</div>;
     }
 
     const propertyId = await getUserProperty(user.id);
 
     if (!propertyId) {
-        return <div className="p-4 text-center">No se encontró una propiedad asociada a tu cuenta.</div>;
+        return <div>No se encontró propiedad para el usuario.</div>;
     }
 
-    const [dashboardData, attacks, missions, family] = await Promise.all([
+    // Parallel data fetching
+    const [dashboardData, attacks, missions, familyInfo] = await Promise.all([
         getDashboardData(propertyId),
         getIncomingAttacks(propertyId),
         getActiveMissions(propertyId),
@@ -25,11 +25,11 @@ export default async function OverviewPage() {
     ]);
 
     return (
-        <OverviewContent
-            initialDashboardData={dashboardData}
+        <OverviewDashboard 
+            dashboardData={dashboardData}
             attacks={attacks}
             missions={missions}
-            family={family}
+            familyInfo={familyInfo}
         />
     );
 }

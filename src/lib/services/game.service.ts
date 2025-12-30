@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
-import { Propiedad } from '@/types/database'
-import { RespuestaConstruccion, ColaConstruccion, DashboardData, IncomingAttack, ActiveMission, FamilyInfo } from '@/types/game'
+import { Propiedad, AtaqueEntrante, ColaMisiones, MiembroFamilia, Familia } from '@/types/database'
+import { RespuestaConstruccion, ColaConstruccion, DashboardData } from '@/types/game'
 
 interface CreateInitialPropertyData {
   nombre: string
@@ -84,6 +84,72 @@ export async function getDashboardData(propertyId: string): Promise<DashboardDat
   }
 
   return data as DashboardData
+}
+
+export async function getIncomingAttacks(propertyId: string): Promise<AtaqueEntrante[]> {
+  const supabase = await createClient()
+
+  // First get the user_id for this property to filter attacks targeting this user
+  const { data: prop, error: propError } = await supabase
+    .from('propiedad')
+    .select('usuario_id')
+    .eq('id', propertyId)
+    .single()
+
+  if (propError || !prop) {
+      console.error('Error getting property owner for attacks:', propError)
+      return []
+  }
+
+  const { data, error } = await supabase
+    .from('ataque_entrante')
+    .select('*')
+    .eq('defensor_id', prop.usuario_id)
+    .order('fecha_llegada', { ascending: true })
+
+  if (error) {
+    console.error('Error fetching incoming attacks:', error)
+    return []
+  }
+
+  return data as AtaqueEntrante[]
+}
+
+export async function getActiveMissions(propertyId: string): Promise<ColaMisiones[]> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+      .from('cola_misiones')
+      .select('*')
+      .eq('propiedad_origen_id', propertyId)
+      .order('fecha_llegada', { ascending: true })
+
+  if (error) {
+      console.error('Error fetching active missions:', error)
+      return []
+  }
+
+  return data as ColaMisiones[]
+}
+
+export async function getFamilyInfo(userId: string): Promise<{ miembro: MiembroFamilia, familia: Familia } | null> {
+  const supabase = await createClient()
+  const { data: miembro, error: mError } = await supabase
+      .from('miembro_familia')
+      .select('*')
+      .eq('usuario_id', userId)
+      .maybeSingle()
+  
+  if (mError || !miembro) return null
+
+  const { data: familia, error: fError } = await supabase
+      .from('familia')
+      .select('*')
+      .eq('id', miembro.familia_id)
+      .single()
+  
+  if (fError || !familia) return null
+
+  return { miembro, familia }
 }
 
 export async function cancelConstruction(queueId: string): Promise<{ success: boolean; error?: string }> {
@@ -229,66 +295,4 @@ export async function launchMission(missionData: MissionData): Promise<MissionRe
   }
 
   return data as MissionResponse
-}
-
-export async function getIncomingAttacks(propertyId: string): Promise<IncomingAttack[]> {
-  const supabase = await createClient()
-
-  // First get property name to match propiedad_objetivo
-  const { data: property } = await supabase
-    .from('propiedad')
-    .select('nombre, usuario_id')
-    .eq('id', propertyId)
-    .single()
-
-  if (!property) return []
-
-  // Fetch attacks where target is this property name AND defender is this user (extra safety)
-  const { data, error } = await supabase
-    .from('ataque_entrante')
-    .select('*')
-    .eq('defensor_id', property.usuario_id)
-    .eq('propiedad_objetivo', property.nombre)
-    .order('fecha_llegada', { ascending: true })
-
-  if (error) {
-    console.error('Error fetching incoming attacks:', error)
-    return []
-  }
-
-  return data as IncomingAttack[]
-}
-
-export async function getActiveMissions(propertyId: string): Promise<ActiveMission[]> {
-  const supabase = await createClient()
-
-  const { data, error } = await supabase
-    .from('cola_misiones')
-    .select('*')
-    .eq('propiedad_origen_id', propertyId)
-    .order('fecha_llegada', { ascending: true })
-
-  if (error) {
-    console.error('Error fetching active missions:', error)
-    return []
-  }
-
-  return data as ActiveMission[]
-}
-
-export async function getFamilyInfo(userId: string): Promise<FamilyInfo | null> {
-  const supabase = await createClient()
-
-  const { data, error } = await supabase
-    .from('miembro_familia')
-    .select('*, familia(*)')
-    .eq('usuario_id', userId)
-    .maybeSingle()
-
-  if (error) {
-    console.error('Error fetching family info:', error)
-    return null
-  }
-
-  return data as FamilyInfo
 }
