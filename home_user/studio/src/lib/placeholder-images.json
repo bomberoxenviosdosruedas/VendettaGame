@@ -1,0 +1,261 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "vendetta-logo",
+      "description": "Vendetta game logo, a stylized V in crimson.",
+      "imageUrl": "https://images.unsplash.com/photo-1677098258706-fefdbc23bd58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxsb2dvJTIwY3JpbXNvbnxlbnwwfHx8fDE3NjY5Nzc3ODZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "logo crimson"
+    },
+    {
+      "id": "vendetta-header",
+      "description": "Gangster with a vintage car in a dark alley, representing the Vendetta game theme.",
+      "imageUrl": "https://images.unsplash.com/photo-1764165067534-4a2d987b3c98?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxnYW5nc3RlciUyMHZpbnRhZ2V8ZW58MHx8fHwxNzY2OTc5MDIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "gangster vintage"
+    },
+    {
+      "id": "gangster-silhouette",
+      "description": "Silhouette of a gangster holding a submachine gun.",
+      "imageUrl": "https://images.unsplash.com/photo-1669264736964-7beeb59ef28c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxnYW5nc3RlciUyMHNpbGhvdWV0dGV8ZW58MHx8fHwxNzY2OTc5MDIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "gangster silhouette"
+    },
+    {
+      "id": "game-preview-1",
+      "description": "Game interface screenshot.",
+      "imageUrl": "https://images.unsplash.com/photo-1697256936504-7c9177a74fc5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnYW1lJTIwaW50ZXJmYWNlfGVufDB8fHx8MTc2Njk0NDU1NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "game interface"
+    },
+    {
+      "id": "game-preview-2",
+      "description": "Game map screenshot.",
+      "imageUrl": "https://images.unsplash.com/photo-1761716475708-ef98183ccb62?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnYW1lJTIwbWFwfGVufDB8fHx8MTc2NjkyNzgwNHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "game map"
+    },
+    {
+      "id": "game-preview-3",
+      "description": "Character stats screenshot.",
+      "imageUrl": "https://picsum.photos/seed/game3/200/150",
+      "imageHint": "game stats"
+    },
+    {
+      "id": "game-preview-4",
+      "description": "City view in game.",
+      "imageUrl": "https://images.unsplash.com/photo-1761716475708-ef98183ccb62?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnYW1lJTIwY2l0eXxlbnwwfHx8fDE3NjY5NzkwMjF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "game city"
+    },
+    {
+      "id": "game-preview-5",
+      "description": "Game battle screen.",
+      "imageUrl": "https://images.unsplash.com/photo-1736349294306-b966cd053399?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnYW1lJTIwYmF0dGxlfGVufDB8fHx8MTc2Njk3OTAyMXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "game battle"
+    },
+    {
+      "id": "changelog",
+      "description": "A scroll with blood splatters on a poker table, with gangsters in the background.",
+      "imageUrl": "https://images.unsplash.com/photo-1718788939529-693a2538f5da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnYW5nc3RlcnMlMjBwb2tlciUyMHRhYmxlfGVufDB8fHx8MTc2NzAzNTk4Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "gangsters poker"
+    },
+    {
+      "id": "dark-alley",
+      "description": "A dark, empty city alley at night.",
+      "imageUrl": "https://images.unsplash.com/photo-1618193139129-397eda8f0293?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "dark alley"
+    },
+    {
+      "id": "room-office",
+      "description": "A dimly lit, classic mob boss office with a large wooden desk.",
+      "imageUrl": "/img/hab/room-office.webp",
+      "imageHint": "boss office"
+    },
+    {
+      "id": "room-specialization",
+      "description": "A training dummy for specialization.",
+      "imageUrl": "/img/hab/room-specialization.webp",
+      "imageHint": "training dummy"
+    },
+    {
+      "id": "room-armory",
+      "description": "An armory with rifles on the wall.",
+      "imageUrl": "/img/hab/room-armory.webp",
+      "imageHint": "armory rifles"
+    },
+    {
+      "id": "room-ammo",
+      "description": "An ammo warehouse with boxes of bullets.",
+      "imageUrl": "/img/hab/room-ammo.webp",
+      "imageHint": "ammo warehouse"
+    },
+    {
+      "id": "room-brewery",
+      "description": "A vintage brewery with wooden barrels.",
+      "imageUrl": "/img/hab/room-brewery.webp",
+      "imageHint": "vintage brewery"
+    },
+    {
+      "id": "room-training",
+      "description": "A training camp with targets.",
+      "imageUrl": "/img/hab/room-training.webp",
+      "imageHint": "training camp"
+    },
+    {
+      "id": "troop-thug",
+      "description": "A tough looking street thug.",
+      "imageUrl": "/img/trop/troop-thug.webp",
+      "imageHint": "street thug"
+    },
+    {
+      "id": "troop-assassin",
+      "description": "A stealthy assassin in the shadows.",
+      "imageUrl": "/img/trop/troop-assassin.webp",
+      "imageHint": "stealthy assassin"
+    },
+    {
+      "id": "troop-enforcer",
+      "description": "A heavily built enforcer.",
+      "imageUrl": "/img/trop/troop-enforcer.webp",
+      "imageHint": "mafia enforcer"
+    },
+    {
+      "id": "troop-consigliere",
+      "description": "A wise and well-dressed consigliere.",
+      "imageUrl": "/img/trop/troop-consigliere.webp",
+      "imageHint": "mafia consigliere"
+    },
+    {
+      "id": "room-tavern",
+      "description": "A dark tavern with wooden furniture.",
+      "imageUrl": "/img/hab/room-tavern.webp",
+      "imageHint": "dark tavern"
+    },
+    {
+      "id": "room-contraband",
+      "description": "Boxes of contraband goods.",
+      "imageUrl": "/img/hab/room-contraband.webp",
+      "imageHint": "contraband goods"
+    },
+    {
+      "id": "room-vault",
+      "description": "A large bank vault.",
+      "imageUrl": "/img/hab/room-vault.webp",
+      "imageHint": "bank vault"
+    },
+    {
+      "id": "room-security",
+      "description": "A security room with monitors.",
+      "imageUrl": "/img/hab/room-security.webp",
+      "imageHint": "security room"
+    },
+    {
+      "id": "room-turret",
+      "description": "An automated turret.",
+      "imageUrl": "/img/hab/room-turret.webp",
+      "imageHint": "automated turret"
+    },
+    {
+      "id": "room-mines",
+      "description": "Hidden land mines.",
+      "imageUrl": "/img/hab/room-mines.webp",
+      "imageHint": "land mines"
+    },
+    {
+      "id": "training-routes",
+      "description": "A map with routes planned on it.",
+      "imageUrl": "/img/train/training-routes.webp",
+      "imageHint": "route map"
+    },
+    {
+      "id": "training-planning",
+      "description": "A blueprint on a wooden table.",
+      "imageUrl": "/img/train/training-planning.webp",
+      "imageHint": "blueprint plan"
+    },
+    {
+      "id": "training-extortion",
+      "description": "Stacks of cash on a table.",
+      "imageUrl": "/img/train/training-extortion.webp",
+      "imageHint": "cash stacks"
+    },
+    {
+      "id": "training-base-admin",
+      "description": "Documents and a pen on a desk.",
+      "imageUrl": "/img/train/training-base-admin.webp",
+      "imageHint": "office documents"
+    },
+    {
+      "id": "training-espionage",
+      "description": "A map with a knife and a magnifying glass.",
+      "imageUrl": "/img/train/training-espionage.webp",
+      "imageHint": "espionage tools"
+    },
+    {
+      "id": "training-security",
+      "description": "A secure door with a keypad.",
+      "imageUrl": "/img/train/training-security.webp",
+      "imageHint": "security door"
+    },
+    {
+      "id": "training-hand-combat",
+      "description": "Two coins on a table.",
+      "imageUrl": "/img/train/training-hand-combat.webp",
+      "imageHint": "old coins"
+    },
+    {
+      "id": "training-close-combat",
+      "description": "A combat knife on a wooden surface.",
+      "imageUrl": "/img/train/training-close-combat.webp",
+      "imageHint": "combat knife"
+    },
+    {
+      "id": "training-shooting",
+      "description": "A rifle with accessories on a table.",
+      "imageUrl": "/img/train/training-shooting.webp",
+      "imageHint": "rifle accessories"
+    },
+    {
+      "id": "training-explosives",
+      "description": "Sticks of dynamite and a blueprint.",
+      "imageUrl": "/img/train/training-explosives.webp",
+      "imageHint": "dynamite blueprint"
+    },
+    {
+      "id": "training-guerrilla",
+      "description": "A map, a compass and a knife.",
+      "imageUrl": "/img/train/training-guerrilla.webp",
+      "imageHint": "guerrilla tools"
+    },
+    {
+      "id": "training-psychological",
+      "description": "Pills and dice on a table.",
+      "imageUrl": "/img/train/training-psychological.webp",
+      "imageHint": "pills dice"
+    },
+    {
+      "id": "training-chemical",
+      "description": "Concrete cylinders on a surface.",
+      "imageUrl": "/img/train/training-chemical.webp",
+      "imageHint": "concrete cylinders"
+    },
+    {
+      "id": "training-honor",
+      "description": "A framed certificate on a table.",
+      "imageUrl": "/img/train/training-honor.webp",
+      "imageHint": "framed certificate"
+    },
+    { "id": "troop-maton", "description": "Coins.", "imageUrl": "/img/trop/troop-maton.webp", "imageHint": "coins" },
+    { "id": "troop-portero", "description": "A wrench.", "imageUrl": "/img/trop/troop-portero.webp", "imageHint": "wrench" },
+    { "id": "troop-acuchillador", "description": "A switchblade.", "imageUrl": "/img/trop/troop-acuchillador.webp", "imageHint": "switchblade" },
+    { "id": "troop-pistolero", "description": "A pistol.", "imageUrl": "/img/trop/troop-pistolero.webp", "imageHint": "pistol" },
+    { "id": "troop-ocupacion", "description": "Boxes and a hammer.", "imageUrl": "/img/trop/troop-ocupacion.webp", "imageHint": "boxes hammer" },
+    { "id": "troop-espia", "description": "Passports and documents.", "imageUrl": "/img/trop/troop-espia.webp", "imageHint": "passports documents" },
+    { "id": "troop-porteador", "description": "A wooden crate.", "imageUrl": "/img/trop/troop-porteador.webp", "imageHint": "wooden crate" },
+    { "id": "troop-cia", "description": "A CIA badge and knife.", "imageUrl": "/img/trop/troop-cia.webp", "imageHint": "cia badge" },
+    { "id": "troop-fbi", "description": "An FBI badge.", "imageUrl": "/img/trop/troop-fbi.webp", "imageHint": "fbi badge" },
+    { "id": "troop-transportista", "description": "A briefcase.", "imageUrl": "/img/trop/troop-transportista.webp", "imageHint": "briefcase" },
+    { "id": "troop-tactico", "description": "A dagger and a shell.", "imageUrl": "/img/trop/troop-tactico.webp", "imageHint": "dagger shell" },
+    { "id": "troop-francotirador", "description": "A sniper rifle scope.", "imageUrl": "/img/trop/troop-francotirador.webp", "imageHint": "sniper scope" },
+    { "id": "troop-asesino", "description": "Pliers.", "imageUrl": "/img/trop/troop-asesino.webp", "imageHint": "pliers" },
+    { "id": "troop-ninja", "description": "A katana.", "imageUrl": "/img/trop/troop-ninja.webp", "imageHint": "katana" },
+    { "id": "troop-demoliciones", "description": "TNT and a map.", "imageUrl": "/img/trop/troop-demoliciones.webp", "imageHint": "tnt map" },
+    { "id": "troop-mercenario", "description": "Guns on a table.", "imageUrl": "/img/trop/troop-mercenario.webp", "imageHint": "guns table" }
+  ]
+}
