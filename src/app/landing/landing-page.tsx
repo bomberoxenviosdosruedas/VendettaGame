@@ -56,11 +56,21 @@ export function LandingPage() {
 
         <div className="bg-gray-800/50 flex justify-between items-center px-4 py-1 text-xs border-b border-border">
           <div className="flex gap-2">
-             <Image src="https://flagcdn.com/it.svg" width={20} height={15} alt="Italian Flag" />
-             <Image src="https://flagcdn.com/gb.svg" width={20} height={15} alt="British Flag" />
-             <Image src="https://flagcdn.com/fr.svg" width={20} height={15} alt="French Flag" />
-             <Image src="https://flagcdn.com/de.svg" width={20} height={15} alt="German Flag" />
-             <Image src="https://flagcdn.com/es.svg" width={20} height={15} alt="Spanish Flag" />
+            <button aria-label="Select language: Italian" className="focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm">
+              <Image src="https://flagcdn.com/it.svg" width={20} height={15} alt="Italian Flag" />
+            </button>
+            <button aria-label="Select language: English" className="focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm">
+              <Image src="https://flagcdn.com/gb.svg" width={20} height={15} alt="British Flag" />
+            </button>
+            <button aria-label="Select language: French" className="focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm">
+              <Image src="https://flagcdn.com/fr.svg" width={20} height={15} alt="French Flag" />
+            </button>
+            <button aria-label="Select language: German" className="focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm">
+              <Image src="https://flagcdn.com/de.svg" width={20} height={15} alt="German Flag" />
+            </button>
+            <button aria-label="Select language: Spanish" className="focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm">
+              <Image src="https://flagcdn.com/es.svg" width={20} height={15} alt="Spanish Flag" />
+            </button>
           </div>
           <div className="text-gray-400">
              <span>En línea: 2</span> | <span>Usuarios Totales: 100</span>
@@ -124,7 +134,7 @@ export function LandingPage() {
                 <p>¿Quieres ser el Capo de la Mafia más importante en la ciudad? ¿Qué esperas?</p>
                 <p>Construye habitaciones para obtener más recursos junto con las más avanzadas tecnologías, tropas de ataque e incluso podrás obtener un ejército inmejorable con las tropas de defensa mejor desarrolladas, y así...</p>
                 <p className="font-bold text-lg">¡Dominar la ciudad!</p>
-                <p>Entrena a tus \"chicos\" para volverse más fuertes; vigila el mapa de la ciudad para comprobar aquellos aliados o enemigos que se encuentren cerca de tu zona; revisa la clasificación para conocer quienes son actualmente los mafiosos más poderosos y... ¡muchas cosas más!</p>
+                <p>Entrena a tus &quot;chicos&quot; para volverse más fuertes; vigila el mapa de la ciudad para comprobar aquellos aliados o enemigos que se encuentren cerca de tu zona; revisa la clasificación para conocer quienes son actualmente los mafiosos más poderosos y... ¡muchas cosas más!</p>
                  <Button variant="destructive" size="lg" className="w-full bg-accent hover:bg-accent/90">
                     REGÍSTRATE GRATIS EN EL SERVIDOR 1
                 </Button>
