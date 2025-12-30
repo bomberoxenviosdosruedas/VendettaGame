@@ -17,7 +17,7 @@ export type Room = {
 
 export const roomsData: Room[] = [
     {
-        id: "oficina-jefe",
+        id: "oficina_del_jefe",
         name: "Oficina del Jefe",
         level: 2,
         description: "El Jefe se encuentra en esta oficina, y aquí, se toman todas las decisiones. Coordina el desarrollo y la velocidad de construcción de las otras áreas. Cuando más nivel, más rápido se desarrollan el resto.",
@@ -28,7 +28,7 @@ export const roomsData: Room[] = [
         upgradeLevel: 3,
     },
     {
-        id: "escuela-especializacion",
+        id: "escuela_especializacion",
         name: "Escuela de especialización",
         description: "Como ya dice el nombre, esta habitación permite el entrenamiento de \"los chicos\" en nuevas ténicas, permitiéndoles tener más experiencia en combate. Al igual que para la oficina de El Jefe, cuánto más rápido se haga el entrenamiento, más rápido se desarrollan las habilidades.",
         image: "room-specialization",
@@ -46,7 +46,7 @@ export const roomsData: Room[] = [
         status: 'expand',
     },
     {
-        id: "almacen-municion",
+        id: "almacen_de_municion",
         name: "Almacén de munición",
         level: 1,
         description: "El almacén de munición es similar a la armería. Aquí, se manufactura la munición importante. Es necesaria, en grandes cantidades, al ocupar áreas, así como para su uso en entrenamientos. A diferencia de las armas, la munición se usa mucho más rápido.",
@@ -66,7 +66,7 @@ export const roomsData: Room[] = [
         status: 'expand',
     },
     {
-        id: "campo-entrenamiento",
+        id: "campo_de_entrenamiento",
         name: "Campo de entrenamiento",
         description: "Tal y como dice el nombre, en el campo de entrenamiento, tus \"chicos\" entrenarán. El mismo, dependerá según el tipo de unidades que puedas producir, por ejemplo, simples delincuentes, asesinos, profesionales, a los que tus enemigos tendrán un respeto extremo. Dependiendo del nivel, las unidades serán creadas en menor tiempo.",
         image: "room-training",
