@@ -44,6 +44,11 @@ export async function registerAction(prevState: any, formData: FormData) {
     }
   }
 
+  // Si hay sesión (autologin), redirigir al dashboard
+  if (result.data?.session) {
+    redirect('/dashboard')
+  }
+
   return { message: 'Cuenta creada exitosamente. Por favor inicia sesión.' }
 }
 
