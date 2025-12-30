@@ -7,6 +7,7 @@ import { SidebarHeader, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMen
 import { Separator } from "@/components/ui/separator";
 import { SignOutButton } from "./sign-out-button";
 import { ClientSelect } from "@/components/ui/client-select";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const menuItems = [
     { name: "Nueva alerta", icon: Bell, href: "/dashboard/alerts", highlight: true },
@@ -65,40 +66,53 @@ export function SideNav({ userEmail }: { userEmail: string | undefined }) {
     }
 
     return (
-        <div className="flex flex-col h-full">
-            <SidebarHeader className="bg-stone-900/50 p-2 text-center border-b-2 border-black/30">
-                <h2 className="font-bold text-lg">Menu</h2>
-                <p className="text-xs text-stone-400">{currentDate}</p>
+        <div className="flex flex-col h-full bg-stone-900 text-stone-300">
+            <SidebarHeader className="bg-stone-950 p-4 text-center border-b border-stone-800">
+                <h2 className="font-bold text-xl text-primary font-headline tracking-wider">VENDETTA</h2>
+                <p className="text-xs text-stone-500 font-mono mt-1">{currentDate}</p>
             </SidebarHeader>
-            <SidebarContent className="flex-1">
-                <SidebarMenu>
-                    {menuItems.map((item) => (
-                        <SidebarMenuItem key={item.name}>
-                            {item.isSearch ? (
-                                <div className="p-2 border-b border-stone-700">
-                                    <div className="flex items-center gap-2 text-sm p-2 bg-stone-200 text-black rounded-sm">
-                                        <item.icon className="h-4 w-4" />
-                                        <span className="flex-1">Buscar</span>
-                                        <ClientSelect />
+            
+            <SidebarContent className="flex-1 overflow-hidden">
+                <ScrollArea className="h-full">
+                    <SidebarMenu className="p-2 gap-1">
+                        {menuItems.map((item) => (
+                            <SidebarMenuItem key={item.name}>
+                                {item.isSearch ? (
+                                    <div className="p-2 my-2 border border-stone-800 rounded bg-stone-950/50">
+                                        <div className="flex items-center gap-2 text-sm">
+                                            <Search className="h-4 w-4 text-stone-500" />
+                                            <div className="flex-1">
+                                                 <ClientSelect />
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            ) : (
-                                <Link href={item.href} passHref onClick={handleLinkClick}>
-                                  <SidebarMenuButton 
-                                    className={`justify-start w-full border-b border-stone-700 rounded-none hover:bg-stone-700 transition-colors ${item.highlight ? 'bg-stone-600 font-bold' : ''}`}
-                                  >
-                                    <item.icon className="h-4 w-4" />
-                                    <span>{item.name}</span>
-                                  </SidebarMenuButton>
-                                </Link>
-                            )}
-                        </SidebarMenuItem>
-                    ))}
-                </SidebarMenu>
+                                ) : (
+                                    <Link href={item.href} passHref onClick={handleLinkClick} className="w-full">
+                                    <SidebarMenuButton 
+                                        className={`w-full justify-start h-10 px-3 transition-all duration-200 
+                                            ${item.highlight 
+                                                ? 'bg-primary/20 text-primary hover:bg-primary/30 border-l-2 border-primary' 
+                                                : 'hover:bg-stone-800 hover:text-white border-l-2 border-transparent hover:border-stone-600'
+                                            }`}
+                                    >
+                                        <item.icon className={`h-4 w-4 mr-3 ${item.highlight ? 'text-primary' : 'text-stone-500 group-hover:text-stone-300'}`} />
+                                        <span className="font-medium text-sm">{item.name}</span>
+                                    </SidebarMenuButton>
+                                    </Link>
+                                )}
+                            </SidebarMenuItem>
+                        ))}
+                    </SidebarMenu>
+                </ScrollArea>
             </SidebarContent>
-            <Separator className="bg-black/30" />
-            <div className="p-4 space-y-2 border-t-2 border-black/30">
-                <p className="text-xs text-stone-400 truncate">Conectado como: {userEmail}</p>
+
+            <div className="mt-auto border-t border-stone-800 bg-stone-950 p-4">
+                <div className="mb-4 px-2">
+                    <p className="text-xs font-medium text-stone-500 uppercase tracking-wider mb-1">Cuenta</p>
+                    <p className="text-sm text-stone-300 truncate font-mono" title={userEmail}>
+                        {userEmail || 'Invitado'}
+                    </p>
+                </div>
                 <SignOutButton />
             </div>
         </div>

@@ -81,3 +81,31 @@ Cuando necesites añadir una nueva sección al dashboard (ej. "Mercado"):
 -   Todas las imágenes utilizadas en la aplicación deben tener una entrada correspondiente en `src/lib/placeholder-images.json`. Esto centraliza la gestión de metadatos de imágenes.
 
 Siguiendo estas directrices, mantendremos un proyecto limpio, organizado y fácil de escalar. ¡A codificar!
+
+## 5. Protocolo de Integración Frontend-Backend
+
+Este protocolo formaliza el trabajo para conectar la base de datos Supabase (SQL) con el frontend Next.js (TSX), asegurando consistencia y calidad.
+
+### 5.1. Fase de Análisis (Lectura SQL)
+Antes de escribir código, **leer los archivos de migración** en `supabase/migrations/`.
+- **Tablas:** Definir interfaces TypeScript.
+- **RPCs (Functions):** Entender argumentos y retornos (mapear JSON a interfaces).
+- **Enums:** Crear tipos unión en TypeScript.
+- **RLS Policies:** Comprender permisos para manejar estados de UI.
+
+### 5.2. Fase de Implementación
+
+**A. Capa de Tipos (TypeScript)**
+- Generar/actualizar interfaces en `src/types/` reflejando fielmente la DB.
+- Mantener convención de nombres consistente o usar mapeadores.
+
+**B. Capa de Servicio (Server Actions - `src/lib/actions/`)**
+- Funciones asíncronas con `"use server"`.
+- Instanciar cliente Supabase (`createClient()`).
+- **Validación:** Usar **Zod** para validar entradas ANTES de llamar a la DB.
+- **Manejo de Errores:** Capturar errores y devolver objetos de estado claros (ej: `{ success: false, error: "..." }`).
+
+**C. Capa de UI (Componentes)**
+- **Lectura:** Priorizar Server Components.
+- **Interactividad:** Client Components para formularios/botones que invocan Server Actions.
+- **Feedback:** Implementar estados de `loading`, `success`, y `error`.

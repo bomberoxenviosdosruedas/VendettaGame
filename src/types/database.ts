@@ -2,6 +2,9 @@
 
 // Enums
 export type EstadoInvitacion = 'pendiente' | 'aceptada' | 'rechazada';
+// Alias for typo compatibility if needed, though strictly we should use the correct one.
+export type EstadoInvaticion = EstadoInvitacion; 
+
 export type RolFamilia = 'miembro' | 'capitan' | 'lider';
 export type CategoriaMensaje = 'jugador' | 'familia' | 'sistema' | 'batalla' | 'espionaje';
 export type EstadoFlota = 'en_camino' | 'regresando' | 'estacionada' | 'combatiendo';

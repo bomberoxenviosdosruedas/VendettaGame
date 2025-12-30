@@ -5,95 +5,94 @@ import { Button } from "@/components/ui/button";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Coins, Shell, Droplets } from "lucide-react";
 import type { Room } from "@/lib/data/rooms-data";
-import { iniciarConstruccionHabitacion } from "@/lib/actions/construccion";
-import { useTransition } from "react";
-import { toast } from "sonner";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 type RoomCardProps = {
   room: Room;
-  propiedadId: string;
 };
 
 const ResourceIcon = ({ type }: { type: string }) => {
+    const iconClass = "w-3 h-3 md:w-4 md:h-4 mr-1";
     switch (type) {
         case 'Armas':
-            return <Shell className="w-4 h-4 inline-block ml-1" />;
+            return <Shell className={`${iconClass} text-stone-600`} />;
         case 'Municion':
-            return <Coins className="w-4 h-4 inline-block ml-1" />;
+            return <Coins className={`${iconClass} text-yellow-600`} />;
         case 'Dolares':
-            return <p className="text-lg font-bold text-green-600 inline-block ml-1">$</p>;
+            return <span className={`${iconClass} font-bold text-green-700 flex items-center justify-center`}>$</span>;
         default:
             return null;
     }
 }
 
-export function RoomCard({ room, propiedadId }: RoomCardProps) {
+export function RoomCard({ room }: RoomCardProps) {
   const image = PlaceHolderImages.find((p) => p.id === room.image) || PlaceHolderImages.find(p => p.id === 'dark-alley');
-  const [isPending, startTransition] = useTransition();
-
-  const handleBuild = () => {
-    startTransition(async () => {
-      const result = await iniciarConstruccionHabitacion(propiedadId, room.id);
-
-      if (result.error) {
-        toast.error(result.error);
-      } else {
-        toast.success(`Construcción de ${room.name} iniciada.`);
-      }
-    });
-  };
 
   return (
-    <div className="bg-stone-200 text-black p-4 rounded-md border border-primary/50 flex flex-col md:flex-row gap-4 items-start md:items-center min-h-[180px]">
-      <div className="flex-shrink-0 w-24 md:w-24">
+    <Card className="flex flex-col sm:flex-row overflow-hidden hover:shadow-lg transition-shadow duration-300 border-primary/20 bg-card">
+      {/* Image Section */}
+      <div className="relative w-full sm:w-1/3 min-h-[160px] sm:min-h-full">
         {image && (
             <Image
             src={image.imageUrl}
             alt={image.description}
-            width={100}
-            height={100}
-            className="rounded w-full h-auto object-cover"
+            fill
+            className="object-cover"
             data-ai-hint={image.imageHint}
+            sizes="(max-width: 640px) 100vw, 33vw"
             />
         )}
-      </div>
-      <div className="flex-1 w-full">
-        <div className="flex justify-between items-start">
-          <div>
-            <h3 className="font-bold text-lg text-primary">
-              {room.name} {room.level && `(${room.level})`}
-            </h3>
-          </div>
-          <div className="text-center flex-shrink-0 md:ml-4">
-            {room.status === 'upgrade' && room.upgradeLevel ? (
-              <div className="text-green-600 font-bold text-sm md:text-base">
-                <p>Ampliacion</p>
-                <p>Nivel {room.upgradeLevel}</p>
-              </div>
-            ) : (
-              <Button
-                variant="destructive"
-                size="sm"
-                className="bg-accent hover:bg-accent/90"
-                onClick={handleBuild}
-                disabled={isPending}
-              >
-                {isPending ? 'Iniciando...' : 'Inizia espansione'}
-              </Button>
-            )}
-          </div>
+        <div className="absolute top-2 right-2 sm:hidden">
+             {room.level && <Badge variant="secondary" className="font-bold">Nv. {room.level}</Badge>}
         </div>
-        <p className="text-sm my-2">{room.description}</p>
-        <div className="flex items-center flex-wrap gap-x-4 gap-y-1 text-sm">
-          {Object.entries(room.costs).map(([resource, value]) => (
-            <div key={resource} className="flex items-center">
-              <span>{resource.charAt(0)}: {value}</span>
-              <ResourceIcon type={resource} />
+      </div>
+
+      {/* Content Section */}
+      <div className="flex-1 flex flex-col justify-between p-4 gap-3">
+        <div className="space-y-2">
+            <div className="flex justify-between items-start">
+                <h3 className="font-bold text-lg md:text-xl text-primary font-headline leading-tight">
+                {room.name}
+                </h3>
+                <Badge variant="outline" className="hidden sm:inline-flex border-primary/50 text-primary font-bold">
+                    Nv. {room.level || 1}
+                </Badge>
             </div>
-          ))}
-           <span>Duración: {room.duration}</span>
+            
+            <p className="text-sm text-muted-foreground line-clamp-2 md:line-clamp-3">
+                {room.description}
+            </p>
+        </div>
+
+        {/* Resources & Action Footer */}
+        <div className="space-y-3 pt-2 border-t border-border/50">
+             <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs md:text-sm text-muted-foreground">
+                {Object.entries(room.costs).map(([resource, value]) => (
+                    <div key={resource} className="flex items-center font-medium">
+                        <ResourceIcon type={resource} />
+                        <span>{value}</span>
+                    </div>
+                ))}
+                <div className="flex items-center ml-auto text-xs font-mono bg-secondary/30 px-2 py-0.5 rounded">
+                    ⏱ {room.duration}
+                </div>
+            </div>
+
+            <div className="flex justify-end pt-1">
+                {room.status === 'upgrade' && room.upgradeLevel ? (
+                <div className="w-full bg-secondary/20 p-2 rounded text-center">
+                    <p className="text-xs text-muted-foreground">Mejorando a</p>
+                    <p className="font-bold text-green-600">Nivel {room.upgradeLevel}</p>
+                </div>
+                ) : (
+                <Button className="w-full sm:w-auto" size="sm">
+                    Ampliar
+                </Button>
+                )}
+            </div>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

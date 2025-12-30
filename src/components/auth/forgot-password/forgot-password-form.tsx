@@ -2,7 +2,7 @@
 
 import { useActionState } from 'react'
 import { useFormStatus } from 'react-dom'
-import { forgotPassword } from '@/lib/actions/auth'
+import { forgotPassword } from '@/actions/auth.stubs'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -14,7 +14,7 @@ import { Terminal } from 'lucide-react'
 
 const initialState = {
   message: '',
-  errors: undefined,
+  errors: {} as Record<string, string[]>,
 }
 
 function SubmitButton() {

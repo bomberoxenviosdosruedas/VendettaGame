@@ -2,7 +2,7 @@
 
 import { useActionState } from 'react'
 import { useFormStatus } from 'react-dom'
-import { signup } from '@/lib/actions/auth'
+import { registerAction as signup } from '@/actions/auth.actions'
 import { SocialButtons } from '@/components/auth/social-buttons'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -66,6 +66,19 @@ export function SignupForm() {
       </CardHeader>
       <CardContent>
         <form action={formAction} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="fullName">Nombre Completo</Label>
+            <Input
+              id="fullName"
+              name="fullName"
+              type="text"
+              placeholder="Tu nombre"
+              required
+            />
+            {state?.errors?.fullName && (
+              <p className="text-sm text-destructive">{state.errors.fullName[0]}</p>
+            )}
+          </div>
           <div className="space-y-2">
             <Label htmlFor="email">Correo Electrónico</Label>
             <Input
