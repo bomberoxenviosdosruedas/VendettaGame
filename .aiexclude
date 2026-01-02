@@ -1,18 +1,52 @@
-# Archivos de bloqueo de dependencias
-pnpm-lock.yaml
-package-lock.json
-yarn.lock
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Metadatos del paquete
-package.json
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
-# Configuracion del editor
-.vscode/
+# testing
+/coverage
 
-# Documentacion (instrucciones ya internalizadas por el agente)
-README.md
-AGENTS.MD
-GEMINI.md
+# next.js
+/.next/
+/out/
 
-# Scripts de utilidad
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+.genkit/*
+.env*
+
+# firebase
+firebase-debug.log
+firestore-debug.log
+
+# Directorios específicos del proyecto
+supabase/
 scripts/
+public/
+docs/
+verification/
