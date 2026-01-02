@@ -89,11 +89,14 @@ export async function createInitialProperty(data: CreateInitialPropertyData): Pr
 }
 
 export async function getUserProperty(userId: string): Promise<string | null> {
+  if (!userId) return null
+
   const supabase = await createClient()
-  const { data, error } = await supabase.from('propiedad').select('id').eq('usuario_id', userId).maybeSingle()
+  // Use 'bases' table as per migration, replacing legacy 'propiedad'
+  const { data, error } = await supabase.from('bases').select('id').eq('user_id', userId).maybeSingle()
 
   if (error) {
-    console.error('Error checking user property:', error)
+    console.error('Error checking user property:', JSON.stringify(error, null, 2))
     return null
   }
   return data?.id || null
