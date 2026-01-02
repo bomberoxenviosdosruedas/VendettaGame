@@ -79,9 +79,7 @@ El brazo armado de la organización. Se reclutan en el *Campo de Entrenamiento* 
     *   *Rol:* Transporte de recursos y saqueo.
     *   *Combate:* Nulo (0 Ataque / 0 Defensa).
     *   *Capacidad:* Muy Alta (1000u).
-*   **Consigliere:** Estratega y diplomático.
-    *   *Rol:* Apoyo y colonización (Fundar nuevas bases).
-    *   *Costo:* Alto en Dólares y Alcohol.
+
 
 ### Infantería
 *   **Matón:** La fuerza bruta básica.
@@ -90,29 +88,21 @@ El brazo armado de la organización. Se reclutan en el *Campo de Entrenamiento* 
 *   **Asesino:** Especialista ofensivo.
     *   *Rol:* Daño puro. Ataque alto, defensa baja.
     *   *Uso:* Romper defensas enemigas rápidamente.
-*   **Gorila:** Especialista defensivo.
-    *   *Rol:* Tanque. Defensa muy alta, ataque bajo.
-    *   *Uso:* Proteger la base y los recursos.
 
 ---
 
 ## 5. Investigación y Desarrollo (Entrenamientos)
 Las mejoras globales se investigan en la *Escuela de Especialización*. Una vez investigadas, aplican a todas las propiedades del jugador.
 
-### Rama Logística
 *   **Planificación de Rutas:** Aumenta la velocidad de las flotas en el mapa.
 *   **Planificación de Encargos:** Permite controlar más flotas simultáneamente.
 *   **Administración de Base:** Mejora la eficiencia administrativa (requisito para edificios avanzados).
 *   **Contrabando:** Mejora la capacidad de comercio y transporte oculto.
-
-### Rama de Combate
 *   **Extorsión:** Habilidad básica para intimidar. Aumenta la fuerza de combate base.
 *   **Combate Cuerpo a Cuerpo:** Mejora tropas básicas.
 *   **Combate Armas Corta Distancia:** Mejora tropas intermedias.
 *   **Entrenamiento de Tiro:** Vital para la precisión en combate avanzado.
 *   **Fabricación de Explosivos:** Requisito para unidades de demolición.
-
-### Rama de Inteligencia
 *   **Espionaje:** Permite enviar sondas y obtener informes detallados de rivales.
 *   **Seguridad (Tech):** Contramedida al espionaje enemigo (hace más difícil ser espiado).
 *   **Entrenamiento Psicológico:** Mejora la moral y resistencia.
