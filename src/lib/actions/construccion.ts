@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { IniciarConstruccionSchema } from '@/types/game';
+import { sanitizeDatabaseError } from '@/lib/utils/db-error';
 
 export async function iniciarConstruccionHabitacion(
   propiedad_id: string,
@@ -36,7 +37,7 @@ export async function iniciarConstruccionHabitacion(
       // El error de la base de datos puede contener información sensible,
       // devolvemos un mensaje genérico o uno específico si es seguro.
       return {
-        error: 'No se pudo iniciar la construcción. Inténtalo de nuevo.',
+        error: sanitizeDatabaseError(error),
       };
     }
 

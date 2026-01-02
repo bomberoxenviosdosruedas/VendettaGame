@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { getUserProperty } from "@/lib/services/game.service";
+import { sanitizeDatabaseError } from "@/lib/utils/db-error";
 
 export async function recruitTroopsAction(troopId: string, quantity: number) {
   const supabase = await createClient();
@@ -31,7 +32,7 @@ export async function recruitTroopsAction(troopId: string, quantity: number) {
     console.error('Error reclutando tropas:', error);
     // Supabase RPC errors are often formatted as "Error: message"
     // We try to extract the message if it's a known format or return the raw message
-    return { success: false, error: error.message || 'Error al iniciar reclutamiento' };
+    return { success: false, error: sanitizeDatabaseError(error) };
   }
 
   revalidatePath('/dashboard/recruitment');
