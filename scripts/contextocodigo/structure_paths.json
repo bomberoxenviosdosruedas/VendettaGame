@@ -27,6 +27,7 @@
     "src/app/dashboard/rooms",
     "src/app/dashboard/tech-tree",
     "src/app/dashboard/training",
+    "src/app/onboarding",
     "src/app/reset-password"
   ],
   "components": [

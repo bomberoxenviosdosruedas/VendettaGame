@@ -74,7 +74,7 @@ export function LoginForm() {
                 ¿Olvidaste tu contraseña?
               </Link>
             </div>
-            <Input id="password" name="password" type="password" required defaultValue="password123" />
+            <Input id="password" name="password" type="password" required defaultValue="123456789" />
             {state?.errors?.password && (
               <p className="text-sm text-destructive">{state.errors.password[0]}</p>
             )}
