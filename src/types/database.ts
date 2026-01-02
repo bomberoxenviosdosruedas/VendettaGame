@@ -129,7 +129,6 @@ export interface TropaBonusContrincante {
 }
 
 export interface Propiedad {
-  [x: string]: ReactNode;
   id: string; // uuid
   usuario_id?: string; // uuid
   nombre: string;

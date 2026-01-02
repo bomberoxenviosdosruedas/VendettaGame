@@ -76,7 +76,7 @@ export function OverviewView({ familyInfo }: OverviewViewProps) {
                             {propiedad.nombre}
                         </span>
                         <Badge variant="secondary" className="font-mono text-xs">
-                            {propiedad.ciudad}:{propiedad.barrio}:{propiedad.edificio}
+                            {propiedad.coordenada_ciudad}:{propiedad.coordenada_barrio}:{propiedad.coordenada_edificio}
                         </Badge>
                     </CardTitle>
                 </CardHeader>

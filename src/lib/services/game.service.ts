@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { Propiedad, AtaqueEntrante, ColaMisiones, MiembroFamilia, Familia } from '@/types/database'
 import { RespuestaConstruccion, ColaConstruccion, DashboardData } from '@/types/game'
+import { sanitizeDatabaseError } from '@/lib/utils/db-error'
 
 interface CreateInitialPropertyData {
   nombre: string
@@ -81,7 +82,7 @@ export async function createInitialProperty(data: CreateInitialPropertyData): Pr
 
   if (error) {
     console.error('Error creating initial property:', error)
-    return { error: error.message }
+    return { error: sanitizeDatabaseError(error) }
   }
 
   return result as CreateInitialPropertyResponse
@@ -203,7 +204,7 @@ export async function cancelConstruction(queueId: string): Promise<{ success: bo
 
   if (error) {
     console.error('Error cancelling construction:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: sanitizeDatabaseError(error) }
   }
 
   const result = data as { success: boolean; error?: string }
@@ -261,7 +262,7 @@ export async function startConstruction(propertyId: string, buildingId: string):
 
   if (error) {
     console.error('Error starting construction:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: sanitizeDatabaseError(error) }
   }
 
   return data as RespuestaConstruccion
@@ -294,7 +295,7 @@ export async function startResearch(propertyId: string, researchId: string): Pro
 
   if (error) {
     console.error('Error starting research:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: sanitizeDatabaseError(error) }
   }
 
   return data as ResearchResponse
@@ -311,7 +312,7 @@ export async function recruitTroops(propertyId: string, troopId: string, amount:
 
   if (error) {
     console.error('Error recruiting troops:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: sanitizeDatabaseError(error) }
   }
 
   return data as RecruitResponse
@@ -333,7 +334,7 @@ export async function launchMission(missionData: MissionData): Promise<MissionRe
 
   if (error) {
     console.error('Error launching mission:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: sanitizeDatabaseError(error) }
   }
 
   return data as MissionResponse
