@@ -1,20 +1,30 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
+import { cn } from '@/lib/utils';
 
 interface ResourceTickerProps {
   initialValue: number;
   productionRate: number; // per hour
   lastUpdated?: string; // timestamp string (ISO)
+  className?: string;
 }
 
-export function ResourceTicker({ initialValue, productionRate, lastUpdated }: ResourceTickerProps) {
+export function ResourceTicker({ initialValue, productionRate, lastUpdated, className }: ResourceTickerProps) {
   const [currentValue, setCurrentValue] = useState(initialValue);
-  const startTimeRef = useRef(Date.now());
   const animationFrameRef = useRef<number | null>(null);
 
   // Parse lastUpdated if provided, otherwise assume initialValue is fresh from server rendering
   const baseTimeRef = useRef(lastUpdated ? new Date(lastUpdated).getTime() : Date.now());
+  const initialValueRef = useRef(initialValue);
+
+  // If initialValue updates (re-render from server or parent), we should sync up but maintain smoothness.
+  // Actually, if parent passes new initialValue, it implies a fresh fetch.
+  useEffect(() => {
+    initialValueRef.current = initialValue;
+    baseTimeRef.current = lastUpdated ? new Date(lastUpdated).getTime() : Date.now();
+    setCurrentValue(initialValue);
+  }, [initialValue, lastUpdated]);
 
   useEffect(() => {
     const ratePerSecond = productionRate / 3600;
@@ -23,16 +33,10 @@ export function ResourceTicker({ initialValue, productionRate, lastUpdated }: Re
     const updateValue = () => {
       const now = Date.now();
       
-      // Calculate elapsed time since the base time (when the value was accurate)
-      // If lastUpdated was provided, we use that.
-      // If we only have initialValue and assume it's "now", we rely on client clock which is fine for visual interpolation.
-      // However, usually we get 'val' which is the value at 'lastUpdated' or 'now' (if fresh).
-      // Since dashboard RPC usually updates resources before returning, let's assume initialValue is fresh at component mount.
-      
       const secondsElapsed = (now - baseTimeRef.current) / 1000;
       const addedValue = secondsElapsed * ratePerSecond;
       
-      setCurrentValue(initialValue + addedValue);
+      setCurrentValue(initialValueRef.current + addedValue);
       
       animationFrameRef.current = requestAnimationFrame(updateValue);
     };
@@ -45,7 +49,7 @@ export function ResourceTicker({ initialValue, productionRate, lastUpdated }: Re
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [initialValue, productionRate, lastUpdated]);
+  }, [productionRate]);
 
-  return <>{Math.floor(currentValue).toLocaleString()}</>;
+  return <span className={cn(className)}>{Math.floor(currentValue).toLocaleString()}</span>;
 }

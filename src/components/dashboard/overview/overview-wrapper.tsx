@@ -1,7 +1,7 @@
 'use client';
 
 import { GameStateProvider } from '@/components/providers/game-state-provider';
-import { OverviewDashboard } from './overview-dashboard';
+import { OverviewView } from './overview-view';
 import { DashboardData } from '@/types/game';
 import { MiembroFamilia, Familia } from '@/types/database';
 
@@ -13,7 +13,7 @@ interface OverviewWrapperProps {
 export function OverviewWrapper({ initialData, familyInfo }: OverviewWrapperProps) {
   return (
     <GameStateProvider initialData={initialData}>
-      <OverviewDashboard familyInfo={familyInfo} />
+      <OverviewView familyInfo={familyInfo} />
     </GameStateProvider>
   );
 }
