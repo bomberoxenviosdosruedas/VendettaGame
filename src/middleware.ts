@@ -37,7 +37,7 @@ export async function middleware(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser()
 
-  const publicPaths = ['/login', '/signup', '/forgot-password', '/reset-password']
+  const publicPaths = ['/', '/login', '/signup', '/forgot-password', '/reset-password']
 
   if (!user && !publicPaths.includes(request.nextUrl.pathname) && !request.nextUrl.pathname.startsWith('/auth/callback')) {
     return NextResponse.redirect(new URL('/login', request.url))

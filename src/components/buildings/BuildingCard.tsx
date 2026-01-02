@@ -1,6 +1,7 @@
 'use client';
 
 import { useOptimistic, useTransition } from 'react';
+import Link from 'next/link';
 import { enqueueBuildingUpgrade } from '@/lib/actions/buildings';
 import { BaseBuildingRPC } from '@/types/legacy_schema';
 
@@ -37,9 +38,11 @@ export default function BuildingCard({ building, baseId, isQueueFull }: Building
       </div>
 
       <div className="flex-grow">
-        <h3 className="text-lg font-bold text-white">
-          {building.name} <span className="text-sm font-normal text-slate-400">(Nivel {building.level})</span>
-        </h3>
+        <Link href={`/dashboard/buildings/${building.building_id}`} className="hover:underline">
+            <h3 className="text-lg font-bold text-white cursor-pointer">
+            {building.name} <span className="text-sm font-normal text-slate-400">(Nivel {building.level})</span>
+            </h3>
+        </Link>
         <p className="text-sm text-slate-400 mt-1 mb-2 line-clamp-2">
           {building.description}
         </p>

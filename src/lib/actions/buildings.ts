@@ -65,3 +65,20 @@ export async function cancelBuildingUpgrade(queueId: string) {
   revalidatePath('/dashboard/buildings');
   return { success: true };
 }
+
+export async function getBuildingProductionProjection(baseId: string, buildingId: string) {
+    const supabase = await createClient();
+
+    const { data, error } = await supabase.rpc('get_building_production_projection', {
+        p_base_id: baseId,
+        p_building_id: buildingId,
+        p_limit: 10
+    });
+
+    if (error) {
+        console.error('RPC Error:', error);
+        return [];
+    }
+
+    return data;
+}
