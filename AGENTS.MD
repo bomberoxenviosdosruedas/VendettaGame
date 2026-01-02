@@ -81,4 +81,3 @@ Dado que no hay un suite de tests automatizados completo (`npm test` no está co
 3.  **Evidencia:** Si realizas cambios en la UI, genera o solicita ver una captura de pantalla para confirmar la alineación y el estilo.
 
 ---
-*Este archivo debe ser consultado por el agente al inicio de cada tarea para asegurar el alineamiento con los estándares del proyecto.*
