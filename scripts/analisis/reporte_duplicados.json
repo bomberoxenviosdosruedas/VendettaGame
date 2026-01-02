@@ -3,7 +3,7 @@
     "total_tablas_detectadas": 29,
     "total_funciones_detectadas": 14,
     "total_policies_detectadas": 32,
-    "objetos_duplicados_o_modificados": 37
+    "objetos_duplicados_o_modificados": 58
   },
   "detalles": {
     "tables": {
@@ -625,7 +625,302 @@
       ]
     },
     "types": {},
-    "policies": {},
+    "policies": {
+      "usuario.modificacion_propia": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 415,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"modificacion_propia\" ON public.usuario FOR UPDATE USING (auth.uid() = id);\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 6,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"modificacion_propia\" ON public.usuario FOR UPDATE USING ((SELECT auth.uid()) = id);\n"
+        }
+      ],
+      "propiedad.modificacion_dueno": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 419,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"modificacion_dueno\" ON public.propiedad FOR UPDATE USING (usuario_id = auth.uid());\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 10,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"modificacion_dueno\" ON public.propiedad FOR UPDATE USING (usuario_id = (SELECT auth.uid()));\n"
+        }
+      ],
+      "cola_construccion.ver_propias_construccion": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 427,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propias_construccion\" ON public.cola_construccion FOR SELECT USING (EXISTS (SELECT 1 FROM propiedad WHERE id = cola_construccion.propiedad_id AND usuario_id = auth.uid()));\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 14,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propias_construccion\" ON public.cola_construccion FOR SELECT USING (EXISTS (SELECT 1 FROM public.propiedad WHERE id = cola_construccion.propiedad_id AND usuario_id = (SELECT auth.uid())));\n"
+        }
+      ],
+      "cola_investigacion.ver_propias_investigacion": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 428,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propias_investigacion\" ON public.cola_investigacion FOR SELECT USING (usuario_id = auth.uid());\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 18,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propias_investigacion\" ON public.cola_investigacion FOR SELECT USING (usuario_id = (SELECT auth.uid()));\n"
+        }
+      ],
+      "cola_reclutamiento.ver_propias_reclutamiento": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 429,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propias_reclutamiento\" ON public.cola_reclutamiento FOR SELECT USING (EXISTS (SELECT 1 FROM propiedad WHERE id = cola_reclutamiento.propiedad_id AND usuario_id = auth.uid()));\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 22,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propias_reclutamiento\" ON public.cola_reclutamiento FOR SELECT USING (EXISTS (SELECT 1 FROM public.propiedad WHERE id = cola_reclutamiento.propiedad_id AND usuario_id = (SELECT auth.uid())));\n"
+        }
+      ],
+      "cola_misiones.ver_propias_misiones": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 430,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propias_misiones\" ON public.cola_misiones FOR SELECT USING (usuario_id = auth.uid());\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 26,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propias_misiones\" ON public.cola_misiones FOR SELECT USING (usuario_id = (SELECT auth.uid()));\n"
+        }
+      ],
+      "mensaje.ver_mis_mensajes": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 433,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_mis_mensajes\" ON public.mensaje FOR SELECT USING (remitente_id = auth.uid() OR destinatario_id = auth.uid());\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 30,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_mis_mensajes\" ON public.mensaje FOR SELECT USING (remitente_id = (SELECT auth.uid()) OR destinatario_id = (SELECT auth.uid()));\n"
+        }
+      ],
+      "mensaje.enviar_mensaje": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 434,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"enviar_mensaje\" ON public.mensaje FOR INSERT WITH CHECK (auth.uid() = remitente_id);\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 33,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"enviar_mensaje\" ON public.mensaje FOR INSERT WITH CHECK ((SELECT auth.uid()) = remitente_id);\n"
+        }
+      ],
+      "informe_batalla.ver_participantes_batalla": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 437,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_participantes_batalla\" ON public.informe_batalla FOR SELECT USING (atacante_id = auth.uid() OR defensor_id = auth.uid());\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 37,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_participantes_batalla\" ON public.informe_batalla FOR SELECT USING (atacante_id = (SELECT auth.uid()) OR defensor_id = (SELECT auth.uid()));\n"
+        }
+      ],
+      "informe_espionaje.ver_participantes_espionaje": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 438,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_participantes_espionaje\" ON public.informe_espionaje FOR SELECT USING (atacante_id = auth.uid() OR defensor_id = auth.uid());\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 41,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_participantes_espionaje\" ON public.informe_espionaje FOR SELECT USING (atacante_id = (SELECT auth.uid()) OR defensor_id = (SELECT auth.uid()));\n"
+        }
+      ],
+      "familia.gestion_lideres": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 444,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"gestion_lideres\" ON public.familia FOR UPDATE USING (EXISTS (SELECT 1 FROM miembro_familia WHERE familia_id = id AND usuario_id = auth.uid() AND rol IN ('lider', 'capitan')));\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 45,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"gestion_lideres\" ON public.familia FOR UPDATE USING (EXISTS (SELECT 1 FROM public.miembro_familia WHERE familia_id = id AND usuario_id = (SELECT auth.uid()) AND rol IN ('lider', 'capitan')));\n"
+        }
+      ],
+      "historial_acceso.ver_propio_historial": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 464,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propio_historial\" ON public.historial_acceso FOR SELECT USING (usuario_id = auth.uid());\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 49,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propio_historial\" ON public.historial_acceso FOR SELECT USING (usuario_id = (SELECT auth.uid()));\n"
+        }
+      ],
+      "puntuacion_usuario.ver_propia_puntuacion": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 465,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propia_puntuacion\" ON public.puntuacion_usuario FOR SELECT USING (usuario_id = auth.uid());\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 53,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propia_puntuacion\" ON public.puntuacion_usuario FOR SELECT USING (usuario_id = (SELECT auth.uid()));\n"
+        }
+      ],
+      "errores_configuracion.ver_propios_errores": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 466,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propios_errores\" ON public.errores_configuracion FOR SELECT USING (usuario_id = auth.uid());\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 57,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propios_errores\" ON public.errores_configuracion FOR SELECT USING (usuario_id = (SELECT auth.uid()));\n"
+        }
+      ],
+      "habitacion_usuario.ver_propias_habitaciones": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 472,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propias_habitaciones\" ON public.habitacion_usuario FOR SELECT USING (EXISTS (SELECT 1 FROM propiedad WHERE id = habitacion_usuario.propiedad_id AND usuario_id = auth.uid()));\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 61,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propias_habitaciones\" ON public.habitacion_usuario FOR SELECT USING (EXISTS (SELECT 1 FROM public.propiedad WHERE id = habitacion_usuario.propiedad_id AND usuario_id = (SELECT auth.uid())));\n"
+        }
+      ],
+      "tropa_propiedad.ver_propias_tropas": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 473,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propias_tropas\" ON public.tropa_propiedad FOR SELECT USING (EXISTS (SELECT 1 FROM propiedad WHERE id = tropa_propiedad.propiedad_id AND usuario_id = auth.uid()));\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 65,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propias_tropas\" ON public.tropa_propiedad FOR SELECT USING (EXISTS (SELECT 1 FROM public.propiedad WHERE id = tropa_propiedad.propiedad_id AND usuario_id = (SELECT auth.uid())));\n"
+        }
+      ],
+      "tropa_seguridad_propiedad.ver_propias_tropas_seguridad": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 474,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propias_tropas_seguridad\" ON public.tropa_seguridad_propiedad FOR SELECT USING (EXISTS (SELECT 1 FROM propiedad WHERE id = tropa_seguridad_propiedad.propiedad_id AND usuario_id = auth.uid()));\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 69,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propias_tropas_seguridad\" ON public.tropa_seguridad_propiedad FOR SELECT USING (EXISTS (SELECT 1 FROM public.propiedad WHERE id = tropa_seguridad_propiedad.propiedad_id AND usuario_id = (SELECT auth.uid())));\n"
+        }
+      ],
+      "entrenamiento_usuario.ver_propios_entrenamientos": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 475,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propios_entrenamientos\" ON public.entrenamiento_usuario FOR SELECT USING (usuario_id = auth.uid());\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 73,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propios_entrenamientos\" ON public.entrenamiento_usuario FOR SELECT USING (usuario_id = (SELECT auth.uid()));\n"
+        }
+      ],
+      "invitacion_familia.ver_propias_invitaciones": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 477,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propias_invitaciones\" ON public.invitacion_familia FOR SELECT USING (usuario_id = auth.uid() OR EXISTS (SELECT 1 FROM miembro_familia WHERE familia_id = invitacion_familia.familia_id AND usuario_id = auth.uid() AND rol IN ('lider', 'capitan')));\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 77,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_propias_invitaciones\" ON public.invitacion_familia FOR SELECT USING (usuario_id = (SELECT auth.uid()) OR EXISTS (SELECT 1 FROM public.miembro_familia WHERE familia_id = invitacion_familia.familia_id AND usuario_id = (SELECT auth.uid()) AND rol IN ('lider', 'capitan')));\n"
+        }
+      ],
+      "anuncio_familia.ver_anuncios_familia": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 478,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_anuncios_familia\" ON public.anuncio_familia FOR SELECT USING (EXISTS (SELECT 1 FROM miembro_familia WHERE familia_id = anuncio_familia.familia_id AND usuario_id = auth.uid()));\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 81,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_anuncios_familia\" ON public.anuncio_familia FOR SELECT USING (EXISTS (SELECT 1 FROM public.miembro_familia WHERE familia_id = anuncio_familia.familia_id AND usuario_id = (SELECT auth.uid())));\n"
+        }
+      ],
+      "ataque_entrante.ver_ataques_entrantes": [
+        {
+          "file": "20250211_000000_consolidated_logic.sql",
+          "line": 479,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_ataques_entrantes\" ON public.ataque_entrante FOR SELECT USING (defensor_id = auth.uid());\n"
+        },
+        {
+          "file": "20250603000000_optimize_rls_and_indices.sql",
+          "line": 85,
+          "type": "CREATE_POLICY",
+          "code": "CREATE POLICY \"ver_ataques_entrantes\" ON public.ataque_entrante FOR SELECT USING (defensor_id = (SELECT auth.uid()));\n"
+        }
+      ]
+    },
     "triggers": {}
   }
 }
