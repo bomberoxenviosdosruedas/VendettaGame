@@ -44,7 +44,7 @@ Función llamada desde el frontend (Setup Wizard) para crear la primera base del
 *   **Lógica:**
     1.  **Validación:** Verificar que el usuario no tenga ya una propiedad (`propiedades.perfil_id`).
     2.  **Búsqueda de Coordenadas:**
-        *   Usar un loop `WHILE` limitado (ej: 100 intentos) para generar coordenadas aleatorias (X: 1-15, Y: 1-17, Z: 1-255).
+        *   Usar un loop `WHILE` limitado (ej: 100 intentos) para generar coordenadas aleatorias (X: 1-50, Y: 1-50, Z: 1-255).
         *   Verificar disponibilidad `NOT EXISTS (...)`.
     3.  **Creación de Base:** Insertar en `propiedades` con recursos iniciales (ej: 1000 de cada).
     4.  **Infraestructura Inicial:** Insertar automáticamente el edificio 'Oficina' (Nivel 1) en `edificios`.
@@ -70,8 +70,8 @@ BEGIN
 
   -- 2. Buscar coordenadas (Estrategia Random con Reintentos)
   LOOP
-    v_x := floor(random() * 15 + 1)::int;
-    v_y := floor(random() * 17 + 1)::int;
+    v_x := floor(random() * 50 + 1)::int;
+    v_y := floor(random() * 50 + 1)::int;
     v_z := floor(random() * 255 + 1)::int;
     
     IF NOT EXISTS (SELECT 1 FROM public.propiedades WHERE coord_x=v_x AND coord_y=v_y AND coord_z=v_z) THEN
@@ -84,7 +84,7 @@ BEGIN
 
   -- 3. Crear Propiedad
   INSERT INTO public.propiedades (perfil_id, nombre, coord_x, coord_y, coord_z, recursos_armas, recursos_municion, recursos_alcohol, recursos_dolares)
-  VALUES (v_perfil_id, p_nombre_propiedad, v_x, v_y, v_z, 1000, 1000, 1000, 1000)
+  VALUES (v_perfil_id, p_nombre_propiedad, v_x, v_y, v_z, 10000, 10000, 10000, 10000)
   RETURNING id INTO v_propiedad_id;
 
   -- 4. Crear Edificio Base
