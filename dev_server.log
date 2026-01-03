@@ -8,11 +8,20 @@
 
  ✓ Starting...
  ○ Compiling middleware ...
- ✓ Compiled middleware in 1601ms
- ✓ Ready in 5.2s
- ○ Compiling /test-onboarding ...
- ✓ Compiled /test-onboarding in 8.7s
- GET /test-onboarding 200 in 9992ms
- ✓ Compiled middleware in 7ms
- ✓ Compiled middleware in 4ms
-[?25h
+ ✓ Compiled middleware in 1072ms
+ ✓ Ready in 3.1s
+ ○ Compiling /test-market ...
+ ✓ Compiled /test-market in 6s
+ GET /test-market 200 in 6913ms
+ ✓ Compiled middleware in 16ms
+ ✓ Compiled middleware in 3ms
+ ✓ Compiled in 7ms
+ ✓ Compiled middleware in 8ms
+ ✓ Compiled middleware in 2ms
+ ✓ Compiled middleware in 2ms
+ ✓ Compiled middleware in 2ms
+ ✓ Compiled middleware in 15ms
+ ✓ Compiled middleware in 2ms
+ ✓ Compiled middleware in 2ms
+ ✓ Compiled middleware in 6ms
+ ✓ Compiled middleware in 10ms
